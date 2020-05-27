@@ -65,5 +65,6 @@ module.exports = {
     "@typescript-eslint/no-empty-function": [
       "error", { "allow": ["arrowFunctions"] }
     ],
+    "@typescript-eslint/no-floating-promises": "error",
   },
 }
