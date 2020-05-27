@@ -1,8 +1,8 @@
 # javascript-style-configs
 
 Eslint config which is the base for all inrupt projects. You likely want to import
-[eslint-config-inrupt-lib](../eslint-config-inrupt-lib) or
-[eslint-config-inrupt-react](../eslint-config-inrupt-react).
+[eslint-config-inrupt-lib](./eslint-config-inrupt-lib) or
+[eslint-config-inrupt-react](./eslint-config-inrupt-react).
 
 ## Rules
 
