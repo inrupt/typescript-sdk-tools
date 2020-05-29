@@ -80,12 +80,34 @@ module.exports = {
       "devDependencies": ["**/*.test.ts", "**/*.test.tsx"],
     }],
 
-    "prettier/prettier": "error",
+    // import/no-unresolved is problematic because of the RDF/JS specification, which has type
+    // definitions available in @types/rdf-js, but no actual corresponding rdf-js package.
+    "import/no-unresolved": [2, {
+      ignore: ['\/rdf-lib'],
+    }],
+
+    // Remove airbnb's ForOfStatement recommendation; we don't use regenerator-runtime anywyas,
+    // and we iterate over Sets in our libraries.
+    "no-restricted-syntax": [2, {
+      selector: "ForInStatement",
+      message: "for..in loops iterate over the entire prototype chain, which is virtually never what you want. Use Object.{keys,values,entries}, and iterate over the resulting array.",
+    }, {
+      selector: "LabeledStatement",
+      message: "Labels are a form of GOTO; using them makes code confusing and hard to maintain and understand.",
+    }, {
+      selector: "WithStatement",
+      message: "`with` is disallowed in strict mode because it makes code impossible to predict and optimize.",
+    }],
 
     // Allow empty arrow functions, useful as defaults or for testing mocks
     "@typescript-eslint/no-empty-function": [
       "error", { "allow": ["arrowFunctions"] }
     ],
+
     "@typescript-eslint/no-floating-promises": "error",
+
+    // We allow underscores in some situations, such as internal_ or unstable_. Additionally,
+    // many of the libraries we use commonly use underscores, so disable this rule.
+    "@typescript-eslint/camelcase": [0],
   },
 }
