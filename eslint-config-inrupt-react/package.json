@@ -1,5 +1,5 @@
 {
-  "name": "eslint-config-inrupt-react",
+  "name": "@inrupt/eslint-config-react",
   "version": "0.0.1",
   "description": "Shared eslint config for Javascript at @inrupt",
   "main": "index.js",
@@ -15,7 +15,7 @@
     "inrupt"
   ],
   "author": "Inrupt <engineering@inrupt.com>",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/inrupt/javascript-style-configs/issues"
   },
