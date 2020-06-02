@@ -83,7 +83,7 @@ module.exports = {
     // import/no-unresolved is problematic because of the RDF/JS specification, which has type
     // definitions available in @types/rdf-js, but no actual corresponding rdf-js package.
     "import/no-unresolved": [2, {
-      ignore: ['\/rdf-lib'],
+      ignore: ['\/rdf-js'],
     }],
 
     // Remove airbnb's ForOfStatement recommendation; we don't use regenerator-runtime anywyas,
