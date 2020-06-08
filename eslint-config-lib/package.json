@@ -1,6 +1,6 @@
 {
   "name": "@inrupt/eslint-config-lib",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Shared eslint config for Javascript at @inrupt",
   "main": "index.js",
   "scripts": {
@@ -22,6 +22,6 @@
   "homepage": "https://github.com/inrupt/javascript-style-configs#readme",
   "peerDependencies": {
     "eslint": "^7.1.0",
-    "@inrupt/eslint-config-base": "^0.0.1"
+    "@inrupt/eslint-config-base": "^0.0.3"
   }
 }
