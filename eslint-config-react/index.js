@@ -23,7 +23,7 @@ module.exports = {
   extends: [
     "airbnb",
     "airbnb/hooks",
-    "inrupt-base",
+    "@inrupt/eslint-config-base",
   ],
 
   plugins: [
@@ -33,6 +33,14 @@ module.exports = {
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
+    },
+  },
+
+  settings: {
+    "import/resolver": {
+      node: {
+        extensions: [".js", ".ts", ".tsx"],
+      },
     },
   },
 
@@ -59,13 +67,5 @@ module.exports = {
       ts: "never",
       tsx: "never",
     }],
-
-    settings: {
-      "import/resolver": {
-        node: {
-          extensions: [".js", ".ts", ".tsx"],
-        },
-      },
-    },
-  }
+  },
 };
