@@ -30,42 +30,106 @@ module.exports = {
     "react",
   ],
 
+  parser: "babel-eslint",
+
   parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
-    },
+    ecmaFeatures: { jsx: true },
+    ecmaVersion: 2018,
+    sourceType: "module",
   },
 
   settings: {
     "import/resolver": {
       node: {
-        extensions: [".js", ".ts", ".tsx"],
+        extensions: [".js", ".ts", ".jsx", ".tsx"],
       },
     },
   },
 
   rules: {
-    // Use .tsx for jsx files
-    "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
+    // Allow devDeps in test files
+    "import/no-extraneous-dependencies": [
+      0,
+      {
+        devDependencies: ["**/*.test.*"],
+      },
+    ],
 
-    // Import react by default via webpack config
-    "react/react-in-jsx-scope": 0,
+    // import/no-unresolved is problematic because of the RDF/JS specification, which has type
+    // definitions available in @types/rdf-js, but no actual corresponding rdf-js package.
+    "import/no-unresolved": [
+      2,
+      {
+        ignore: ["/rdf-js"],
+      },
+    ],
+
+    // Remove airbnb's ForOfStatement recommendation; we don't use regenerator-runtime anywyas,
+    // and we iterate over Sets in our libraries.
+    "no-restricted-syntax": [
+      2,
+      {
+        selector: "ForInStatement",
+        message:
+          "for..in loops iterate over the entire prototype chain, which is virtually never what you want. Use Object.{keys,values,entries}, and iterate over the resulting array.",
+      },
+      {
+        selector: "LabeledStatement",
+        message:
+          "Labels are a form of GOTO; using them makes code confusing and hard to maintain and understand.",
+      },
+      {
+        selector: "WithStatement",
+        message:
+          "`with` is disallowed in strict mode because it makes code impossible to predict and optimize.",
+      },
+    ],
+
+    "react/jsx-filename-extension": [1, { extensions: [".tsx", ".jsx"] }],
 
     // Order the properties of react components nicely
     "react/static-property-placement": [2, "static public field"],
 
     // Allow Nextjs <Link> tags to contain a href attribute
-    "jsx-a11y/anchor-is-valid": ["error", {
-      "components": ["Link"],
-      "specialLink": ["hrefLeft", "hrefRight"],
-      "aspects": ["invalidHref", "preferButton"]
-    }],
+    "jsx-a11y/anchor-is-valid": [
+      "error",
+      {
+        components: ["Link"],
+        specialLink: ["hrefLeft", "hrefRight"],
+        aspects: ["invalidHref", "preferButton"],
+      },
+    ],
 
     // Make everything work with .tsx as well as .ts
-    "import/extensions": [2, {
-      js: "never",
-      ts: "never",
-      tsx: "never",
-    }],
+    "import/extensions": [
+      2,
+      {
+        js: "never",
+        ts: "never",
+        tsx: "never",
+        jsx: "never",
+      },
+    ],
+
+    "license-header/header": [1, "./resources/license-header.js"],
   },
+
+  overrides: [
+    {
+      files: ["**/*.ts", "**/*.tsx"],
+      extends: ["@inrupt/eslint-config-react"],
+      rules: {
+        "@typescript-eslint/ban-ts-comment": 0,
+        "license-header/header": [1, "./resources/license-header.js"],
+        "react/jsx-filename-extension": [1, { extensions: [".tsx", ".jsx"] }],
+      },
+      settings: {
+        "import/resolver": {
+          node: {
+            extensions: [".js", ".ts", ".jsx", ".tsx"],
+          },
+        },
+      },
+    },
+  ]
 };
