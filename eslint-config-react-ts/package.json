@@ -1,5 +1,5 @@
 {
-  "name": "@inrupt/eslint-config-react",
+  "name": "@inrupt/eslint-config-react-ts",
   "version": "0.1.0",
   "description": "Shared eslint config for Javascript at @inrupt",
   "main": "index.js",
