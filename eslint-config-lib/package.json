@@ -22,6 +22,6 @@
   "homepage": "https://github.com/inrupt/javascript-style-configs#readme",
   "peerDependencies": {
     "eslint": "^7.1.0",
-    "@inrupt/eslint-config-base": "^0.0.4"
+    "@inrupt/eslint-config-base": "^0.1.0"
   }
 }

@@ -47,43 +47,9 @@ module.exports = {
   },
 
   rules: {
-    // Allow devDeps in test files
-    "import/no-extraneous-dependencies": [
-      0,
-      {
-        devDependencies: ["**/*.test.*"],
-      },
-    ],
-
-    // import/no-unresolved is problematic because of the RDF/JS specification, which has type
-    // definitions available in @types/rdf-js, but no actual corresponding rdf-js package.
-    "import/no-unresolved": [
-      2,
-      {
-        ignore: ["/rdf-js"],
-      },
-    ],
-
-    // Remove airbnb's ForOfStatement recommendation; we don't use regenerator-runtime anywyas,
-    // and we iterate over Sets in our libraries.
-    "no-restricted-syntax": [
-      2,
-      {
-        selector: "ForInStatement",
-        message:
-          "for..in loops iterate over the entire prototype chain, which is virtually never what you want. Use Object.{keys,values,entries}, and iterate over the resulting array.",
-      },
-      {
-        selector: "LabeledStatement",
-        message:
-          "Labels are a form of GOTO; using them makes code confusing and hard to maintain and understand.",
-      },
-      {
-        selector: "WithStatement",
-        message:
-          "`with` is disallowed in strict mode because it makes code impossible to predict and optimize.",
-      },
-    ],
+    // Disable the jsx-one-expression-per-line rule, which makes it a pain to handle spaces and
+    // inline elements like em
+    "react/jsx-one-expression-per-line": [0],
 
     "react/jsx-filename-extension": [1, { extensions: [".tsx", ".jsx"] }],
 
@@ -91,45 +57,37 @@ module.exports = {
     "react/static-property-placement": [2, "static public field"],
 
     // Allow Nextjs <Link> tags to contain a href attribute
-    "jsx-a11y/anchor-is-valid": [
-      "error",
-      {
-        components: ["Link"],
-        specialLink: ["hrefLeft", "hrefRight"],
-        aspects: ["invalidHref", "preferButton"],
-      },
-    ],
+    "jsx-a11y/anchor-is-valid": ["error", {
+      components: ["Link"],
+      specialLink: ["hrefLeft", "hrefRight"],
+      aspects: ["invalidHref", "preferButton"],
+    }],
 
     // Make everything work with .tsx as well as .ts
-    "import/extensions": [
-      2,
-      {
-        js: "never",
-        ts: "never",
-        tsx: "never",
-        jsx: "never",
-      },
-    ],
+    "import/extensions": [2, {
+      js: "never",
+      ts: "never",
+      tsx: "never",
+      jsx: "never",
+    }],
 
     "license-header/header": [1, "./resources/license-header.js"],
   },
 
-  overrides: [
-    {
-      files: ["**/*.ts", "**/*.tsx"],
-      extends: ["@inrupt/eslint-config-react"],
-      rules: {
-        "@typescript-eslint/ban-ts-comment": 0,
-        "license-header/header": [1, "./resources/license-header.js"],
-        "react/jsx-filename-extension": [1, { extensions: [".tsx", ".jsx"] }],
-      },
-      settings: {
-        "import/resolver": {
-          node: {
-            extensions: [".js", ".ts", ".jsx", ".tsx"],
-          },
+  overrides: [{
+    files: ["**/*.ts", "**/*.tsx"],
+    extends: ["@inrupt/eslint-config-react"],
+    rules: {
+      "@typescript-eslint/ban-ts-comment": 0,
+      "license-header/header": [1, "./resources/license-header.js"],
+      "react/jsx-filename-extension": [1, { extensions: [".tsx", ".jsx"] }],
+    },
+    settings: {
+      "import/resolver": {
+        node: {
+          extensions: [".js", ".ts", ".jsx", ".tsx"],
         },
       },
     },
-  ]
+  }]
 };
