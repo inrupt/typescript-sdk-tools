@@ -1,6 +1,6 @@
 {
   "name": "@inrupt/eslint-config-react",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Shared eslint config for Javascript at @inrupt",
   "main": "index.js",
   "scripts": {
@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/inrupt/javascript-style-configs#readme",
   "peerDependencies": {
-    "@inrupt/eslint-config-base": "^0.0.4",
+    "@inrupt/eslint-config-base": "^0.1.0",
     "eslint": "^7.1.0",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-plugin-jsx-a11y": "^6.2.3",

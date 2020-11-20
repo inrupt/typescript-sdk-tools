@@ -23,71 +23,36 @@ module.exports = {
   extends: [
     "airbnb",
     "airbnb/hooks",
-    "@inrupt/eslint-config-base",
+    "@inrupt/eslint-config-react",
   ],
 
   plugins: [
     "react",
   ],
 
-  parser: "babel-eslint",
-
   parserOptions: {
-    ecmaFeatures: { jsx: true },
-    ecmaVersion: 2018,
-    sourceType: "module",
+    ecmaFeatures: {
+      jsx: true,
+    },
   },
 
   settings: {
     "import/resolver": {
       node: {
-        extensions: [".js", ".ts", ".jsx", ".tsx"],
+        extensions: [".js", ".ts", ".tsx"],
       },
     },
   },
 
   rules: {
-    // Disable the jsx-one-expression-per-line rule, which makes it a pain to handle spaces and
-    // inline elements like em
-    "react/jsx-one-expression-per-line": [0],
-
-    "react/jsx-filename-extension": [1, { extensions: [".tsx", ".jsx"] }],
-
-    // Order the properties of react components nicely
-    "react/static-property-placement": [2, "static public field"],
-
-    // Allow Nextjs <Link> tags to contain a href attribute
-    "jsx-a11y/anchor-is-valid": ["error", {
-      components: ["Link"],
-      specialLink: ["hrefLeft", "hrefRight"],
-      aspects: ["invalidHref", "preferButton"],
-    }],
+    // Import react by default via webpack config
+    "react/react-in-jsx-scope": 0,
 
     // Make everything work with .tsx as well as .ts
     "import/extensions": [2, {
       js: "never",
       ts: "never",
       tsx: "never",
-      jsx: "never",
     }],
-
-    "license-header/header": [1, "./resources/license-header.js"],
   },
-
-  overrides: [{
-    files: ["**/*.ts", "**/*.tsx"],
-    extends: ["@inrupt/eslint-config-react"],
-    rules: {
-      "@typescript-eslint/ban-ts-comment": 0,
-      "license-header/header": [1, "./resources/license-header.js"],
-      "react/jsx-filename-extension": [1, { extensions: [".tsx", ".jsx"] }],
-    },
-    settings: {
-      "import/resolver": {
-        node: {
-          extensions: [".js", ".ts", ".jsx", ".tsx"],
-        },
-      },
-    },
-  }]
 };
