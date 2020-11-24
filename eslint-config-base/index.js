@@ -63,6 +63,7 @@ module.exports = {
     "import/resolver": {
       node: {
         extensions: [".js", ".ts"],
+        paths: ["node_modules/", "node_modules/@types"],
       },
     },
   },
@@ -81,12 +82,6 @@ module.exports = {
     // Allow devDeps in test files
     "import/no-extraneous-dependencies": [0, {
       "devDependencies": ["**/*.test.*"],
-    }],
-
-    // import/no-unresolved is problematic because of the RDF/JS specification, which has type
-    // definitions available in @types/rdf-js, but no actual corresponding rdf-js package.
-    "import/no-unresolved": [2, {
-      ignore: ['rdf-js'],
     }],
 
     // Prefer no default exports
