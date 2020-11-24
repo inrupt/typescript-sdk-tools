@@ -30,11 +30,12 @@ module.exports = {
   extends: [
     "airbnb-base",
     "eslint:recommended",
+    "plugin:import/typescript",
     "plugin:jest/recommended",
     "plugin:jest/style",
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended",
-    "prettier/@typescript-eslint"
+    "prettier/@typescript-eslint",
   ],
 
   // Set up es6 and typescript linting, and add lint rules for jest
