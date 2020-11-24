@@ -89,6 +89,10 @@ module.exports = {
       ignore: ['rdf-js'],
     }],
 
+    // Prefer no default exports
+    "import/prefer-default-export": 0,
+    "import/no-default-export": 2,
+
     // Remove airbnb's ForOfStatement recommendation; we don't use regenerator-runtime anywyas,
     // and we iterate over Sets in our libraries.
     "no-restricted-syntax": [2, {

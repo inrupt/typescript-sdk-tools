@@ -1,13 +1,13 @@
-# eslint-config-inrupt-react
-Eslint and prettier configs
+# eslint-config-inrupt-react-ts
 
+Eslint and prettier configs
 
 ## Installation
 
 1. `npm install --save-dev @inrupt/eslint-config-react`
-2. `npx install-peerdeps @inrupt/eslint-config-react`
-2. `npx install-peerdeps @inrupt/eslint-config-base`
-3. Add `extends: ['@inrupt/eslint-config-react']` to your .eslintrc.js file.
+2. `npx install-peerdeps @inrupt/eslint-config-react --dev`
+2. `npx install-peerdeps @inrupt/eslint-config-base --dev`
+3. Add `extends: ['@inrupt/eslint-config-react-ts']` to your .eslintrc.js file.
 
 ## Rules
 

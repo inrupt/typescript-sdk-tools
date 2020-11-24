@@ -5,8 +5,8 @@ Eslint and prettier configs
 ## Installation
 
 1. `npm install --save-dev @inrupt/eslint-config-lib`
-2. `npx install-peerdeps @inrupt/eslint-config-lib`
-2. `npx install-peerdeps @inrupt/eslint-config-base`
+2. `npx install-peerdeps @inrupt/eslint-config-lib --dev`
+2. `npx install-peerdeps @inrupt/eslint-config-base --dev`
 3. Add `extends: ['@inrupt/eslint-config-lib']` to your .eslintrc.js file.
 
 ## Rules

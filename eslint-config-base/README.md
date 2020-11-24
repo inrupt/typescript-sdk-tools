@@ -1,8 +1,8 @@
 # eslint-config-inrupt-base
 
 Eslint config which is the base for all inrupt projects. You likely want to import
-[eslint-config-inrupt-lib](../eslint-config-inrupt-lib) or
-[eslint-config-inrupt-react](../eslint-config-inrupt-react) instead.
+[eslint-config-lib](./eslint-config-inrupt-lib), [eslint-config-react](./eslint-config-react)
+or [eslint-config-react-ts](./eslint-config-react-ts) instead.
 
 ## Rules
 
