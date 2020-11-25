@@ -89,6 +89,15 @@ module.exports = {
     // "import/prefer-default-export": 0,
     // "import/no-default-export": 2,
 
+    // Sort import statements
+    "import/order": ["error", {
+      alphabetize: {
+        order: "asc",
+        caseInsensitive: true,
+      },
+      "newlines-between": "never"
+    }],
+
     // Remove airbnb's ForOfStatement recommendation; we don't use regenerator-runtime anywyas,
     // and we iterate over Sets in our libraries.
     "no-restricted-syntax": [2, {
