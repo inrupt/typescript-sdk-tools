@@ -106,6 +106,15 @@ module.exports = {
   rules: {
     // ESLint
     /**
+     * Camel case
+     * 
+     * Override Airbnb's config to accomodate for json objects that might have snake case fields
+     * 
+     * See also: https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb-base
+     */
+    camelcase: "warn",
+
+    /**
      * Comments
      *
      * See also: https://eslint.org/docs/rules/multiline-comment-style#enforce-a-particular-style-for-multiline-comments-multiline-comment-style
@@ -262,6 +271,12 @@ module.exports = {
           {
             selector: "default",
             format: ["camelCase"],
+            leadingUnderscore: "forbid",
+            trailingUnderscore: "forbid",
+          },
+          {
+            selector: "memberLike",
+            format: ["camelCase", "snake_case"],
             leadingUnderscore: "forbid",
             trailingUnderscore: "forbid",
           },
