@@ -49,12 +49,12 @@ module.exports = {
   rules: {
     // Disable the jsx-one-expression-per-line rule, which makes it a pain to handle spaces and
     // inline elements like em
-    "react/jsx-one-expression-per-line": [0],
+    "react/jsx-one-expression-per-line": ["off"],
 
-    "react/jsx-filename-extension": [1, { extensions: [".tsx", ".jsx"] }],
+    "react/jsx-filename-extension": ["warn", { extensions: [".tsx", ".jsx"] }],
 
     // Order the properties of react components nicely
-    "react/static-property-placement": [2, "static public field"],
+    "react/static-property-placement": ["error", "static public field"],
 
     // Allow Nextjs <Link> tags to contain a href attribute
     "jsx-a11y/anchor-is-valid": ["error", {
@@ -64,23 +64,23 @@ module.exports = {
     }],
 
     // Make everything work with .tsx as well as .ts
-    "import/extensions": [2, {
+    "import/extensions": ["error", {
       js: "never",
       ts: "never",
       tsx: "never",
       jsx: "never",
     }],
 
-    "license-header/header": [1, "./resources/license-header.js"],
+    "license-header/header": ["warn", "./resources/license-header.js"],
   },
 
   overrides: [{
     files: ["**/*.ts", "**/*.tsx"],
     extends: ["@inrupt/eslint-config-react"],
     rules: {
-      "@typescript-eslint/ban-ts-comment": 0,
-      "license-header/header": [1, "./resources/license-header.js"],
-      "react/jsx-filename-extension": [1, { extensions: [".tsx", ".jsx"] }],
+      "@typescript-eslint/ban-ts-comment": "off",
+      "license-header/header": ["warn", "./resources/license-header.js"],
+      "react/jsx-filename-extension": ["warn", { extensions: [".tsx", ".jsx"] }],
     },
     settings: {
       "import/resolver": {
