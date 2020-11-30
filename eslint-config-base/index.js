@@ -102,6 +102,17 @@ module.exports = {
       message: "`with` is disallowed in strict mode because it makes code impossible to predict and optimize.",
     }],
 
+    // Leaving out the await can hide the fact that you're not catching thrown errors:
+    // https://twitter.com/_jayphelps/status/1324565522755788803
+    // Additionally, it will prevent the function from being part of the stack trace
+    // if not catching them:
+    // https://eslint.org/docs/rules/no-return-await
+    // Thus, we use the rule that can use type annotation to ensure we await Promises used in
+    // try..catch blocks:
+    // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/return-await.md
+    "no-return-await": ["off"],
+    "@typescript-eslint/return-await": "in-try-catch",
+
     // Allow empty arrow functions, useful as defaults or for testing mocks
     "@typescript-eslint/no-empty-function": [
       "error", { "allow": ["arrowFunctions"] }
