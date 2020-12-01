@@ -320,6 +320,14 @@ module.exports = {
         "@typescript-eslint/no-floating-promises": "error",
 
         /**
+         * No return await
+         * 
+         * See also: https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/return-await.md
+         */
+        "no-return-await": ["off"],
+        "@typescript-eslint/return-await": "in-try-catch",
+
+        /**
          * No unused variables
          *
          * See also: https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unused-vars.md
