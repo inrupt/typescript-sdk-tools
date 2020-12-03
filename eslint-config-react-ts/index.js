@@ -46,10 +46,10 @@ module.exports = {
 
   rules: {
     // Import react by default via webpack config
-    "react/react-in-jsx-scope": 0,
+    "react/react-in-jsx-scope": "off",
 
     // Make everything work with .tsx as well as .ts
-    "import/extensions": [2, {
+    "import/extensions": ["error", {
       js: "never",
       ts: "never",
       tsx: "never",

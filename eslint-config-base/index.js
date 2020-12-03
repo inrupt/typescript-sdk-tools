@@ -72,26 +72,26 @@ module.exports = {
     "no-shadow": ["error", { "builtinGlobals": true }],
 
     // Make everything work with .ts and .tsx as well
-    "import/extensions": [2, {
+    "import/extensions": ["error", {
       js: "never",
       ts: "never",
       tsx: "never",
     }],
 
     // Allow devDeps in test files
-    "import/no-extraneous-dependencies": [0, {
+    "import/no-extraneous-dependencies": ["off", {
       "devDependencies": ["**/*.test.*"],
     }],
 
     // import/no-unresolved is problematic because of the RDF/JS specification, which has type
     // definitions available in @types/rdf-js, but no actual corresponding rdf-js package.
-    "import/no-unresolved": [2, {
+    "import/no-unresolved": ["error", {
       ignore: ['rdf-js'],
     }],
 
     // Remove airbnb's ForOfStatement recommendation; we don't use regenerator-runtime anywyas,
     // and we iterate over Sets in our libraries.
-    "no-restricted-syntax": [2, {
+    "no-restricted-syntax": ["error", {
       selector: "ForInStatement",
       message: "for..in loops iterate over the entire prototype chain, which is virtually never what you want. Use Object.{keys,values,entries}, and iterate over the resulting array.",
     }, {
@@ -102,6 +102,17 @@ module.exports = {
       message: "`with` is disallowed in strict mode because it makes code impossible to predict and optimize.",
     }],
 
+    // Leaving out the await can hide the fact that you're not catching thrown errors:
+    // https://twitter.com/_jayphelps/status/1324565522755788803
+    // Additionally, it will prevent the function from being part of the stack trace
+    // if not catching them:
+    // https://eslint.org/docs/rules/no-return-await
+    // Thus, we use the rule that can use type annotation to ensure we await Promises used in
+    // try..catch blocks:
+    // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/return-await.md
+    "no-return-await": ["off"],
+    "@typescript-eslint/return-await": "in-try-catch",
+
     // Allow empty arrow functions, useful as defaults or for testing mocks
     "@typescript-eslint/no-empty-function": [
       "error", { "allow": ["arrowFunctions"] }
@@ -111,6 +122,6 @@ module.exports = {
 
     // We allow underscores in some situations, such as internal_ or unstable_. Additionally,
     // many of the libraries we use commonly use underscores, so disable this rule.
-    "@typescript-eslint/camelcase": [0],
+    "@typescript-eslint/camelcase": ["off"],
   },
 }
