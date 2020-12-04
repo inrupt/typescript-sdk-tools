@@ -325,7 +325,7 @@ module.exports = {
          * See also: https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/return-await.md
          */
         "no-return-await": ["off"],
-        "@typescript-eslint/return-await": "in-try-catch",
+        "@typescript-eslint/return-await": "error",
 
         /**
          * No unused variables
