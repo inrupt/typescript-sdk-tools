@@ -266,7 +266,7 @@ module.exports = {
          *
          * See also: https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/consistent-type-imports.md
          */
-        '@typescript-eslint/consistent-type-imports': [ 'error', { prefer: 'type-imports' }],
+        "@typescript-eslint/consistent-type-imports": [ "error", { prefer: "type-imports" }],
 
         /**
          * Naming convention
