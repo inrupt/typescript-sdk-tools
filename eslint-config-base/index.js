@@ -262,6 +262,13 @@ module.exports = {
       rules: {
         // TypeScript
         /**
+         * Type imports
+         *
+         * See also: https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/consistent-type-imports.md
+         */
+        '@typescript-eslint/consistent-type-imports': [ 'error', { prefer: 'type-imports' }],
+
+        /**
          * Naming convention
          *
          * See also: https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/naming-convention.md
