@@ -73,7 +73,7 @@ module.exports = {
 
     "license-header/header": ["warn", "./resources/license-header.js"],
 
-    "no-use-before-define": [1],
+    "no-use-before-define": ["warn"],
   },
 
   overrides: [{
