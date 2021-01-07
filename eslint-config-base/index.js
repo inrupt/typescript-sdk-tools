@@ -123,5 +123,14 @@ module.exports = {
     // We allow underscores in some situations, such as internal_ or unstable_. Additionally,
     // many of the libraries we use commonly use underscores, so disable this rule.
     "@typescript-eslint/camelcase": ["off"],
+
+    // Use typescript's definition checker
+    "no-use-before-define": ["off"],
+    "@typescript-eslint/no-use-before-define": ["warn"],
+    
+    "prettier/prettier": [
+      "error",
+      { endOfLine: "auto" },
+    ],
   },
 }

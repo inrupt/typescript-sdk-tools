@@ -72,6 +72,8 @@ module.exports = {
     }],
 
     "license-header/header": ["warn", "./resources/license-header.js"],
+
+    "no-use-before-define": ["warn"],
   },
 
   overrides: [{
@@ -81,6 +83,10 @@ module.exports = {
       "@typescript-eslint/ban-ts-comment": "off",
       "license-header/header": ["warn", "./resources/license-header.js"],
       "react/jsx-filename-extension": ["warn", { extensions: [".tsx", ".jsx"] }],
+
+      // Switch to typescript's definition checker for ts files
+      "no-use-before-define": ["off"],
+      "@typescript-eslint/no-use-before-define": ["warn"],
     },
     settings: {
       "import/resolver": {
