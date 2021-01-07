@@ -127,5 +127,10 @@ module.exports = {
     // Use typescript's definition checker
     "no-use-before-define": ["off"],
     "@typescript-eslint/no-use-before-define": ["warn"],
+    
+    "prettier/prettier": [
+      "error",
+      { endOfLine: "auto" },
+    ],
   },
 }
