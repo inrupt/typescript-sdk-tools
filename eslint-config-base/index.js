@@ -125,7 +125,7 @@ module.exports = {
     "@typescript-eslint/camelcase": ["off"],
 
     // Use typescript's definition checker
-    "no-use-before-define": [0],
-    "@typescript-eslint/no-use-before-define": [1],
+    "no-use-before-define": ["off"],
+    "@typescript-eslint/no-use-before-define": ["warn"],
   },
 }
