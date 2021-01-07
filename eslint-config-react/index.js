@@ -85,8 +85,8 @@ module.exports = {
       "react/jsx-filename-extension": ["warn", { extensions: [".tsx", ".jsx"] }],
 
       // Switch to typescript's definition checker for ts files
-      "no-use-before-define": [0],
-      "@typescript-eslint/no-use-before-define": [1],
+      "no-use-before-define": ["off"],
+      "@typescript-eslint/no-use-before-define": ["warn"],
     },
     settings: {
       "import/resolver": {
