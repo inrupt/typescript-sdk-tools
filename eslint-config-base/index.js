@@ -111,7 +111,7 @@ module.exports = {
     // try..catch blocks:
     // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/return-await.md
     "no-return-await": ["off"],
-    "@typescript-eslint/return-await": "in-try-catch",
+    "@typescript-eslint/return-await": ["error", "in-try-catch"],
 
     // Allow empty arrow functions, useful as defaults or for testing mocks
     "@typescript-eslint/no-empty-function": [
