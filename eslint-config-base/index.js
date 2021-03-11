@@ -32,30 +32,20 @@ module.exports = {
     "eslint:recommended",
     "plugin:jest/recommended",
     "plugin:jest/style",
-    "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended",
   ],
 
   // Set up es6 and typescript linting, and add lint rules for jest
   plugins: [
-    "@typescript-eslint",
     "jest",
     "prettier",
+    "header",
   ],
 
   // A few fixes for broken .eslint rules
   globals: {
     Atomics: "readonly",
     SharedArrayBuffer: "readonly",
-  },
-
-  parser: "@typescript-eslint/parser",
-
-  // Load typescript rules to handle es6 and typescript
-  parserOptions: {
-    project: "./tsconfig.json",
-    ecmaVersion: 2018,
-    sourceType: "module",
   },
 
   settings: {
@@ -110,22 +100,8 @@ module.exports = {
     // try..catch blocks:
     // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/return-await.md
     "no-return-await": ["off"],
-    "@typescript-eslint/return-await": ["error", "in-try-catch"],
 
-    // Allow empty arrow functions, useful as defaults or for testing mocks
-    "@typescript-eslint/no-empty-function": [
-      "error", { "allow": ["arrowFunctions"] }
-    ],
-
-    "@typescript-eslint/no-floating-promises": "error",
-
-    // We allow underscores in some situations, such as internal_ or unstable_. Additionally,
-    // many of the libraries we use commonly use underscores, so disable this rule.
-    "@typescript-eslint/camelcase": ["off"],
-
-    // Use typescript's definition checker
-    "no-use-before-define": ["off"],
-    "@typescript-eslint/no-use-before-define": ["warn"],
+    "header/header": ["warn", "./resources/license-header.js"],
 
     // set eol to auto to handle all environments
     "prettier/prettier": [

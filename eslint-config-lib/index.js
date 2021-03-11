@@ -22,5 +22,39 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 module.exports = {
   extends: [
     "@inrupt/eslint-config-base",
+    "plugin:@typescript-eslint/recommended",
+    "prettier/@typescript-eslint"
   ],
+
+  plugins: [
+    "@typescript-eslint"
+  ],
+
+  parser: "@typescript-eslint/parser",
+
+  // Load typescript rules to handle es6 and typescript
+  parserOptions: {
+    project: "./tsconfig.json",
+    ecmaVersion: 2018,
+    sourceType: "module",
+  },
+
+  rules: {
+    "@typescript-eslint/return-await": ["error", "in-try-catch"],
+
+    // Allow empty arrow functions, useful as defaults or for testing mocks
+    "@typescript-eslint/no-empty-function": [
+      "error", { "allow": ["arrowFunctions"] }
+    ],
+
+    "@typescript-eslint/no-floating-promises": "error",
+
+    // We allow underscores in some situations, such as internal_ or unstable_. Additionally,
+    // many of the libraries we use commonly use underscores, so disable this rule.
+    "@typescript-eslint/camelcase": ["off"],
+
+    // Use typescript's definition checker
+    "no-use-before-define": ["off"],
+    "@typescript-eslint/no-use-before-define": ["warn"],
+  },
 }
