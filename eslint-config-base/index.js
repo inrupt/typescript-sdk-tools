@@ -34,7 +34,6 @@ module.exports = {
     "plugin:jest/style",
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended",
-    "prettier/@typescript-eslint"
   ],
 
   // Set up es6 and typescript linting, and add lint rules for jest
