@@ -41,7 +41,7 @@ module.exports = {
   settings: {
     "import/resolver": {
       node: {
-        extensions: [".js", ".ts", ".jsx", ".tsx"],
+        extensions: [".js", ".jsx"],
       },
     },
   },
@@ -51,7 +51,7 @@ module.exports = {
     // inline elements like em
     "react/jsx-one-expression-per-line": ["off"],
 
-    "react/jsx-filename-extension": ["warn", { extensions: [".tsx", ".jsx"] }],
+    "react/jsx-filename-extension": ["warn", { extensions: [".jsx"] }],
 
     // Order the properties of react components nicely
     "react/static-property-placement": ["error", "static public field"],
@@ -63,37 +63,13 @@ module.exports = {
       aspects: ["invalidHref", "preferButton"],
     }],
 
-    // Make everything work with .tsx as well as .ts
     "import/extensions": ["error", {
       js: "never",
-      ts: "never",
-      tsx: "never",
       jsx: "never",
     }],
 
-    "license-header/header": ["warn", "./resources/license-header.js"],
-
     "no-use-before-define": ["warn"],
+
+    "react/react-in-jsx-scope": ["off"],
   },
-
-  overrides: [{
-    files: ["**/*.ts", "**/*.tsx"],
-    extends: ["@inrupt/eslint-config-react"],
-    rules: {
-      "@typescript-eslint/ban-ts-comment": "off",
-      "license-header/header": ["warn", "./resources/license-header.js"],
-      "react/jsx-filename-extension": ["warn", { extensions: [".tsx", ".jsx"] }],
-
-      // Switch to typescript's definition checker for ts files
-      "no-use-before-define": ["off"],
-      "@typescript-eslint/no-use-before-define": ["warn"],
-    },
-    settings: {
-      "import/resolver": {
-        node: {
-          extensions: [".js", ".ts", ".jsx", ".tsx"],
-        },
-      },
-    },
-  }]
 };
