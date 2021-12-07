@@ -15,7 +15,7 @@ If Node <= 14:
 If Node >= 16:
 
 1. `npm install --save-dev @inrupt/eslint-config-base`
-1. `npm install --save-dev @inrupt/eslint-config-react`
+2. `npm install --save-dev @inrupt/eslint-config-react`
 1. Run the following scripts, adjusting version where necessary:
 
 ```
