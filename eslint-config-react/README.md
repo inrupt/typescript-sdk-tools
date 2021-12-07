@@ -4,10 +4,38 @@ Eslint and prettier configs
 
 ## Installation
 
+If Node <= 14:
+
+1. `npm install --save-dev @inrupt/eslint-config-base`
 1. `npm install --save-dev @inrupt/eslint-config-react`
-2. `npx install-peerdeps @inrupt/eslint-config-react`
-3. `npx install-peerdeps @inrupt/eslint-config-base`
-4. Add `extends: ['@inrupt/eslint-config-react']` to your .eslintrc.js file.
+1. `npx install-peerdeps @inrupt/eslint-config-react`
+1. `npx install-peerdeps @inrupt/eslint-config-base`
+1. Add `extends: ['@inrupt/eslint-config-react']` to your .eslintrc.js file.
+
+If Node >= 16:
+
+1. `npm install --save-dev @inrupt/eslint-config-base`
+1. `npm install --save-dev @inrupt/eslint-config-react`
+1. Run the following scripts, adjusting version where necessary:
+
+```
+(
+  export PKG=@inrupt/eslint-config-base;
+  export VER=latest;
+  npm info "$PKG@VER" peerDependencies --json | command sed 's/[\{\},]//g ; s/: /@/g' | xargs npm install --save-dev "$PKG@VER"
+)
+```
+
+```
+(
+  export PKG=@inrupt/eslint-config-react;
+  export VER=latest;
+  npm info "$PKG@VER" peerDependencies --json | command sed 's/[\{\},]//g ; s/: /@/g' | xargs npm install --save-dev "$PKG@VER"
+)
+```
+
+Then, add `extends: ['@inrupt/eslint-config-lib']` to your .eslintrc.js file.
+
 
 ## Rules
 
