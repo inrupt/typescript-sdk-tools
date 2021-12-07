@@ -7,10 +7,10 @@ Eslint and prettier configs
 If Node <= 14:
 
 1. `npm install --save-dev @inrupt/eslint-config-base`
-1. `npm install --save-dev @inrupt/eslint-config-react`
-1. `npx install-peerdeps @inrupt/eslint-config-react`
-1. `npx install-peerdeps @inrupt/eslint-config-base`
-1. Add `extends: ['@inrupt/eslint-config-react']` to your .eslintrc.js file.
+2. `npm install --save-dev @inrupt/eslint-config-react`
+3. `npx install-peerdeps @inrupt/eslint-config-react`
+4. `npx install-peerdeps @inrupt/eslint-config-base`
+5. Add `extends: ['@inrupt/eslint-config-react']` to your .eslintrc.js file.
 
 If Node >= 16:
 
