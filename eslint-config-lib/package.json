@@ -21,8 +21,8 @@
   },
   "homepage": "https://github.com/inrupt/javascript-style-configs#readme",
   "peerDependencies": {
+    "@inrupt/eslint-config-base": "^0.3.0",
     "eslint": "^7.32.0",
-    "prettier": "^2.5.1",
-    "@inrupt/eslint-config-base": "^0.3.0"
+    "prettier": "^2.5.1"
   }
 }
