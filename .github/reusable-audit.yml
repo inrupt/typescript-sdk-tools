@@ -1,0 +1,46 @@
+name: Reusable Audit Workflow
+
+on:
+  workflow_call:
+    inputs:
+      useForceResolutions:
+        required: false
+        default: false
+        type: boolean
+    secrets:
+      WEBHOOK_E2E_FAILURE:
+        required: true
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.4.0
+      - uses: actions/setup-node@v2.5.1
+        with:
+          node-version: "16.x"
+          registry-url: "https://registry.npmjs.org"
+      - run: npm ci
+      # We check the dependency licenses as an audit task:
+      - run: npx license-checker --production --failOn "AGPL-1.0-only; AGPL-1.0-or-later; AGPL-3.0-only; AGPL-3.0-or-later; Beerware; CC-BY-NC-1.0; CC-BY-NC-2.0; CC-BY-NC-2.5; CC-BY-NC-3.0; CC-BY-NC-4.0; CC-BY-NC-ND-1.0; CC-BY-NC-ND-2.0; CC-BY-NC-ND-2.5; CC-BY-NC-ND-3.0; CC-BY-NC-ND-4.0; CC-BY-NC-SA-1.0; CC-BY-NC-SA-2.0; CC-BY-NC-SA-2.5; CC-BY-NC-SA-3.0; CC-BY-NC-SA-4.0; CPAL-1.0; EUPL-1.0; EUPL-1.1; EUPL-1.1;  GPL-1.0-only; GPL-1.0-or-later; GPL-2.0-only;  GPL-2.0-or-later; GPL-3.0; GPL-3.0-only; GPL-3.0-or-later; SISSL;  SISSL-1.2; WTFPL"
+      # Some issues identified by npm audit cannot be fixed by us
+      # (i.e. they require an upstream dependency update),
+      # but using `npm-force-resolutions` we can at least override the upstream
+      # dependency when running an audit.
+      #
+      # If this task fails, first attempt to run `npm audit fix` or upgrade the
+      # relevant dependency; when that does not work, you can add the transitive
+      # dependency to the `resolutions` field in package.json according to the
+      # instructions in `npm-force-resolutions`'s README.
+      - name: Setup npm-force-resolutions
+        run: npx npm-force-resolutions
+        if: ${{ inputs.useForceResolutions }}
+      # Run the audit and capture the results
+      - run: npm audit --audit-level=moderate
+      # Publishes a notification to a slack channel:
+      - name: Send a notification that the audit has failed
+        if: failure() && github.event_name == 'schedule'
+        run: "curl -X POST -H Content-type: 'application/json' --data \"{\\\"text\\\":\\\"Automated npm audit --audit-level=moderate failed. View <https://github.com/inrupt/solid-client-js/actions/runs/$RUN_ID|the execution log> for more details.\\\"}\" $WEBHOOK_E2E_FAILURE"
+        env:
+          WEBHOOK_E2E_FAILURE: "${{ secrets.WEBHOOK_E2E_FAILURE }}"
+          RUN_ID: "${{ github.run_id }}"
