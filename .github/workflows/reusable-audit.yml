@@ -37,6 +37,8 @@ jobs:
       - name: Setup npm-force-resolutions
         run: npx npm-force-resolutions
         if: ${{ inputs.useForceResolutions }}
+      - name: Test env var
+        run: echo "$GITHUB_REPOSITORY"
       # Run the audit and capture the results
       - run: npm audit --audit-level=moderate
       # Publishes a notification to a slack channel:
