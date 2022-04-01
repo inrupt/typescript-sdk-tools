@@ -42,7 +42,9 @@ jobs:
       # Publishes a notification to a slack channel:
       - name: Send a notification that the audit has failed
         if: failure() && github.event_name == 'schedule'
-        run: "curl -X POST -H Content-type: 'application/json' --data \"{\\\"text\\\":\\\"Automated npm audit --audit-level=moderate failed. View <https://github.com/inrupt/solid-client-js/actions/runs/$RUN_ID|the execution log> for more details.\\\"}\" $WEBHOOK_E2E_FAILURE"
+        run: "curl -X POST -H Content-type: 'application/json' --data \"{\\\"text\\\":\\\"Automated npm audit --audit-level=moderate failed. View <https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID|the execution log> for more details.\\\"}\" $WEBHOOK_E2E_FAILURE"
         env:
-          WEBHOOK_E2E_FAILURE: "${{ secrets.WEBHOOK_E2E_FAILURE }}"
-          RUN_ID: "${{ github.run_id }}"
+          WEBHOOK_E2E_FAILURE: ${{ secrets.WEBHOOK_E2E_FAILURE }}
+          GITHUB_RUN_ID: ${{ GITHUB_RUN_ID }}
+          GITHUB_REPOSITORY: ${{ GITHUB_REPOSITORY }}
+
