@@ -45,6 +45,4 @@ jobs:
         run: "curl -X POST -H Content-type: 'application/json' --data \"{\\\"text\\\":\\\"Automated npm audit --audit-level=moderate failed. View <https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID|the execution log> for more details.\\\"}\" $WEBHOOK_E2E_FAILURE"
         env:
           WEBHOOK_E2E_FAILURE: ${{ secrets.WEBHOOK_E2E_FAILURE }}
-          GITHUB_RUN_ID: ${{ GITHUB_RUN_ID }}
-          GITHUB_REPOSITORY: ${{ GITHUB_REPOSITORY }}
 
