@@ -6,14 +6,14 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.4.0
-      - uses: actions/setup-node@v2.5.1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: "16.x"
-          registry-url: "https://registry.npmjs.org"
+          node-version: "16"
+          cache: "npm"
       # Check the package.json is correctly formed
       - run: npx @skypack/package-check
       # Install dependencies:
-      - run: npm ci
+      - run: npm ci --ignore-scripts
       # Run the linting command:
       - run: npm run lint
