@@ -1,0 +1,19 @@
+name: Reusable Lint Workflow
+
+on: workflow_call
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+          cache: "npm"
+      # Check the package.json is correctly formed
+      - run: npx @skypack/package-check
+      # Install dependencies:
+      - run: npm ci --ignore-scripts
+      # Run the linting command:
+      - run: npm run lint
