@@ -1,0 +1,22 @@
+{
+  "name": "javascript-style-configs",
+  "description": "Meta-package for eslint configurations",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {},
+  "workspaces": [
+    "eslint-config-base",
+    "eslint-config-lib",
+    "eslint-config-react"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/inrupt/javascript-style-configs.git"
+  },
+  "author": "Inrupt <engineering@inrupt.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/inrupt/javascript-style-configs/issues"
+  },
+  "homepage": "https://github.com/inrupt/javascript-style-configs#readme"
+}
