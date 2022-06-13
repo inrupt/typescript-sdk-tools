@@ -22,7 +22,7 @@
   "homepage": "https://github.com/inrupt/javascript-style-configs#readme",
   "peerDependencies": {
     "@inrupt/eslint-config-base": "^0.4.0",
-    "eslint": "^7.32.0",
+    "eslint": "^8.17.0",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.20.0",
