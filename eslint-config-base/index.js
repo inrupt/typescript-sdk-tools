@@ -26,21 +26,9 @@ module.exports = {
   },
 
   // Airbnb base provides many style rules; it is then overridden by our current defaults
-  // (jest, eslint, typescript, and finally prettier recommended configs.)
-  extends: [
-    "airbnb-base",
-    "eslint:recommended",
-    "plugin:jest/recommended",
-    "plugin:jest/style",
-    "plugin:prettier/recommended",
-  ],
-
-  // Set up es6 and typescript linting, and add lint rules for jest
-  plugins: [
-    "jest",
-    "prettier",
-    "header",
-  ],
+  // (eslint and prettier recommended configs)
+  extends: ["airbnb-base", "eslint:recommended", "plugin:prettier/recommended"],
+  plugins: ["prettier", "header"],
 
   // A few fixes for broken .eslint rules
   globals: {
@@ -53,6 +41,9 @@ module.exports = {
       node: {
         extensions: [".js", ".ts"],
       },
+    },
+    jest: {
+      version: require("jest/package.json").version,
     },
   },
 
@@ -109,4 +100,22 @@ module.exports = {
       { endOfLine: "auto" },
     ],
   },
-}
+
+  overrides: [
+    {
+      files: [
+        "**/*.test.ts",
+        "**/*.test.tsx",
+        "**/*.test.js",
+        "**/*.test.jsx",
+        // legacy: we need to standardise around *.test.ts
+        "**/*.spec.ts",
+        "**/*.spec.tsx",
+        "**/*.spec.js",
+        "**/*.spec.jsx",
+      ],
+      plugins: ["jest"],
+      extends: ["plugin:jest/recommended", "plugin:jest/style"],
+    },
+  ],
+};
