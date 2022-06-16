@@ -1,39 +1,45 @@
 # eslint-config-inrupt-lib
+
 Eslint and prettier configs
 
 ## Installation
 
-If Node <= 14:
+1. `npm install --save-dev @inrupt/eslint-config-lib @rushstack/eslint-patch`
 
-1. `npm install --save-dev @inrupt/eslint-config-base`
-1. `npm install --save-dev @inrupt/eslint-config-lib`
-1. `npx install-peerdeps @inrupt/eslint-config-lib`
-1. `npx install-peerdeps @inrupt/eslint-config-base`
-1. Add `extends: ['@inrupt/eslint-config-lib']` to your .eslintrc.js file.
+## Setup (Quick start)
 
-If Node >= 16:
+Create a `.eslintrc.js` in the the root of your project with the following contents:
 
-1. `npm install --save-dev @inrupt/eslint-config-base`
-1. `npm install --save-dev @inrupt/eslint-config-lib`
-1. Run the following scripts, adjusting version where necessary:
+```js
+require("@rushstack/eslint-patch/modern-module-resolution");
 
-```
-(
-  export PKG=@inrupt/eslint-config-base;
-  export VER=latest;
-  npm info "$PKG@VER" peerDependencies --json | command sed 's/[\{\},]//g ; s/: /@/g' | xargs npm install --save-dev "$PKG@VER"
-)
+module.exports = {
+  extends: ["@inrupt/eslint-config-lib"],
+  parserOptions: {
+    project: "./tsconfig.eslint.json",
+  },
+  rules: {},
+};
 ```
 
-```
-(
-  export PKG=@inrupt/eslint-config-lib;
-  export VER=latest;
-  npm info "$PKG@VER" peerDependencies --json | command sed 's/[\{\},]//g ; s/: /@/g' | xargs npm install --save-dev "$PKG@VER"
-)
+The file `tsconfig.eslint.json` is your typescript configuration with the e2e tests, unit tests and examples included, e.g.,
+
+```json
+{
+  "extends": "./tsconfig.json",
+  "include": ["src/**/*.ts", "e2e/**/*.ts", "examples/**/*.ts", "*.md"],
+  "exclude": ["**/node_modules", "**/dist/**"]
+}
 ```
 
-Then, add `extends: ['@inrupt/eslint-config-lib']` to your .eslintrc.js file.
+## Migrating to this configuration:
+
+1. Add `extends: ['@inrupt/eslint-config-lib']` to your `.eslintrc.js` file.
+1. Add the following line to the top of the `.eslintrc.js` file:
+
+```js
+require("@rushstack/eslint-patch/modern-module-resolution");
+```
 
 ## Rules
 

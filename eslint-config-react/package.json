@@ -20,10 +20,8 @@
     "url": "https://github.com/inrupt/javascript-style-configs/issues"
   },
   "homepage": "https://github.com/inrupt/javascript-style-configs#readme",
-  "peerDependencies": {
-    "@inrupt/eslint-config-base": "^0.4.0",
-    "eslint": "^7.32.0",
-    "eslint-config-airbnb": "^18.1.0",
+  "dependencies": {
+    "@inrupt/eslint-config-base": "file:../eslint-config-base",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-react-hooks": "^4.0.4"
