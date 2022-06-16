@@ -45,10 +45,10 @@ require("@rushstack/eslint-patch/modern-module-resolution");
 
 Exhaustive documentation forthcoming. For now, the general principles are:
 
-* Load a stylistic base set - in this case,
-  [airbnb](https://www.npmjs.com/package/eslint-config-airbnb) and 
+- Load a stylistic base set - in this case,
+  [airbnb](https://www.npmjs.com/package/eslint-config-airbnb) and
   [airbnb/hooks](https://www.npmjs.com/package/eslint-config-airbnb-hooks)
-* Load inrupt-base, which loads recommended configs for common libraries: eslint, jest, typescript,
+- Load inrupt-base, which loads recommended configs for common libraries: eslint, jest, typescript,
   and prettier
-* Do very little else- as few custom rules or overrides as possible.
-* Some rules are updated to work with nextjs.
+- Do very little else- as few custom rules or overrides as possible.
+- Some rules are updated to work with nextjs.

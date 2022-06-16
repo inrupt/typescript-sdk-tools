@@ -45,7 +45,7 @@ require("@rushstack/eslint-patch/modern-module-resolution");
 
 Exhaustive documentation forthcoming. For now, the general principles are:
 
-* Load inrupt-base, which loads recommended configs for common libraries: eslint, jest, typescript,
+- Load inrupt-base, which loads recommended configs for common libraries: eslint, jest, typescript,
   and prettier
-* Do very little else- as few custom rules or overrides as possible.
-* Some rules are updated to work with nextjs.
+- Do very little else- as few custom rules or overrides as possible.
+- Some rules are updated to work with nextjs.
