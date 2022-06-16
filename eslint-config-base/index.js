@@ -93,7 +93,8 @@ module.exports = {
     // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/return-await.md
     "no-return-await": ["off"],
 
-    "header/header": ["warn", "./resources/license-header.js"],
+    // Ensure all code has a license header:
+    "header/header": ["warn", require.resolve("./license-header.js")],
 
     // set eol to auto to handle all environments
     "prettier/prettier": [
