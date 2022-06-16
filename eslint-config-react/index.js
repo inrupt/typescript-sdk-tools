@@ -24,7 +24,7 @@ module.exports = {
 
   plugins: ["react"],
 
-  parser: "babel-eslint",
+  parser: "@babel/eslint-parser",
 
   parserOptions: {
     ecmaFeatures: { jsx: true },
