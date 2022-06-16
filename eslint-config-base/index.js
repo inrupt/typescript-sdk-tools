@@ -133,5 +133,9 @@ module.exports = {
       plugins: ["jest"],
       extends: ["plugin:jest/recommended", "plugin:jest/style"],
     },
+    {
+      files: ["e2e/browser/**/*.playwright.ts"],
+      extends: ["plugin:playwright/playwright-test"],
+    },
   ],
 };
