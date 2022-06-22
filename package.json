@@ -3,9 +3,10 @@
   "description": "Meta-package for eslint configurations",
   "version": "0.0.0",
   "private": true,
+  "type": "commonjs",
   "scripts": {
-    "version": "lerna version",
-    "publish": "lerna publish --access public"
+    "release": "scripts/release.sh",
+    "prepare-release": "scripts/prepare-release.sh"
   },
   "workspaces": [
     "eslint-config-base",
