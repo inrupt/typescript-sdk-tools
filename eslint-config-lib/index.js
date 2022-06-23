@@ -22,16 +22,14 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 module.exports = {
   extends: [
     "@inrupt/eslint-config-base",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
   ],
 
-  plugins: [
-    "@typescript-eslint"
-  ],
+  plugins: ["@typescript-eslint"],
 
   overrides: [
     {
-      files: [ "*.ts", "*.tsx" ],
+      files: ["*.ts", "*.tsx"],
 
       parser: "@typescript-eslint/parser",
 
@@ -47,7 +45,8 @@ module.exports = {
 
         // Allow empty arrow functions, useful as defaults or for testing mocks
         "@typescript-eslint/no-empty-function": [
-          "error", { "allow": ["arrowFunctions"] }
+          "error",
+          { allow: ["arrowFunctions"] },
         ],
 
         "@typescript-eslint/no-floating-promises": "error",
@@ -62,4 +61,4 @@ module.exports = {
       },
     },
   ],
-}
+};

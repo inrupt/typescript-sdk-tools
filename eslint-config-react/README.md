@@ -1,50 +1,54 @@
 # eslint-config-inrupt-react
-Eslint and prettier configs
 
+Eslint and prettier configs
 
 ## Installation
 
-If Node <= 14:
+1. `npm install --save-dev @inrupt/eslint-config-react @rushstack/eslint-patch`
 
-1. `npm install --save-dev @inrupt/eslint-config-base`
-2. `npm install --save-dev @inrupt/eslint-config-react`
-3. `npx install-peerdeps @inrupt/eslint-config-react`
-4. `npx install-peerdeps @inrupt/eslint-config-base`
-5. Add `extends: ['@inrupt/eslint-config-react']` to your .eslintrc.js file.
+## Setup (Quick start)
 
-If Node >= 16:
+Create a `.eslintrc.js` in the the root of your project with the following contents:
 
-1. `npm install --save-dev @inrupt/eslint-config-base`
-2. `npm install --save-dev @inrupt/eslint-config-react`
-1. Run the following scripts, adjusting version where necessary:
+```js
+require("@rushstack/eslint-patch/modern-module-resolution");
 
-```
-(
-  export PKG=@inrupt/eslint-config-base;
-  export VER=latest;
-  npm info "$PKG@VER" peerDependencies --json | command sed 's/[\{\},]//g ; s/: /@/g' | xargs npm install --save-dev "$PKG@VER"
-)
+module.exports = {
+  extends: ["@inrupt/eslint-config-react"],
+  parserOptions: {
+    project: "./tsconfig.eslint.json",
+  },
+  rules: {},
+};
 ```
 
-```
-(
-  export PKG=@inrupt/eslint-config-react;
-  export VER=latest;
-  npm info "$PKG@VER" peerDependencies --json | command sed 's/[\{\},]//g ; s/: /@/g' | xargs npm install --save-dev "$PKG@VER"
-)
+The file `tsconfig.eslint.json` is your typescript configuration with the e2e tests, unit tests and examples included, e.g.,
+
+```json
+{
+  "extends": "./tsconfig.json",
+  "include": ["src/**/*.ts", "e2e/**/*.ts", "*.md"],
+  "exclude": ["**/node_modules", "**/dist/**"]
+}
 ```
 
-Then, add `extends: ['@inrupt/eslint-config-lib']` to your .eslintrc.js file.
+## Migrating to this configuration:
 
+1. Add `extends: ['@inrupt/eslint-config-react']` to your `.eslintrc.js` file.
+1. Add the following line to the top of the `.eslintrc.js` file:
+
+```js
+require("@rushstack/eslint-patch/modern-module-resolution");
+```
 
 ## Rules
 
 Exhaustive documentation forthcoming. For now, the general principles are:
 
-* Load a stylistic base set - in this case,
-  [airbnb](https://www.npmjs.com/package/eslint-config-airbnb) and 
+- Load a stylistic base set - in this case,
+  [airbnb](https://www.npmjs.com/package/eslint-config-airbnb) and
   [airbnb/hooks](https://www.npmjs.com/package/eslint-config-airbnb-hooks)
-* Load inrupt-base, which loads recommended configs for common libraries: eslint, jest, typescript,
+- Load inrupt-base, which loads recommended configs for common libraries: eslint, jest, typescript,
   and prettier
-* Do very little else- as few custom rules or overrides as possible.
-* Some rules are updated to work with nextjs.
+- Do very little else- as few custom rules or overrides as possible.
+- Some rules are updated to work with nextjs.

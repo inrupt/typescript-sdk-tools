@@ -1,17 +1,15 @@
 {
   "name": "@inrupt/eslint-config-react",
   "version": "0.4.0",
-  "description": "Shared eslint config for Javascript at @inrupt",
+  "description": "Shared eslint config for React projects at @inrupt",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/inrupt/javascript-style-configs.git"
   },
   "keywords": [
     "eslint",
+    "react",
     "inrupt"
   ],
   "author": "Inrupt <engineering@inrupt.com>",
@@ -20,10 +18,9 @@
     "url": "https://github.com/inrupt/javascript-style-configs/issues"
   },
   "homepage": "https://github.com/inrupt/javascript-style-configs#readme",
-  "peerDependencies": {
-    "@inrupt/eslint-config-base": "^0.4.0",
-    "eslint": "^7.32.0",
-    "eslint-config-airbnb": "^18.1.0",
+  "dependencies": {
+    "@babel/eslint-parser": "^7.18.2",
+    "@inrupt/eslint-config-base": "file:../eslint-config-base",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-react-hooks": "^4.0.4"

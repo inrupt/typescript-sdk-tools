@@ -20,17 +20,11 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 module.exports = {
-  extends: [
-    "airbnb",
-    "airbnb/hooks",
-    "@inrupt/eslint-config-base",
-  ],
+  extends: ["airbnb", "airbnb/hooks", "@inrupt/eslint-config-base"],
 
-  plugins: [
-    "react",
-  ],
+  plugins: ["react"],
 
-  parser: "babel-eslint",
+  parser: "@babel/eslint-parser",
 
   parserOptions: {
     ecmaFeatures: { jsx: true },
@@ -57,16 +51,22 @@ module.exports = {
     "react/static-property-placement": ["error", "static public field"],
 
     // Allow Nextjs <Link> tags to contain a href attribute
-    "jsx-a11y/anchor-is-valid": ["error", {
-      components: ["Link"],
-      specialLink: ["hrefLeft", "hrefRight"],
-      aspects: ["invalidHref", "preferButton"],
-    }],
+    "jsx-a11y/anchor-is-valid": [
+      "error",
+      {
+        components: ["Link"],
+        specialLink: ["hrefLeft", "hrefRight"],
+        aspects: ["invalidHref", "preferButton"],
+      },
+    ],
 
-    "import/extensions": ["error", {
-      js: "never",
-      jsx: "never",
-    }],
+    "import/extensions": [
+      "error",
+      {
+        js: "never",
+        jsx: "never",
+      },
+    ],
 
     "no-use-before-define": ["warn"],
 
