@@ -18,6 +18,7 @@ jobs:
         with:
           node-version: 16
           cache: npm
+          registry-url: "https://registry.npmjs.org"
       - run: npm ci --workspaces
       - run: npm run release
         env:
