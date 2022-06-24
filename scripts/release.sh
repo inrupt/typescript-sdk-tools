@@ -17,8 +17,9 @@ isPreRelease=$(node -pe 'require("./lerna.json").version.includes("-")')
 lerna publish from-package --yes --no-verify-access --temp-tag --loglevel verbose
 
 # Don't try creating the release if the publish failed:
-if [ $? -neq 0 ]; then
-  exit $?
+if [ "$?" != "0" ]; then
+  echo "Release failed, not publishing on github"
+  exit 1
 fi
 
 # Finally, create the release on GitHub:
