@@ -1,6 +1,8 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-if [[ ${CI:-"unset"} == "unset" ]]; then
+CI=${CI:-unset}
+
+if [ "$CI" == "unset" ]; then
   echo "This script should only be run from CI, see the Releasing instructions in the README.md"
   exit 1
 fi
@@ -14,8 +16,8 @@ isPreRelease=$(node -pe 'require("./lerna.json").version.includes("-")')
 lerna publish --yes --no-verify-access --temp-tag
 
 # Finally, create the release on GitHub:
-if [ "$isPreRelease" -eq "true"]; then
-  gh release create $version --generate-notes --prerelease
+if [ "$isPreRelease" == "true" ]; then
+  gh release create "$version" --generate-notes --prerelease
 else
-  gh release create $version --generate-notes
+  gh release create "$version" --generate-notes
 fi
