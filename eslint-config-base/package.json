@@ -1,7 +1,10 @@
 {
   "name": "@inrupt/eslint-config-base",
-  "version": "1.0.0-alpha.3",
   "description": "Shared eslint config for Javascript at @inrupt",
+  "version": "1.0.0-alpha.3",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "index.js",
   "repository": {
     "type": "git",
