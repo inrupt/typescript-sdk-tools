@@ -13,7 +13,7 @@ isPreRelease=$(node -pe 'require("./lerna.json").version.includes("-")')
 
 # Publish the release with lerna, which automatically detects pre-releases,
 # --no-verify-access is required as automation tokens can't list packages
-lerna publish --yes --no-verify-access --temp-tag --loglevel verbose
+lerna publish "$version" --yes --no-verify-access --temp-tag --loglevel verbose
 
 # Don't try creating the release if the publish failed:
 if [ $? -neq 0 ]; then
