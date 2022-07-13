@@ -20,6 +20,8 @@ jobs:
         with:
           node-version: "16"
           registry-url: "https://registry.npmjs.org"
+      # Install dependencies so license-checker actually checks them:
+      - run: npm ci
       # We check the dependency licenses as part of the audit job, as a
       # misconfigured or inappropriate dependency license is in the same
       # category of issues as an npm audit security failure: we consider 
