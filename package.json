@@ -24,6 +24,6 @@
   },
   "homepage": "https://github.com/inrupt/javascript-style-configs#readme",
   "dependencies": {
-    "lerna": "^5.1.4"
+    "lerna": "^5.1.8"
   }
 }

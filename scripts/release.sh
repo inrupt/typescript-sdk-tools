@@ -30,7 +30,7 @@ fi
 
 # Finally, create the release on GitHub:
 if [ "$isPreRelease" == "true" ]; then
-  gh release create "$version" --generate-notes --prerelease
+  gh release create "v$version" --generate-notes --prerelease
 else
-  gh release create "$version" --generate-notes
+  gh release create "v$version" --generate-notes
 fi
