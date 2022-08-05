@@ -79,7 +79,7 @@ module.exports = {
       },
     ],
 
-    // Remove airbnb's ForOfStatement recommendation; we don't use regenerator-runtime anywyas,
+    // Remove airbnb's ForOfStatement recommendation; we don't use regenerator-runtime anyway,
     // and we iterate over Sets in our libraries.
     "no-restricted-syntax": [
       "error",
