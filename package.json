@@ -9,9 +9,8 @@
     "prepare-release": "scripts/prepare-release.sh"
   },
   "workspaces": [
-    "eslint-config-base",
-    "eslint-config-lib",
-    "eslint-config-react"
+    "eslint-configs/*",
+    "packages/*"
   ],
   "repository": {
     "type": "git",
