@@ -132,6 +132,23 @@ module.exports = {
       ],
       plugins: ["jest"],
       extends: ["plugin:jest/recommended", "plugin:jest/style"],
+      rules: {
+        "no-shadow": [
+          "warn",
+          {
+            allow: [
+              "describe",
+              "it",
+              "jest",
+              "expect",
+              "beforeEach",
+              "beforeAll",
+              "afterEach",
+              "afterAll",
+            ],
+          },
+        ],
+      },
     },
     {
       files: ["e2e/browser/**/*.playwright.ts"],
