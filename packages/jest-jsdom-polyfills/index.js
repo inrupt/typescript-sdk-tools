@@ -41,11 +41,12 @@ if (
 }
 
 if (
+  typeof globalThis.crypto !== "undefined" &&
+  // jsdom doesn't implement the subtle Web Crypto API
   typeof globalThis.crypto.subtle === "undefined"
 ) {
   // Requires OPENSSL_CONF=/dev/null (see https://github.com/nodejs/node/discussions/43184) 
   const { Crypto, CryptoKey } = require("@peculiar/webcrypto");
-  // jsdom doesn't implement the Web Crypto API
   Object.assign(globalThis.crypto, new Crypto());
   globalThis.CryptoKey = CryptoKey;
 }
