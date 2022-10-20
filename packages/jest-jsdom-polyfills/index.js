@@ -33,6 +33,22 @@ if (
   // @ts-ignore TextDecoder from util doesn't necessarily conform to that from
   // the Web APIs, but it's good enough:
   globalThis.TextDecoder = utils.TextDecoder;
+  // TextEncoder references a Uint8Array constructor different than the global
+  // one used by users in tests. The following enforces the same constructor to
+  // be referenced by both.
+  // FIXME: currently this doesn't work, and must be set in a custom environment.
+  globalThis.Uint8Array = Uint8Array;
+}
+
+if (
+  typeof globalThis.crypto !== "undefined" &&
+  // jsdom doesn't implement the subtle Web Crypto API
+  typeof globalThis.crypto.subtle === "undefined"
+) {
+  // Requires OPENSSL_CONF=/dev/null (see https://github.com/nodejs/node/discussions/43184) 
+  const { Crypto, CryptoKey } = require("@peculiar/webcrypto");
+  Object.assign(globalThis.crypto, new Crypto());
+  globalThis.CryptoKey = CryptoKey;
 }
 
 // Node.js doesn't support Blob or File, so we're polyfilling those with
