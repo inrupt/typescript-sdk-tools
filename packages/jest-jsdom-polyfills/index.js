@@ -36,17 +36,17 @@ if (
   // TextEncoder references a Uint8Array constructor different than the global
   // one used by users in tests. The following enforces the same constructor to
   // be referenced by both.
+  // FIXME: currently this doesn't work, and must be set in a custom environment.
   globalThis.Uint8Array = Uint8Array;
 }
 
 if (
-  typeof globalThis.crypto.subtle === undefined
+  typeof globalThis.crypto.subtle === "undefined"
 ) {
-  // Requires OPENSSL_CONF=/dev/null (see https://github.com/nodejs/node/discussions/43184?sort=new) 
+  // Requires OPENSSL_CONF=/dev/null (see https://github.com/nodejs/node/discussions/43184) 
   const { Crypto, CryptoKey } = require("@peculiar/webcrypto");
   // jsdom doesn't implement the Web Crypto API
-  // For some reason,  this.global.crypto = new Crypto() leaves .subtle undefined
-  globalThis.crypto.subtle = (new Crypto()).subtle;
+  Object.assign(globalThis.crypto, new Crypto());
   globalThis.CryptoKey = CryptoKey;
 }
 
