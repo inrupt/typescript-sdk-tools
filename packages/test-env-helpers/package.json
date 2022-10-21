@@ -1,0 +1,24 @@
+{
+  "name": "@inrupt/test-env-helpers",
+  "version": "1.0.0",
+  "description": "This package provides various test environment utilities needed for jest when using the Inrupt SDKs",
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "",
+  "keywords": [
+    "inrupt",
+    "jest",
+    "test",
+    "environment",
+    "end2end",
+    "testing"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@inrupt/solid-client": "^1.23.3",
+    "@inrupt/solid-client-authn-node": "^1.12.2",
+    "dotenv-flow": "^3.2.0"
+  }
+}
