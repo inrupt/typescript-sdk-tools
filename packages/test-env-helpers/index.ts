@@ -22,12 +22,11 @@ import { config } from "dotenv-flow";
 import { join } from "path";
 
 const availableEnvironment = [
-    // "ESS Dev-Next" as const,
-    "ESS PodSpaces" as const,
-    "ESS PodSpaces Next" as const,
-  ];
+  // "ESS Dev-Next" as const,
+  "ESS PodSpaces" as const,
+  "ESS PodSpaces Next" as const,
+];
 
-  
 export function setupEnv() {
   // If we're in CI, the environment is already configured.
   if (process.env.CI) {
@@ -54,12 +53,21 @@ export type AvailableProtocol = typeof availableProtocol extends Array<infer E>
   : never;
 
 export interface TestingEnvironmentNode {
-  clientId: string;
-  clientSecret: string;
   environment: AvailableEnvironment;
   idp: string;
   notificationGateway: string;
   protocol: AvailableProtocol;
+  clientCredentials: {
+    requestor: {
+      id: string;
+      secret: string;
+    };
+    resourceOwner: {
+      id: string;
+      secret: string;
+    };
+  };
+  vcProvider: string;
 }
 
 export interface TestingEnvironmentBrowser {
@@ -70,14 +78,26 @@ export interface TestingEnvironmentBrowser {
 }
 
 export interface EnvVariables {
+  // Shared ENV VARS
   E2E_TEST_ENVIRONMENT: AvailableEnvironment;
   E2E_TEST_NOTIFICATION_PROTOCOL: AvailableProtocol;
   E2E_TEST_IDP: string;
   E2E_TEST_NOTIFICATION_GATEWAY: string;
-  E2E_TEST_CLIENT_ID: string | undefined;
-  E2E_TEST_CLIENT_SECRET: string | undefined;
+
+  // Browser login ENV VARS
   E2E_TEST_USER: string | undefined;
   E2E_TEST_PASSWORD: string | undefined;
+
+  // VC service provider
+  E2E_TEST_VC_PROVIDER: string | undefined;
+
+  // Client credentials for the access requestor
+  E2E_TEST_REQUESTOR_CLIENT_ID: string;
+  E2E_TEST_REQUESTOR_CLIENT_SECRET: string;
+
+  // Client credentials for the resource owner
+  E2E_TEST_RESOURCE_OWNER_CLIENT_ID: string;
+  E2E_TEST_RESOURCE_OWNER_CLIENT_SECRET: string;
 }
 
 function getTestingEnvironment(
@@ -144,8 +164,16 @@ export function getTestingEnvironmentNode(): TestingEnvironmentNode {
     environment: process.env.E2E_TEST_ENVIRONMENT,
     protocol: process.env.E2E_TEST_NOTIFICATION_PROTOCOL,
     notificationGateway: process.env.E2E_TEST_NOTIFICATION_GATEWAY,
-    clientId: process.env.E2E_TEST_CLIENT_ID,
-    clientSecret: process.env.E2E_TEST_CLIENT_SECRET,
+    clientCredentials: {
+      requestor: {
+        id: process.env.E2E_TEST_CLIENT_ID,
+        secret: process.env.E2E_TEST_CLIENT_SECRET,
+      },
+      resourceOwner: {
+        id: process.env.E2E_TEST_RESOURCE_OWNER_CLIENT_ID,
+        secret: process.env.E2E_TEST_RESOURCE_OWNER_CLIENT_SECRET,
+      },
+    },
   };
 }
 
@@ -165,4 +193,8 @@ export function getTestingEnvironmentBrowser(): TestingEnvironmentBrowser {
     idp: process.env.E2E_TEST_IDP,
     notificationGateway: process.env.E2E_TEST_NOTIFICATION_GATEWAY,
   };
+}
+
+export function getFullTestingEnvironmentNode(): FullTestingEnvironmentNode {
+  return getTestingEnvironmentNode();
 }
