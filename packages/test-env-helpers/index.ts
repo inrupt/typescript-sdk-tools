@@ -35,9 +35,11 @@ export function setupEnv() {
 
   // Otherwise load dotenv configuration
   config({
-    path: join(__dirname, "..", "env"),
+    path: join(__dirname, ".", "env"),
     silent: true,
   });
+
+  console.log(`my path is ${join(__dirname, ".", "env")}`);
 }
 
 export type AvailableEnvironment = typeof availableEnvironment extends Array<
@@ -116,6 +118,7 @@ export interface EnvVariables {
 function getTestingEnvironment(
   environment: unknown
 ): asserts environment is EnvVariables {
+  // Populate your process.env from your .env file of choice
   setupEnv();
 
   // TODO: Replace these inline validations and checks with envalid or env-var
@@ -192,7 +195,9 @@ export function getNodeAccessGrantTestingEnvironment(
   getTestingEnvironment(process.env);
 
   if (typeof process.env.E2E_TEST_VC_PROVIDER !== "string") {
-    throw new Error("The environment variable E2E_TEST_VC_PROVIDER is undefined.");
+    throw new Error(
+      "The environment variable E2E_TEST_VC_PROVIDER is undefined."
+    );
   }
 
   if (typeof process.env.E2E_TEST_REQUESTOR_CLIENT_ID !== "string") {
@@ -233,12 +238,14 @@ export function getNodeAccessGrantTestingEnvironment(
         secret: process.env.E2E_TEST_RESOURCE_OWNER_CLIENT_SECRET,
       },
     },
-    vcProvider: process.env.E2E_TEST_VC_PROVIDER
+    vcProvider: process.env.E2E_TEST_VC_PROVIDER,
     ...(features && { features }),
   };
 }
 
-export function getBrowserTestingEnvironment(features?: object): TestingEnvironmentBrowser {
+export function getBrowserTestingEnvironment(
+  features?: object
+): TestingEnvironmentBrowser {
   getTestingEnvironment(process.env);
 
   if (process.env.E2E_TEST_USER === undefined) {
