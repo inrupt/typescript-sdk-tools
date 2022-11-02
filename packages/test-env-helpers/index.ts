@@ -57,6 +57,15 @@ export interface TestingEnvironmentNode {
   idp: string;
   notificationGateway: string;
   protocol: AvailableProtocol;
+  clientId: string;
+  clientSecret: string;
+}
+
+export interface TestingEnvironmentNodeAccessGrant {
+  environment: AvailableEnvironment;
+  idp: string;
+  notificationGateway: string;
+  protocol: AvailableProtocol;
   clientCredentials: {
     requestor: {
       id: string;
@@ -78,7 +87,7 @@ export interface TestingEnvironmentBrowser {
 }
 
 export interface EnvVariables {
-  // Shared ENV VARS
+  // Shared ENV VARS - Required
   E2E_TEST_ENVIRONMENT: AvailableEnvironment;
   E2E_TEST_NOTIFICATION_PROTOCOL: AvailableProtocol;
   E2E_TEST_IDP: string;
@@ -90,6 +99,10 @@ export interface EnvVariables {
 
   // VC service provider
   E2E_TEST_VC_PROVIDER: string | undefined;
+
+  // Client credentials for node service
+  E2E_TEST_CLIENT_ID: string;
+  E2E_TEST_CLIENT_SECRET: string;
 
   // Client credentials for the access requestor
   E2E_TEST_REQUESTOR_CLIENT_ID: string;
@@ -105,6 +118,7 @@ function getTestingEnvironment(
 ): asserts environment is EnvVariables {
   setupEnv();
 
+  // TODO: Replace these inline validations and checks with envalid or env-var
   if (
     !availableEnvironment.includes(
       (environment as EnvVariables).E2E_TEST_ENVIRONMENT as AvailableEnvironment
@@ -144,16 +158,18 @@ function getTestingEnvironment(
   }
 }
 
-export function getTestingEnvironmentNode(): TestingEnvironmentNode {
+export function getNodeTestingEnvironment(
+  features?: object // for additional env objects to extend setup
+): TestingEnvironmentNode {
   getTestingEnvironment(process.env);
-
+  console.log(features);
   if (typeof process.env.E2E_TEST_CLIENT_ID !== "string") {
     throw new Error(
       "The environment variable E2E_TEST_CLIENT_ID is undefined."
     );
   }
 
-  if (typeof process.env.E2E_TEST_CLIENT_SECRET !== "string") {
+  if (typeof process.env.E2E_TEST_REQUESTOR_CLIENT_SECRET !== "string") {
     throw new Error(
       "The environment variable E2E_TEST_CLIENT_SECRET is undefined."
     );
@@ -164,20 +180,65 @@ export function getTestingEnvironmentNode(): TestingEnvironmentNode {
     environment: process.env.E2E_TEST_ENVIRONMENT,
     protocol: process.env.E2E_TEST_NOTIFICATION_PROTOCOL,
     notificationGateway: process.env.E2E_TEST_NOTIFICATION_GATEWAY,
+    clientId: process.env.E2E_TEST_CLIENT_ID,
+    clientSecret: process.env.E2E_TEST_CLIENT_SECRET,
+    ...(features && { features }),
+  };
+}
+
+export function getNodeAccessGrantTestingEnvironment(
+  features?: object
+): TestingEnvironmentNodeAccessGrant {
+  getTestingEnvironment(process.env);
+
+  if (typeof process.env.E2E_TEST_VC_PROVIDER !== "string") {
+    throw new Error("The environment variable E2E_TEST_VC_PROVIDER is undefined.");
+  }
+
+  if (typeof process.env.E2E_TEST_REQUESTOR_CLIENT_ID !== "string") {
+    throw new Error(
+      "The environment variable E2E_TEST_REQUESTOR_CLIENT_ID is undefined."
+    );
+  }
+
+  if (typeof process.env.E2E_TEST_REQUESTOR_CLIENT_SECRET !== "string") {
+    throw new Error(
+      "The environment variable E2E_TEST_REQUESTOR_CLIENT_SECRET is undefined."
+    );
+  }
+
+  if (typeof process.env.E2E_TEST_RESOURCE_OWNER_CLIENT_ID !== "string") {
+    throw new Error(
+      "The environment variable E2E_TEST_RESOURCE_OWNER_CLIENT_ID is undefined."
+    );
+  }
+  if (typeof process.env.E2E_TEST_REQUESTOR_CLIENT_SECRET !== "string") {
+    throw new Error(
+      "The environment variable E2E_TEST_REQUESTOR_CLIENT_SECRET is undefined."
+    );
+  }
+
+  return {
+    idp: process.env.E2E_TEST_IDP,
+    environment: process.env.E2E_TEST_ENVIRONMENT,
+    protocol: process.env.E2E_TEST_NOTIFICATION_PROTOCOL,
+    notificationGateway: process.env.E2E_TEST_NOTIFICATION_GATEWAY,
     clientCredentials: {
       requestor: {
-        id: process.env.E2E_TEST_CLIENT_ID,
-        secret: process.env.E2E_TEST_CLIENT_SECRET,
+        id: process.env.E2E_TEST_REQUESTOR_CLIENT_ID,
+        secret: process.env.E2E_TEST_REQUESTOR_CLIENT_SECRET,
       },
       resourceOwner: {
         id: process.env.E2E_TEST_RESOURCE_OWNER_CLIENT_ID,
         secret: process.env.E2E_TEST_RESOURCE_OWNER_CLIENT_SECRET,
       },
     },
+    vcProvider: process.env.E2E_TEST_VC_PROVIDER
+    ...(features && { features }),
   };
 }
 
-export function getTestingEnvironmentBrowser(): TestingEnvironmentBrowser {
+export function getBrowserTestingEnvironment(features?: object): TestingEnvironmentBrowser {
   getTestingEnvironment(process.env);
 
   if (process.env.E2E_TEST_USER === undefined) {
@@ -192,9 +253,6 @@ export function getTestingEnvironmentBrowser(): TestingEnvironmentBrowser {
     password: process.env.E2E_TEST_PASSWORD,
     idp: process.env.E2E_TEST_IDP,
     notificationGateway: process.env.E2E_TEST_NOTIFICATION_GATEWAY,
+    ...(features && { features }),
   };
-}
-
-export function getFullTestingEnvironmentNode(): FullTestingEnvironmentNode {
-  return getTestingEnvironmentNode();
 }
