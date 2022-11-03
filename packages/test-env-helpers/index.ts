@@ -20,27 +20,21 @@
 //
 import { config } from "dotenv-flow";
 import { join } from "path";
+import { Session } from "@inrupt/solid-client-authn-node";
+import {
+  createContainerInContainer,
+  createSolidDataset,
+  deleteSolidDataset,
+  getPodUrlAll,
+  getSourceIri,
+  saveSolidDatasetInContainer,
+} from "@inrupt/solid-client";
 
 const availableEnvironment = [
   // "ESS Dev-Next" as const,
   "ESS PodSpaces" as const,
   "ESS PodSpaces Next" as const,
 ];
-
-export function setupEnv() {
-  // If we're in CI, the environment is already configured.
-  if (process.env.CI) {
-    return;
-  }
-
-  // Otherwise load dotenv configuration
-  config({
-    path: join(__dirname, ".", "env"),
-    silent: true,
-  });
-
-  console.log(`my path is ${join(__dirname, ".", "env")}`);
-}
 
 export type AvailableEnvironment = typeof availableEnvironment extends Array<
   infer E
@@ -61,6 +55,7 @@ export interface TestingEnvironmentNode {
   protocol: AvailableProtocol;
   clientId: string;
   clientSecret: string;
+  features: object;
 }
 
 export interface TestingEnvironmentNodeAccessGrant {
@@ -79,6 +74,7 @@ export interface TestingEnvironmentNodeAccessGrant {
     };
   };
   vcProvider: string;
+  features: object;
 }
 
 export interface TestingEnvironmentBrowser {
@@ -86,6 +82,7 @@ export interface TestingEnvironmentBrowser {
   password: string;
   idp: string;
   notificationGateway: string;
+  features: object;
 }
 
 export interface EnvVariables {
@@ -113,6 +110,21 @@ export interface EnvVariables {
   // Client credentials for the resource owner
   E2E_TEST_RESOURCE_OWNER_CLIENT_ID: string;
   E2E_TEST_RESOURCE_OWNER_CLIENT_SECRET: string;
+}
+
+export function setupEnv() {
+  // If we're in CI, the environment is already configured.
+  if (process.env.CI) {
+    return;
+  }
+
+  // Otherwise load dotenv configuration
+  config({
+    path: join(__dirname, ".", "env"),
+    silent: true,
+  });
+
+  console.log(`my setup Path is ${join(__dirname, ".", "env")}`);
 }
 
 function getTestingEnvironment(
@@ -162,10 +174,10 @@ function getTestingEnvironment(
 }
 
 export function getNodeTestingEnvironment(
-  features?: object // for additional env objects to extend setup
+  features: object // for additional env objects to extend setup
 ): TestingEnvironmentNode {
   getTestingEnvironment(process.env);
-  console.log(features);
+
   if (typeof process.env.E2E_TEST_CLIENT_ID !== "string") {
     throw new Error(
       "The environment variable E2E_TEST_CLIENT_ID is undefined."
@@ -190,7 +202,7 @@ export function getNodeTestingEnvironment(
 }
 
 export function getNodeAccessGrantTestingEnvironment(
-  features?: object
+  features: object
 ): TestingEnvironmentNodeAccessGrant {
   getTestingEnvironment(process.env);
 
@@ -244,7 +256,7 @@ export function getNodeAccessGrantTestingEnvironment(
 }
 
 export function getBrowserTestingEnvironment(
-  features?: object
+  features: object
 ): TestingEnvironmentBrowser {
   getTestingEnvironment(process.env);
 
@@ -262,4 +274,78 @@ export function getBrowserTestingEnvironment(
     notificationGateway: process.env.E2E_TEST_NOTIFICATION_GATEWAY,
     ...(features && { features }),
   };
+}
+
+export async function getAuthenticatedSession(
+  authDetails: TestingEnvironmentNode
+): Promise<Session> {
+  const session = new Session();
+  await session.login({
+    oidcIssuer: authDetails.idp,
+    clientId: authDetails.clientId,
+    clientName:
+      "Solid Client Notifications End-2-End Test Client App - Node.js",
+    clientSecret: authDetails.clientSecret,
+  });
+
+  if (!session.info.isLoggedIn) {
+    throw new Error("Logging the test agent in failed.");
+  }
+
+  return session;
+}
+
+export async function getPodRoot(session: Session) {
+  const podRootAll = await getPodUrlAll(session.info.webId as string);
+  if (podRootAll.length === 0) {
+    throw new Error(
+      `No Pod root were found in the profile associated to [${session.info.webId}]`
+    );
+  }
+
+  // Arbitrarily pick one available Pod root.
+  return podRootAll[0];
+}
+
+export async function setupTestResources(
+  session: Session,
+  slug: string,
+  podRoot: string
+) {
+  // Set the user agent to something distinctive to make debug easier
+  const fetchWithAgent: typeof fetch = (url, options?) => {
+    return session.fetch(url, {
+      ...options,
+      headers: {
+        ...options?.headers,
+        "User-Agent": slug,
+      },
+    });
+  };
+  const containerUrl = getSourceIri(
+    await createContainerInContainer(podRoot, {
+      fetch: fetchWithAgent,
+      // When running the test from CI, use a random container name to avoid collision.
+      // It could be useful to give the container a distinctive name when running the
+      // tests locally though, so that the Pod is easier to inspect.
+      slugSuggestion: process.env.CI === "true" ? undefined : slug,
+    })
+  );
+  const resourceUrl = getSourceIri(
+    await saveSolidDatasetInContainer(containerUrl, createSolidDataset(), {
+      fetch: fetchWithAgent,
+    })
+  );
+  return { containerUrl, resourceUrl, fetchWithAgent };
+}
+
+export async function teardownTestResources(
+  session: Session,
+  containerUrl: string,
+  resourceUrl: string,
+  userAgentFetch: typeof fetch
+) {
+  await deleteSolidDataset(resourceUrl, { fetch: userAgentFetch });
+  await deleteSolidDataset(containerUrl, { fetch: userAgentFetch });
+  await session.logout();
 }
