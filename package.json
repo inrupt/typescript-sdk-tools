@@ -1,6 +1,6 @@
 {
-  "name": "javascript-style-configs",
-  "description": "Meta-package for eslint configurations",
+  "name": "typescript-sdk-tools",
+  "description": "Meta-package for tools used whilst developing the Typescript SDK",
   "version": "0.0.0",
   "private": true,
   "type": "commonjs",
@@ -14,14 +14,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/inrupt/javascript-style-configs.git"
+    "url": "git+https://github.com/inrupt/typescript-sdk-tools.git"
   },
   "author": "Inrupt <engineering@inrupt.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/inrupt/javascript-style-configs/issues"
+    "url": "https://github.com/inrupt/typescript-sdk-tools/issues"
   },
-  "homepage": "https://github.com/inrupt/javascript-style-configs#readme",
+  "homepage": "https://github.com/inrupt/typescript-sdk-tools#readme",
   "dependencies": {
     "lerna": "^5.1.8"
   }
