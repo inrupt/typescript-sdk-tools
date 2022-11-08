@@ -31,9 +31,10 @@ import {
 } from "@inrupt/solid-client";
 
 const availableEnvironment = [
-  // "ESS Dev-Next" as const,
+  "ESS Dev-Next" as const,
   "ESS PodSpaces" as const,
-  "ESS PodSpaces Next" as const,
+  "NSS" as const,
+  //  "ESS PodSpaces Next" as const,
 ];
 
 export type AvailableEnvironment = typeof availableEnvironment extends Array<
@@ -53,16 +54,6 @@ export interface TestingEnvironmentNode {
   idp: string;
   notificationGateway: string;
   protocol: AvailableProtocol;
-  clientId: string;
-  clientSecret: string;
-  features: object;
-}
-
-export interface TestingEnvironmentNodeAccessGrant {
-  environment: AvailableEnvironment;
-  idp: string;
-  notificationGateway: string;
-  protocol: AvailableProtocol;
   clientCredentials: {
     requestor: {
       id: string;
@@ -74,17 +65,23 @@ export interface TestingEnvironmentNodeAccessGrant {
     };
   };
   vcProvider: string;
-  features: object;
+  features: FeatureFlags;
 }
-
 export interface TestingEnvironmentBrowser {
-  login: string;
-  password: string;
+  clientCredentials: {
+    resourceOwner: {
+      login: string;
+      password: string;
+    };
+  };
   idp: string;
   notificationGateway: string;
-  features: object;
+  features: FeatureFlags;
 }
 
+type FeatureFlags = {
+  [key: string]: any;
+};
 export interface EnvVariables {
   // Shared ENV VARS - Required
   E2E_TEST_ENVIRONMENT: AvailableEnvironment;
@@ -97,7 +94,7 @@ export interface EnvVariables {
   E2E_TEST_PASSWORD: string | undefined;
 
   // VC service provider
-  E2E_TEST_VC_PROVIDER: string | undefined;
+  E2E_TEST_VC_PROVIDER: string;
 
   // Client credentials for node service
   E2E_TEST_CLIENT_ID: string;
@@ -110,7 +107,13 @@ export interface EnvVariables {
   // Client credentials for the resource owner
   E2E_TEST_RESOURCE_OWNER_CLIENT_ID: string;
   E2E_TEST_RESOURCE_OWNER_CLIENT_SECRET: string;
+
+  E2E_TEST_FEATURE_FLAG_ACP: boolean | undefined;
+  E2E_TEST_FEATURE_FLAG_WAC: boolean | undefined;
 }
+
+let envLoaded = false;
+let featuredFlags: FeatureFlags = {};
 
 export function setupEnv() {
   // If we're in CI, the environment is already configured.
@@ -118,20 +121,38 @@ export function setupEnv() {
     return;
   }
 
+  if (envLoaded) {
+    return;
+  }
+
+  const envPath = join(process.cwd(), "e2e/env");
+
   // Otherwise load dotenv configuration
   config({
-    path: join(__dirname, ".", "env"),
+    path: envPath,
     silent: true,
   });
+  console.log(`envPath: ${envPath}`);
+  if (!process.env.E2E_TEST_ENVIRONMENT) {
+    console.error(
+      `We didn't find the given environment variable E2E_TEST_ENVIRONMENT,
+tried looking in the following directory for \`.env.local \`: 
+${envPath}`
+    );
+  }
 
-  console.log(`my setup Path is ${join(__dirname, ".", "env")}`);
+  // Creating feature flag object if there are feature flags
+  Object.keys(process.env)
+    .filter((envVar) => /E2E_TEST_FEATURE.*/.test(envVar))
+    .forEach((key) => (featuredFlags[key] = process.env[key]));
+  // Marking env as loaded
+  envLoaded = true;
 }
 
 function getTestingEnvironment(
   environment: unknown
 ): asserts environment is EnvVariables {
   // Populate your process.env from your .env file of choice
-  setupEnv();
 
   // TODO: Replace these inline validations and checks with envalid or env-var
   if (
@@ -174,67 +195,49 @@ function getTestingEnvironment(
 }
 
 export function getNodeTestingEnvironment(
-  features: object // for additional env objects to extend setup
+  features?: FeatureFlags
 ): TestingEnvironmentNode {
+  setupEnv();
   getTestingEnvironment(process.env);
 
-  if (typeof process.env.E2E_TEST_CLIENT_ID !== "string") {
-    throw new Error(
-      "The environment variable E2E_TEST_CLIENT_ID is undefined."
-    );
+  if (
+    process.env.E2E_TEST_REQUESTOR_CLIENT_ID !== undefined ||
+    process.env.E2E_TEST_REQUESTOR_CLIENT_SECRET !== undefined
+  ) {
+    if (typeof process.env.E2E_TEST_REQUESTOR_CLIENT_ID !== "string") {
+      throw new Error(
+        "The environment variable E2E_TEST_REQUESTOR_CLIENT_ID is undefined."
+      );
+    }
+
+    if (typeof process.env.E2E_TEST_REQUESTOR_CLIENT_SECRET !== "string") {
+      throw new Error(
+        "The environment variable E2E_TEST_REQUESTOR_CLIENT_SECRET is undefined."
+      );
+    }
+
+    if (typeof process.env.E2E_TEST_VC_PROVIDER !== "string") {
+      throw new Error(
+        "The environment variable E2E_TEST_VC_PROVIDER is undefined."
+      );
+    }
   }
-
-  if (typeof process.env.E2E_TEST_REQUESTOR_CLIENT_SECRET !== "string") {
-    throw new Error(
-      "The environment variable E2E_TEST_CLIENT_SECRET is undefined."
-    );
+  if (
+    process.env.E2E_TEST_RESOURCE_OWNER_CLIENT_ID !== undefined ||
+    process.env.E2E_TEST_RESOURCE_OWNER_CLIENT_SECRET !== undefined
+  ) {
+    if (typeof process.env.E2E_TEST_RESOURCE_OWNER_CLIENT_ID !== "string") {
+      throw new Error(
+        "The environment variable E2E_TEST_RESOURCE_OWNER_CLIENT_ID is undefined."
+      );
+    }
+    if (typeof process.env.E2E_TEST_REQUESTOR_CLIENT_SECRET !== "string") {
+      throw new Error(
+        "The environment variable E2E_TEST_REQUESTOR_CLIENT_SECRET is undefined."
+      );
+    }
   }
-
-  return {
-    idp: process.env.E2E_TEST_IDP,
-    environment: process.env.E2E_TEST_ENVIRONMENT,
-    protocol: process.env.E2E_TEST_NOTIFICATION_PROTOCOL,
-    notificationGateway: process.env.E2E_TEST_NOTIFICATION_GATEWAY,
-    clientId: process.env.E2E_TEST_CLIENT_ID,
-    clientSecret: process.env.E2E_TEST_CLIENT_SECRET,
-    ...(features && { features }),
-  };
-}
-
-export function getNodeAccessGrantTestingEnvironment(
-  features: object
-): TestingEnvironmentNodeAccessGrant {
-  getTestingEnvironment(process.env);
-
-  if (typeof process.env.E2E_TEST_VC_PROVIDER !== "string") {
-    throw new Error(
-      "The environment variable E2E_TEST_VC_PROVIDER is undefined."
-    );
-  }
-
-  if (typeof process.env.E2E_TEST_REQUESTOR_CLIENT_ID !== "string") {
-    throw new Error(
-      "The environment variable E2E_TEST_REQUESTOR_CLIENT_ID is undefined."
-    );
-  }
-
-  if (typeof process.env.E2E_TEST_REQUESTOR_CLIENT_SECRET !== "string") {
-    throw new Error(
-      "The environment variable E2E_TEST_REQUESTOR_CLIENT_SECRET is undefined."
-    );
-  }
-
-  if (typeof process.env.E2E_TEST_RESOURCE_OWNER_CLIENT_ID !== "string") {
-    throw new Error(
-      "The environment variable E2E_TEST_RESOURCE_OWNER_CLIENT_ID is undefined."
-    );
-  }
-  if (typeof process.env.E2E_TEST_REQUESTOR_CLIENT_SECRET !== "string") {
-    throw new Error(
-      "The environment variable E2E_TEST_REQUESTOR_CLIENT_SECRET is undefined."
-    );
-  }
-
+  console.log(`featuredFlags: ${featuredFlags}`);
   return {
     idp: process.env.E2E_TEST_IDP,
     environment: process.env.E2E_TEST_ENVIRONMENT,
@@ -251,13 +254,14 @@ export function getNodeAccessGrantTestingEnvironment(
       },
     },
     vcProvider: process.env.E2E_TEST_VC_PROVIDER,
-    ...(features && { features }),
+    features: featuredFlags,
   };
 }
 
 export function getBrowserTestingEnvironment(
-  features: object
+  features?: FeatureFlags
 ): TestingEnvironmentBrowser {
+  setupEnv();
   getTestingEnvironment(process.env);
 
   if (process.env.E2E_TEST_USER === undefined) {
@@ -268,11 +272,15 @@ export function getBrowserTestingEnvironment(
   }
 
   return {
-    login: process.env.E2E_TEST_USER,
-    password: process.env.E2E_TEST_PASSWORD,
+    clientCredentials: {
+      resourceOwner: {
+        login: process.env.E2E_TEST_USER,
+        password: process.env.E2E_TEST_PASSWORD,
+      },
+    },
     idp: process.env.E2E_TEST_IDP,
     notificationGateway: process.env.E2E_TEST_NOTIFICATION_GATEWAY,
-    ...(features && { features }),
+    features: featuredFlags,
   };
 }
 
@@ -282,10 +290,8 @@ export async function getAuthenticatedSession(
   const session = new Session();
   await session.login({
     oidcIssuer: authDetails.idp,
-    clientId: authDetails.clientId,
-    clientName:
-      "Solid Client Notifications End-2-End Test Client App - Node.js",
-    clientSecret: authDetails.clientSecret,
+    clientId: authDetails.clientCredentials.resourceOwner.id,
+    clientSecret: authDetails.clientCredentials.resourceOwner.secret,
   });
 
   if (!session.info.isLoggedIn) {
