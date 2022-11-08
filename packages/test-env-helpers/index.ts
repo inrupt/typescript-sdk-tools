@@ -315,7 +315,7 @@ export async function getPodRoot(session: Session) {
 
 export async function setupTestResources(
   session: Session,
-  slug: string,
+  userAgent: string,
   podRoot: string
 ) {
   // Set the user agent to something distinctive to make debug easier
@@ -324,7 +324,7 @@ export async function setupTestResources(
       ...options,
       headers: {
         ...options?.headers,
-        "User-Agent": slug,
+        "User-Agent": userAgent,
       },
     });
   };
