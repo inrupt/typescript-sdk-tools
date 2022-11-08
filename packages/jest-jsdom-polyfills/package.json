@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/inrupt/javascript-style-configs.git"
+    "url": "git+https://github.com/inrupt/typescript-sdk-tools.git"
   },
   "keywords": [
     "inrupt",
@@ -21,9 +21,9 @@
   "author": "Inrupt <engineering@inrupt.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/inrupt/javascript-style-configs/issues"
+    "url": "https://github.com/inrupt/typescript-sdk-tools/issues"
   },
-  "homepage": "https://github.com/inrupt/javascript-style-configs#readme",
+  "homepage": "https://github.com/inrupt/typescript-sdk-tools#readme",
   "dependencies": {
     "@peculiar/webcrypto": "^1.4.0",
     "@web-std/blob": "^3.0.4",
