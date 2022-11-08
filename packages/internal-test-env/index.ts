@@ -132,7 +132,7 @@ export function setupEnv() {
     path: envPath,
     silent: true,
   });
-  console.log(`envPath: ${envPath}`);
+
   if (!process.env.E2E_TEST_ENVIRONMENT) {
     console.error(
       `We didn't find the given environment variable E2E_TEST_ENVIRONMENT,
