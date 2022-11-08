@@ -334,7 +334,7 @@ export async function setupTestResources(
       // When running the test from CI, use a random container name to avoid collision.
       // It could be useful to give the container a distinctive name when running the
       // tests locally though, so that the Pod is easier to inspect.
-      slugSuggestion: process.env.CI === "true" ? undefined : slug,
+      slugSuggestion: process.env.CI === "true" ? undefined : userAgent,
     })
   );
   const resourceUrl = getSourceIri(
