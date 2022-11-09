@@ -52,20 +52,20 @@ export type AvailableProtocol = typeof availableProtocol extends Array<infer E>
 export interface TestingEnvironmentNode {
   environment: AvailableEnvironment;
   idp: string;
-  notificationGateway: string;
-  protocol: AvailableProtocol;
+  notificationGateway: string | undefined;
+  protocol: AvailableProtocol | undefined;
   clientCredentials: {
     requestor: {
       id: string;
       secret: string;
     };
     resourceOwner: {
-      id: string;
-      secret: string;
+      id: string | undefined;
+      secret: string | undefined;
     };
   };
-  vcProvider: string;
-  features: FeatureFlags;
+  vcProvider: string | undefined;
+  features: FeatureFlags | undefined;
 }
 export interface TestingEnvironmentBrowser {
   clientCredentials: {
@@ -75,41 +75,39 @@ export interface TestingEnvironmentBrowser {
     };
   };
   idp: string;
-  notificationGateway: string;
-  features: FeatureFlags;
+  notificationGateway: string | undefined;
+  features: FeatureFlags | undefined;
 }
 
 type FeatureFlags = {
   [key: string]: any;
 };
+
 export interface EnvVariables {
-  // Shared ENV VARS - Required
+  // Common Envs
   E2E_TEST_ENVIRONMENT: AvailableEnvironment;
-  E2E_TEST_NOTIFICATION_PROTOCOL: AvailableProtocol;
   E2E_TEST_IDP: string;
-  E2E_TEST_NOTIFICATION_GATEWAY: string;
-
-  // Browser login ENV VARS
-  E2E_TEST_USER: string | undefined;
-  E2E_TEST_PASSWORD: string | undefined;
-
-  // VC service provider
-  E2E_TEST_VC_PROVIDER: string;
-
-  // Client credentials for node service
-  E2E_TEST_CLIENT_ID: string;
-  E2E_TEST_CLIENT_SECRET: string;
+  E2E_TEST_USER: string;
+  E2E_TEST_PASSWORD: string;
 
   // Client credentials for the access requestor
   E2E_TEST_REQUESTOR_CLIENT_ID: string;
   E2E_TEST_REQUESTOR_CLIENT_SECRET: string;
 
-  // Client credentials for the resource owner
-  E2E_TEST_RESOURCE_OWNER_CLIENT_ID: string;
-  E2E_TEST_RESOURCE_OWNER_CLIENT_SECRET: string;
+  // Needed for solid-notifications-js
+  E2E_TEST_NOTIFICATION_GATEWAY: string | undefined;
+  E2E_TEST_NOTIFICATION_PROTOCOL: AvailableProtocol | undefined;
 
-  E2E_TEST_FEATURE_FLAG_ACP: boolean | undefined;
-  E2E_TEST_FEATURE_FLAG_WAC: boolean | undefined;
+  // VC service provider
+  E2E_TEST_VC_PROVIDER: string | undefined;
+
+  // Client credentials for the resource owner
+  E2E_TEST_RESPONDER_CLIENT_ID: string | undefined;
+  E2E_TEST_RESPONDER_CLIENT_SECRET: string | undefined;
+
+  E2E_TEST_FEATURE_ACP: boolean | undefined;
+  E2E_TEST_FEATURE_ACP_V3: boolean | undefined;
+  E2E_TEST_FEATURE_WAC: boolean | undefined;
 }
 
 let envLoaded = false;
@@ -194,9 +192,7 @@ function getTestingEnvironment(
   }
 }
 
-export function getNodeTestingEnvironment(
-  features?: FeatureFlags
-): TestingEnvironmentNode {
+export function getNodeTestingEnvironment(): TestingEnvironmentNode {
   setupEnv();
   getTestingEnvironment(process.env);
 
@@ -237,7 +233,7 @@ export function getNodeTestingEnvironment(
       );
     }
   }
-  console.log(`featuredFlags: ${featuredFlags}`);
+
   return {
     idp: process.env.E2E_TEST_IDP,
     environment: process.env.E2E_TEST_ENVIRONMENT,
@@ -258,9 +254,7 @@ export function getNodeTestingEnvironment(
   };
 }
 
-export function getBrowserTestingEnvironment(
-  features?: FeatureFlags
-): TestingEnvironmentBrowser {
+export function getBrowserTestingEnvironment(): TestingEnvironmentBrowser {
   setupEnv();
   getTestingEnvironment(process.env);
 
