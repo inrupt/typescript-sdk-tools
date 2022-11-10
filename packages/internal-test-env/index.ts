@@ -200,7 +200,6 @@ export interface LibraryVariables {
 }
 
 function validateLibVars(vars: LibraryVariables): object {
-  console.log("Starting to validate library variables");
   if (
     typeof vars.notificationGateway !== "undefined" &&
     typeof vars.notificationGateway !== "string"
