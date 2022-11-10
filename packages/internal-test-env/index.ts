@@ -30,7 +30,7 @@ import {
   saveSolidDatasetInContainer,
 } from "@inrupt/solid-client";
 
-const availableEnvironment = [
+export const availableEnvironment = [
   "ESS Dev-Next" as const,
   "ESS PodSpaces" as const,
   "NSS" as const,
@@ -45,21 +45,19 @@ export type AvailableEnvironment = typeof availableEnvironment extends Array<
 
 const availableProtocol = ["ESS Notifications Protocol" as const];
 
-export type AvailableProtocol = typeof availableProtocol extends Array<infer E>
+type AvailableProtocol = typeof availableProtocol extends Array<infer E>
   ? E
   : never;
 
 export interface TestingEnvironmentNode {
   environment: AvailableEnvironment;
   idp: string;
-  notificationGateway: string | undefined;
-  protocol: AvailableProtocol | undefined;
   clientCredentials: {
-    requestor: {
+    owner: {
       id: string;
       secret: string;
     };
-    resourceOwner: {
+    requestor: {
       id: string | undefined;
       secret: string | undefined;
     };
@@ -69,13 +67,12 @@ export interface TestingEnvironmentNode {
 }
 export interface TestingEnvironmentBrowser {
   clientCredentials: {
-    resourceOwner: {
+    requestor: {
       login: string;
       password: string;
     };
   };
   idp: string;
-  notificationGateway: string | undefined;
   features: FeatureFlags | undefined;
 }
 
@@ -90,10 +87,6 @@ export interface EnvVariables {
   E2E_TEST_USER: string;
   E2E_TEST_PASSWORD: string;
 
-  // Client credentials for the access requestor
-  E2E_TEST_REQUESTOR_CLIENT_ID: string;
-  E2E_TEST_REQUESTOR_CLIENT_SECRET: string;
-
   // Needed for solid-notifications-js
   E2E_TEST_NOTIFICATION_GATEWAY: string | undefined;
   E2E_TEST_NOTIFICATION_PROTOCOL: AvailableProtocol | undefined;
@@ -102,8 +95,11 @@ export interface EnvVariables {
   E2E_TEST_VC_PROVIDER: string | undefined;
 
   // Client credentials for the resource owner
-  E2E_TEST_RESPONDER_CLIENT_ID: string | undefined;
-  E2E_TEST_RESPONDER_CLIENT_SECRET: string | undefined;
+  E2E_TEST_OWNER_CLIENT_ID: string;
+  E2E_TEST_OWNER_CLIENT_SECRET: string;
+  // Client credentials for the access requestor
+  E2E_TEST_REQUESTOR_CLIENT_ID: string | undefined;
+  E2E_TEST_REQUESTOR_CLIENT_SECRET: string | undefined;
 
   E2E_TEST_FEATURE_ACP: boolean | undefined;
   E2E_TEST_FEATURE_ACP_V3: boolean | undefined;
@@ -141,7 +137,7 @@ ${envPath}`
 
   // Creating feature flag object if there are feature flags
   Object.keys(process.env)
-    .filter((envVar) => /E2E_TEST_FEATURE.*/.test(envVar))
+    .filter((envVar) => envVar.startsWith("E2E_TEST_FEATURE_"))
     .forEach((key) => (featuredFlags[key] = process.env[key]));
   // Marking env as loaded
   envLoaded = true;
@@ -237,14 +233,12 @@ export function getNodeTestingEnvironment(): TestingEnvironmentNode {
   return {
     idp: process.env.E2E_TEST_IDP,
     environment: process.env.E2E_TEST_ENVIRONMENT,
-    protocol: process.env.E2E_TEST_NOTIFICATION_PROTOCOL,
-    notificationGateway: process.env.E2E_TEST_NOTIFICATION_GATEWAY,
     clientCredentials: {
       requestor: {
         id: process.env.E2E_TEST_REQUESTOR_CLIENT_ID,
         secret: process.env.E2E_TEST_REQUESTOR_CLIENT_SECRET,
       },
-      resourceOwner: {
+      owner: {
         id: process.env.E2E_TEST_OWNER_CLIENT_ID,
         secret: process.env.E2E_TEST_OWNER_CLIENT_SECRET,
       },
@@ -267,13 +261,12 @@ export function getBrowserTestingEnvironment(): TestingEnvironmentBrowser {
 
   return {
     clientCredentials: {
-      resourceOwner: {
+      requestor: {
         login: process.env.E2E_TEST_USER,
         password: process.env.E2E_TEST_PASSWORD,
       },
     },
     idp: process.env.E2E_TEST_IDP,
-    notificationGateway: process.env.E2E_TEST_NOTIFICATION_GATEWAY,
     features: featuredFlags,
   };
 }
@@ -284,8 +277,8 @@ export async function getAuthenticatedSession(
   const session = new Session();
   await session.login({
     oidcIssuer: authDetails.idp,
-    clientId: authDetails.clientCredentials.resourceOwner.id,
-    clientSecret: authDetails.clientCredentials.resourceOwner.secret,
+    clientId: authDetails.clientCredentials.owner.id,
+    clientSecret: authDetails.clientCredentials.owner.secret,
   });
 
   if (!session.info.isLoggedIn) {
@@ -296,6 +289,9 @@ export async function getAuthenticatedSession(
 }
 
 export async function getPodRoot(session: Session) {
+  if (!(typeof session.info.webId === "string")) {
+    throw new Error("Missing our webid, unable to find PodRoot");
+  }
   const podRootAll = await getPodUrlAll(session.info.webId as string);
   if (podRootAll.length === 0) {
     throw new Error(
