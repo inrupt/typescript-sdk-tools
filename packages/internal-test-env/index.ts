@@ -219,12 +219,12 @@ export function getNodeTestingEnvironment(): TestingEnvironmentNode {
     }
   }
   if (
-    process.env.E2E_TEST_RESOURCE_OWNER_CLIENT_ID !== undefined ||
-    process.env.E2E_TEST_RESOURCE_OWNER_CLIENT_SECRET !== undefined
+    process.env.E2E_TEST_OWNER_CLIENT_ID !== undefined ||
+    process.env.E2E_TEST_OWNER_CLIENT_SECRET !== undefined
   ) {
-    if (typeof process.env.E2E_TEST_RESOURCE_OWNER_CLIENT_ID !== "string") {
+    if (typeof process.env.E2E_TEST_OWNER_CLIENT_ID !== "string") {
       throw new Error(
-        "The environment variable E2E_TEST_RESOURCE_OWNER_CLIENT_ID is undefined."
+        "The environment variable E2E_TEST_OWNER_CLIENT_ID is undefined."
       );
     }
     if (typeof process.env.E2E_TEST_REQUESTOR_CLIENT_SECRET !== "string") {
@@ -245,8 +245,8 @@ export function getNodeTestingEnvironment(): TestingEnvironmentNode {
         secret: process.env.E2E_TEST_REQUESTOR_CLIENT_SECRET,
       },
       resourceOwner: {
-        id: process.env.E2E_TEST_RESOURCE_OWNER_CLIENT_ID,
-        secret: process.env.E2E_TEST_RESOURCE_OWNER_CLIENT_SECRET,
+        id: process.env.E2E_TEST_OWNER_CLIENT_ID,
+        secret: process.env.E2E_TEST_OWNER_CLIENT_SECRET,
       },
     },
     vcProvider: process.env.E2E_TEST_VC_PROVIDER,
