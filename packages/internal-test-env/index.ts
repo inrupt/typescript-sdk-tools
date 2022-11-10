@@ -49,9 +49,7 @@ type AvailableProtocol = typeof availableProtocol extends Array<infer E>
   ? E
   : never;
 
-export interface TestingEnvironmentNode {
-  environment: AvailableEnvironment;
-  idp: string;
+export interface TestingEnvironmentNode extends TestingEnvironmentBase {
   clientCredentials: {
     owner: {
       id: string;
@@ -63,15 +61,18 @@ export interface TestingEnvironmentNode {
     };
   };
   vcProvider: string | undefined;
-  features: FeatureFlags | undefined;
 }
-export interface TestingEnvironmentBrowser {
+export interface TestingEnvironmentBrowser extends TestingEnvironmentBase {
   clientCredentials: {
     requestor: {
       login: string;
       password: string;
     };
   };
+}
+
+export interface TestingEnvironmentBase {
+  environment: AvailableEnvironment;
   idp: string;
   features: FeatureFlags | undefined;
 }
