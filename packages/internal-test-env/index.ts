@@ -21,6 +21,7 @@
 import { config } from "dotenv-flow";
 import { join } from "path";
 import { Session } from "@inrupt/solid-client-authn-node";
+import merge from "deepmerge-json";
 import {
   createContainerInContainer,
   createSolidDataset,
@@ -43,32 +44,26 @@ export type AvailableEnvironment = typeof availableEnvironment extends Array<
   ? E
   : never;
 
-const availableProtocol = ["ESS Notifications Protocol" as const];
-
-type AvailableProtocol = typeof availableProtocol extends Array<infer E>
-  ? E
-  : never;
-
 export interface TestingEnvironmentNode extends TestingEnvironmentBase {
   clientCredentials: {
     owner: {
       id: string;
       secret: string;
     };
-    requestor: {
+    requestor?: {
       id: string | undefined;
       secret: string | undefined;
     };
   };
-  vcProvider: string | undefined;
 }
 export interface TestingEnvironmentBrowser extends TestingEnvironmentBase {
   clientCredentials: {
-    requestor: {
+    owner: {
       login: string;
       password: string;
     };
   };
+  notificationGateway?: string;
 }
 
 export interface TestingEnvironmentBase {
@@ -80,35 +75,13 @@ export interface TestingEnvironmentBase {
 type FeatureFlags = {
   [key: string]: any;
 };
-
+let envLoaded = false;
+let featuredFlags: FeatureFlags = {};
 export interface EnvVariables {
   // Common Envs
   E2E_TEST_ENVIRONMENT: AvailableEnvironment;
   E2E_TEST_IDP: string;
-  E2E_TEST_USER: string;
-  E2E_TEST_PASSWORD: string;
-
-  // Needed for solid-notifications-js
-  E2E_TEST_NOTIFICATION_GATEWAY: string | undefined;
-  E2E_TEST_NOTIFICATION_PROTOCOL: AvailableProtocol | undefined;
-
-  // VC service provider
-  E2E_TEST_VC_PROVIDER: string | undefined;
-
-  // Client credentials for the resource owner
-  E2E_TEST_OWNER_CLIENT_ID: string;
-  E2E_TEST_OWNER_CLIENT_SECRET: string;
-  // Client credentials for the access requestor
-  E2E_TEST_REQUESTOR_CLIENT_ID: string | undefined;
-  E2E_TEST_REQUESTOR_CLIENT_SECRET: string | undefined;
-
-  E2E_TEST_FEATURE_ACP: boolean | undefined;
-  E2E_TEST_FEATURE_ACP_V3: boolean | undefined;
-  E2E_TEST_FEATURE_WAC: boolean | undefined;
 }
-
-let envLoaded = false;
-let featuredFlags: FeatureFlags = {};
 
 export function setupEnv() {
   // If we're in CI, the environment is already configured.
@@ -162,34 +135,14 @@ function getTestingEnvironment(
     );
   }
 
-  if (
-    !availableProtocol.includes(
-      (environment as EnvVariables)
-        .E2E_TEST_NOTIFICATION_PROTOCOL as AvailableProtocol
-    )
-  ) {
-    throw new Error(
-      `Unknown protocol: [${
-        (environment as EnvVariables).E2E_TEST_NOTIFICATION_PROTOCOL
-      }]`
-    );
-  }
-
   if (typeof (environment as EnvVariables).E2E_TEST_IDP !== "string") {
     throw new Error("The environment variable E2E_TEST_IDP is undefined.");
   }
-
-  if (
-    typeof (environment as EnvVariables).E2E_TEST_NOTIFICATION_GATEWAY !==
-    "string"
-  ) {
-    throw new Error(
-      "The environment variable E2E_TEST_NOTIFICATION_GATEWAY is undefined."
-    );
-  }
 }
 
-export function getNodeTestingEnvironment(): TestingEnvironmentNode {
+export function getNodeTestingEnvironment(
+  libVars: LibraryVariables
+): TestingEnvironmentNode {
   setupEnv();
   getTestingEnvironment(process.env);
 
@@ -208,52 +161,87 @@ export function getNodeTestingEnvironment(): TestingEnvironmentNode {
         "The environment variable E2E_TEST_REQUESTOR_CLIENT_SECRET is undefined."
       );
     }
-
-    if (typeof process.env.E2E_TEST_VC_PROVIDER !== "string") {
-      throw new Error(
-        "The environment variable E2E_TEST_VC_PROVIDER is undefined."
-      );
-    }
-  }
-  if (
-    process.env.E2E_TEST_OWNER_CLIENT_ID !== undefined ||
-    process.env.E2E_TEST_OWNER_CLIENT_SECRET !== undefined
-  ) {
-    if (typeof process.env.E2E_TEST_OWNER_CLIENT_ID !== "string") {
-      throw new Error(
-        "The environment variable E2E_TEST_OWNER_CLIENT_ID is undefined."
-      );
-    }
-    if (typeof process.env.E2E_TEST_REQUESTOR_CLIENT_SECRET !== "string") {
-      throw new Error(
-        "The environment variable E2E_TEST_REQUESTOR_CLIENT_SECRET is undefined."
-      );
-    }
   }
 
-  return {
+  const base = {
     idp: process.env.E2E_TEST_IDP,
     environment: process.env.E2E_TEST_ENVIRONMENT,
     clientCredentials: {
-      requestor: {
-        id: process.env.E2E_TEST_REQUESTOR_CLIENT_ID,
-        secret: process.env.E2E_TEST_REQUESTOR_CLIENT_SECRET,
-      },
       owner: {
         id: process.env.E2E_TEST_OWNER_CLIENT_ID,
         secret: process.env.E2E_TEST_OWNER_CLIENT_SECRET,
       },
     },
-    vcProvider: process.env.E2E_TEST_VC_PROVIDER,
     features: featuredFlags,
+  };
+
+  return libVars ? merge(validateLibVars(libVars), base) : base;
+}
+
+export interface LibraryVariables {
+  notificationGateway?: string;
+  notificationProtocol?: string;
+  clientCredentials?: {
+    owner?: {
+      id: string;
+      secret: string;
+      login: string;
+      password: string;
+    };
+    requestor?: {
+      id?: string;
+      secret?: string;
+    };
   };
 }
 
-export function getBrowserTestingEnvironment(): TestingEnvironmentBrowser {
-  setupEnv();
-  getTestingEnvironment(process.env);
+function validateLibVars(vars: LibraryVariables): object {
+  console.log("Starting to valdiate library variables");
+  if (
+    vars.notificationGateway &&
+    typeof vars.notificationGateway !== "string"
+  ) {
+    throw new Error(
+      "Missing the E2E_TEST_NOTIFICATION_GATEWAY environment variable"
+    );
+  }
+  if (
+    vars.clientCredentials?.owner?.id &&
+    typeof vars.clientCredentials.owner.id !== "string"
+  ) {
+    throw new Error(
+      "Missing the E2E_TEST_OWNER_CLIENT_ID environment variable"
+    );
+  }
+  if (
+    vars.clientCredentials?.owner?.secret &&
+    typeof vars.clientCredentials.owner.secret !== "string"
+  ) {
+    throw new Error(
+      "Missing the E2E_TEST_OWNER_CLIENT_SECRET environment variable"
+    );
+  }
 
-  if (process.env.E2E_TEST_USER === undefined) {
+  if (
+    vars.clientCredentials?.requestor?.id &&
+    typeof vars.clientCredentials.requestor.id !== "string"
+  ) {
+    throw new Error(
+      "Missing the E2E_TEST_REQUESTOR_CLIENT_ID environment variable"
+    );
+  }
+  if (
+    vars.clientCredentials?.requestor?.secret &&
+    typeof vars.clientCredentials.requestor.secret !== "string"
+  ) {
+    throw new Error(
+      "Missing the E2E_TEST_REQUESTOR_CLIENT_SECRET environment variable"
+    );
+  }
+  if (
+    vars.clientCredentials?.owner?.login &&
+    typeof vars.clientCredentials.owner.login !== "string"
+  ) {
     throw new Error("The environment variable E2E_TEST_USER is undefined.");
   }
   if (process.env.E2E_TEST_PASSWORD === undefined) {
@@ -261,16 +249,34 @@ export function getBrowserTestingEnvironment(): TestingEnvironmentBrowser {
   }
 
   return {
+    notificationGateway: process.env.E2E_TEST_NOTIFICATION_GATEWAY,
     clientCredentials: {
-      requestor: {
+      owner: {
+        id: process.env.E2E_TEST_OWNER_CLIENT_ID,
+        secret: process.env.E2E_TEST_OWNER_CLIENT_SECRET,
         login: process.env.E2E_TEST_USER,
         password: process.env.E2E_TEST_PASSWORD,
       },
+      requestor: {
+        id: process.env.E2E_TEST_REQUESTOR_CLIENT_ID,
+        secret: process.env.E2E_TEST_REQUESTOR_CLIENT_SECRET,
+      },
     },
+  };
+}
+
+export function getBrowserTestingEnvironment(
+  libVars?: LibraryVariables
+): TestingEnvironmentBrowser {
+  setupEnv();
+  getTestingEnvironment(process.env);
+
+  const base = {
     environment: process.env.E2E_TEST_ENVIRONMENT,
     idp: process.env.E2E_TEST_IDP,
     features: featuredFlags,
   };
+  return libVars ? merge(validateLibVars(libVars), base) : base;
 }
 
 export async function getAuthenticatedSession(
