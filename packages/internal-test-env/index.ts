@@ -267,6 +267,7 @@ export function getBrowserTestingEnvironment(): TestingEnvironmentBrowser {
         password: process.env.E2E_TEST_PASSWORD,
       },
     },
+    environment: process.env.E2E_TEST_ENVIRONMENT,
     idp: process.env.E2E_TEST_IDP,
     features: featuredFlags,
   };
