@@ -45,10 +45,19 @@ export type AvailableEnvironment = typeof availableEnvironment extends Array<
   : never;
 
 export interface TestingEnvironmentNode extends TestingEnvironmentBase {
+  notificationGateway?: string;
+  notificationProtocol?: string;
+  vcProvider?: string;
   clientCredentials: {
     owner: {
       id: string;
       secret: string;
+      login?: string;
+      password?: string;
+    };
+    requestor?: {
+      id?: string;
+      secret?: string;
     };
   };
 }
@@ -169,7 +178,7 @@ export function getNodeTestingEnvironment(
     features: featuredFlags,
   };
 
-  return libVars ? merge(validateLibVars(libVars), base) : base;
+  return libVars ? merge(base, validateLibVars(libVars)) : base;
 }
 
 export interface LibraryVariables {
@@ -248,6 +257,7 @@ function validateLibVars(vars: LibraryVariables): object {
 
   return {
     notificationGateway: process.env.E2E_TEST_NOTIFICATION_GATEWAY,
+    notificationProtocol: process.env.E2E_TEST_NOTIFICATION_PROTOCOL,
     vcProvider: process.env.E2E_TEST_VC_PROVIDER,
     clientCredentials: {
       owner: {
@@ -288,11 +298,7 @@ export async function getAuthenticatedSession(
   authDetails: TestingEnvironmentNode
 ): Promise<Session> {
   const session = new Session();
-  console.log({
-    oidcIssuer: authDetails.idp,
-    clientId: authDetails.clientCredentials.owner.id,
-    clientSecret: authDetails.clientCredentials.owner.secret,
-  });
+
   await session.login({
     oidcIssuer: authDetails.idp,
     clientId: authDetails.clientCredentials.owner.id,
