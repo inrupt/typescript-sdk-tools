@@ -18,7 +18,7 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
-import { config } from "dotenv-flow";
+import { config } from "dotenv";
 import { join } from "path";
 import { Session } from "@inrupt/solid-client-authn-node";
 import merge from "deepmerge-json";
@@ -50,10 +50,6 @@ export interface TestingEnvironmentNode extends TestingEnvironmentBase {
       id: string;
       secret: string;
     };
-    requestor?: {
-      id: string | undefined;
-      secret: string | undefined;
-    };
   };
 }
 export interface TestingEnvironmentBrowser extends TestingEnvironmentBase {
@@ -63,7 +59,6 @@ export interface TestingEnvironmentBrowser extends TestingEnvironmentBase {
       password: string;
     };
   };
-  notificationGateway?: string;
 }
 
 export interface TestingEnvironmentBase {
@@ -93,12 +88,11 @@ export function setupEnv() {
     return;
   }
 
-  const envPath = join(process.cwd(), "e2e/env");
+  const envPath = join(process.cwd(), "e2e/env/.env.local");
 
   // Otherwise load dotenv configuration
   config({
     path: envPath,
-    silent: true,
   });
 
   if (!process.env.E2E_TEST_ENVIRONMENT) {
@@ -141,7 +135,7 @@ function getTestingEnvironment(
 }
 
 export function getNodeTestingEnvironment(
-  libVars: LibraryVariables
+  libVars?: LibraryVariables
 ): TestingEnvironmentNode {
   setupEnv();
   getTestingEnvironment(process.env);
@@ -181,12 +175,13 @@ export function getNodeTestingEnvironment(
 export interface LibraryVariables {
   notificationGateway?: string;
   notificationProtocol?: string;
+  vcProvider?: string;
   clientCredentials?: {
     owner?: {
-      id: string;
-      secret: string;
-      login: string;
-      password: string;
+      id?: string;
+      secret?: string;
+      login?: string;
+      password?: string;
     };
     requestor?: {
       id?: string;
@@ -196,9 +191,9 @@ export interface LibraryVariables {
 }
 
 function validateLibVars(vars: LibraryVariables): object {
-  console.log("Starting to valdiate library variables");
+  console.log("Starting to validate library variables");
   if (
-    vars.notificationGateway &&
+    typeof vars.notificationGateway !== "undefined" &&
     typeof vars.notificationGateway !== "string"
   ) {
     throw new Error(
@@ -244,12 +239,16 @@ function validateLibVars(vars: LibraryVariables): object {
   ) {
     throw new Error("The environment variable E2E_TEST_USER is undefined.");
   }
-  if (process.env.E2E_TEST_PASSWORD === undefined) {
+  if (
+    vars.clientCredentials?.owner?.password &&
+    typeof vars.clientCredentials.owner.password !== "string"
+  ) {
     throw new Error("The environment variable E2E_TEST_PASSWORD is undefined.");
   }
 
   return {
     notificationGateway: process.env.E2E_TEST_NOTIFICATION_GATEWAY,
+    vcProvider: process.env.E2E_TEST_VC_PROVIDER,
     clientCredentials: {
       owner: {
         id: process.env.E2E_TEST_OWNER_CLIENT_ID,
@@ -275,6 +274,12 @@ export function getBrowserTestingEnvironment(
     environment: process.env.E2E_TEST_ENVIRONMENT,
     idp: process.env.E2E_TEST_IDP,
     features: featuredFlags,
+    clientCredentials: {
+      owner: {
+        user: process.env.E2E_TEST_USER,
+        password: process.env.E2E_TEST_PASSWORD,
+      },
+    },
   };
   return libVars ? merge(validateLibVars(libVars), base) : base;
 }
@@ -283,6 +288,11 @@ export async function getAuthenticatedSession(
   authDetails: TestingEnvironmentNode
 ): Promise<Session> {
   const session = new Session();
+  console.log({
+    oidcIssuer: authDetails.idp,
+    clientId: authDetails.clientCredentials.owner.id,
+    clientSecret: authDetails.clientCredentials.owner.secret,
+  });
   await session.login({
     oidcIssuer: authDetails.idp,
     clientId: authDetails.clientCredentials.owner.id,
@@ -311,13 +321,8 @@ export async function getPodRoot(session: Session) {
   return podRootAll[0];
 }
 
-export async function setupTestResources(
-  session: Session,
-  userAgent: string,
-  podRoot: string
-) {
-  // Set the user agent to something distinctive to make debug easier
-  const fetchWithAgent: typeof fetch = (url, options?) => {
+export function createFetch(session: Session, userAgent: string): typeof fetch {
+  return (url, options?) => {
     return session.fetch(url, {
       ...options,
       headers: {
@@ -326,30 +331,32 @@ export async function setupTestResources(
       },
     });
   };
+}
+
+export async function setupTestResources(
+  podRoot: string,
+  fetchOptions: { fetch: typeof fetch }
+) {
   const containerUrl = getSourceIri(
-    await createContainerInContainer(podRoot, {
-      fetch: fetchWithAgent,
-      // When running the test from CI, use a random container name to avoid collision.
-      // It could be useful to give the container a distinctive name when running the
-      // tests locally though, so that the Pod is easier to inspect.
-      slugSuggestion: process.env.CI === "true" ? undefined : userAgent,
-    })
+    await createContainerInContainer(podRoot, fetchOptions)
   );
   const resourceUrl = getSourceIri(
-    await saveSolidDatasetInContainer(containerUrl, createSolidDataset(), {
-      fetch: fetchWithAgent,
-    })
+    await saveSolidDatasetInContainer(
+      containerUrl,
+      createSolidDataset(),
+      fetchOptions
+    )
   );
-  return { containerUrl, resourceUrl, fetchWithAgent };
+  return { containerUrl, resourceUrl };
 }
 
 export async function teardownTestResources(
   session: Session,
   containerUrl: string,
   resourceUrl: string,
-  userAgentFetch: typeof fetch
+  fetchOptions: { fetch: typeof fetch }
 ) {
-  await deleteSolidDataset(resourceUrl, { fetch: userAgentFetch });
-  await deleteSolidDataset(containerUrl, { fetch: userAgentFetch });
+  await deleteSolidDataset(resourceUrl, fetchOptions);
+  await deleteSolidDataset(containerUrl, fetchOptions);
   await session.logout();
 }
