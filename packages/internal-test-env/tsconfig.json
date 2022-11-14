@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    /* Basic Options */
+    "target": "ES2018",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "lib": ["es2018", "dom"],
+    "declaration": true,
+    "outDir": "dist",
+    "rootDir": ".",
+    "strict": true,
+    "esModuleInterop": true,
+    // Prevent developers on different OSes from running into problems:
+    "forceConsistentCasingInFileNames": true,
+    /* Advanced Options */
+    "stripInternal": true,
+    "allowJs": false
+  },
+  "include": ["index.ts"],
+  "typedocOptions": {
+    "out": "docs/api/source/api",
+    "entryPoints": [
+      // The source files of everything listed under `exports` in our package.json
+      // (i.e. public API's that should be documented) should be listed here:
+      "index.ts"
+    ],
+    "exclude": ["node_modules/**"],
+    "theme": "markdown",
+    "readme": "none",
+    "hideInPageTOC": true,
+    "entryDocument": "index.md"
+  }
+}
