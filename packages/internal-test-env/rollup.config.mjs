@@ -3,17 +3,9 @@
 
 // Until we only support Node 18+, this should be used instead
 // (see https://rollupjs.org/guide/en/#importing-packagejson)
-// import { createRequire } from "node:module";
-// const require = createRequire(import.meta.url);
-// const pkg = require("./package.json");
-
-import { readFileSync } from "node:fs";
-
-// Use import.meta.url to make the path relative to the current source file instead of process.cwd()
-// For more info: https://nodejs.org/docs/latest-v16.x/api/esm.html#importmetaurl
-const packageJson = JSON.parse(
-  readFileSync(new URL("./package.json", import.meta.url))
-);
+import { createRequire } from "node:module";
+const require = createRequire(import.meta.url);
+const pkg = require("./package.json");
 
 import typescript from "rollup-plugin-typescript2";
 
@@ -39,7 +31,7 @@ const rollupDefaultConfig = { external, plugins };
 
 export default [
   {
-    input: "index.ts",
+    input: "./index.ts",
     output: [
       {
         file: pkg.main,
@@ -59,7 +51,7 @@ export default [
     ...rollupDefaultConfig,
   },
   {
-    input: ["index.ts"],
+    input: ["./index.ts"],
     output: {
       dir: "dist",
       entryFileNames: "[name].mjs",
@@ -69,7 +61,7 @@ export default [
     ...rollupDefaultConfig,
   },
   {
-    input: ["index.ts"],
+    input: ["./index.ts"],
     output: {
       dir: "dist",
       entryFileNames: "[name].d.ts",
