@@ -31,27 +31,23 @@ const rollupDefaultConfig = { external, plugins };
 
 export default [
   {
-    input: "./index.ts",
+    input: "index.ts",
     output: [
       {
         file: pkg.main,
         format: "cjs",
       },
       {
+
         file: pkg.module,
         entryFileNames: "[name].es.js",
         format: "esm",
-      },
-      {
-        dir: "umd",
-        format: "umd",
-        name: "SolidAccess",
       },
     ],
     ...rollupDefaultConfig,
   },
   {
-    input: ["./index.ts"],
+    input: ["index.ts"],
     output: {
       dir: "dist",
       entryFileNames: "[name].mjs",
@@ -61,7 +57,7 @@ export default [
     ...rollupDefaultConfig,
   },
   {
-    input: ["./index.ts"],
+    input: ["index.ts"],
     output: {
       dir: "dist",
       entryFileNames: "[name].d.ts",
