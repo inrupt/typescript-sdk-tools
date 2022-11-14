@@ -16,7 +16,7 @@
     "stripInternal": true,
     "allowJs": false
   },
-  "include": ["index.ts"],
+  "include": ["./index.js"],
   "typedocOptions": {
     "out": "docs/api/source/api",
     "entryPoints": [

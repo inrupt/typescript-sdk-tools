@@ -11,7 +11,6 @@ import typescript from "rollup-plugin-typescript2";
 
 const external = [
   ...Object.keys(pkg.dependencies || {}),
-  "@inrupt/solid-client-authn-browser",
   "@inrupt/solid-client-authn-node",
   "@inrupt/solid-client",
 ];

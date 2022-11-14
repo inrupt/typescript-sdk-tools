@@ -18,9 +18,9 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
-export { config } from "dotenv";
-export { join } from "path";
-export { Session } from "@inrupt/solid-client-authn-node";
+import { config } from "dotenv";
+import { join } from "path";
+import { Session } from "@inrupt/solid-client-authn-node";
 import merge from "deepmerge-json";
 import {
   createContainerInContainer,
