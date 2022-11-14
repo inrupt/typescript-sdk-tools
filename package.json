@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/inrupt/typescript-sdk-tools#readme",
   "dependencies": {
+    "deepmerge-json": "^1.5.0",
     "lerna": "^5.1.8"
   }
 }
