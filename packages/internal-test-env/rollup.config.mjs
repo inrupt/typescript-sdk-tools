@@ -32,6 +32,13 @@ const rollupDefaultConfig = { external, plugins };
 export default [
   {
     ...rollupDefaultConfig,
+    external: [
+      "dotenv",
+      "path",
+      "deepmerge-json",
+      "@inrupt/solid-client-authn-node",
+      "@inrupt/solid-client",
+    ],
     input: "index.ts",
     output: [
       {
@@ -47,6 +54,13 @@ export default [
   },
   {
     ...rollupDefaultConfig,
+    external: [
+      "dotenv",
+      "path",
+      "deepmerge-json",
+      "@inrupt/solid-client-authn-node",
+      "@inrupt/solid-client",
+    ],
     input: ["index.ts"],
     output: {
       dir: "dist",
