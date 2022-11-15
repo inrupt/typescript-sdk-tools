@@ -31,6 +31,7 @@ const rollupDefaultConfig = { external, plugins };
 
 export default [
   {
+    ...rollupDefaultConfig,
     input: "index.ts",
     output: [
       {
@@ -38,25 +39,14 @@ export default [
         format: "cjs",
       },
       {
-
         file: pkg.module,
         entryFileNames: "[name].es.js",
         format: "esm",
       },
     ],
-    ...rollupDefaultConfig,
   },
   {
-    input: ["index.ts"],
-    output: {
-      dir: "dist",
-      entryFileNames: "[name].mjs",
-      format: "esm",
-      preserveModules: true,
-    },
     ...rollupDefaultConfig,
-  },
-  {
     input: ["index.ts"],
     output: {
       dir: "dist",
@@ -64,6 +54,5 @@ export default [
       format: "esm",
       preserveModules: true,
     },
-    ...rollupDefaultConfig,
   },
 ];
