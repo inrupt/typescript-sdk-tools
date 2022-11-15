@@ -20,6 +20,7 @@ jobs:
           cache: npm
           registry-url: "https://registry.npmjs.org"
       - run: npm ci --workspaces
+      - run: npm run build --if-present --workspaces
       - run: npm run release
         env:
           NODE_AUTH_TOKEN: ${{ secrets.INRUPT_NPM_TOKEN }}
