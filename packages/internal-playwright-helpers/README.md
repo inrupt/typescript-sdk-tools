@@ -11,7 +11,7 @@ This package contains utilities to help setup automated testing environments.
 Add the function import as needed.
 
 ```
-import { loginAndAccept } from "@inrupt/internal-playwright-helpers"
+import { loginAndAllow } from "@inrupt/internal-playwright-helpers"
 ```
 
-Then add in calls to the functions such as `loginAndAccept` to your test files.
+Then add in calls to the functions such as `loginAndAllow` to your test files.
