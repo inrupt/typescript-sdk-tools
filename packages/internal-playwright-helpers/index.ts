@@ -20,10 +20,13 @@
 //
 
 import { Page } from "@playwright/test";
-
+import { CognitoPage } from "./cognito";
+import { OpenIdPage } from "./open-id";
 import { getBrowserTestingEnvironment } from "@inrupt/internal-test-env";
 
-export class IndexPage {
+export { CognitoPage } from "./cognito";
+export { OpenIdPage } from "./open-id";
+export class TestPage {
   page: Page;
 
   constructor(page: Page) {
@@ -52,3 +55,23 @@ export class IndexPage {
     ]);
   }
 }
+
+export const loginAndAllow = async (
+  page: Page,
+  login: string,
+  password: string
+): Promise<void> => {
+  const testPage = new TestPage(page);
+  const cognitoPage = new CognitoPage(page);
+  const openIdPage = new OpenIdPage(page);
+
+  // Note: these steps must execute in series, not parallel, which is what
+  // Promise.all would do:
+  await testPage.startLogin();
+  await cognitoPage.login(login, password);
+  await openIdPage.allow();
+  await testPage.handleRedirect();
+};
+
+// TODO: write the loginAndDeny function
+// export const loginAndDeny = async (page: Page): Promise<void> => {};

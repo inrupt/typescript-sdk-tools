@@ -1,11 +1,14 @@
 {
-  "name": "page-models",
+  "name": "@inrupt/internal-playwright-helpers",
   "version": "1.0.0",
   "description": "This package provides page models for known common elements of the sdk testable UIs\"",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@playwright/test": "^1.28.0"
+  }
 }

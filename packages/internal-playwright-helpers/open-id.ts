@@ -21,14 +21,14 @@
 
 import { Page } from "@playwright/test";
 
-export class BrokerPage {
+export class OpenIdPage {
   page: Page;
 
   constructor(page: Page) {
     this.page = page;
   }
 
-  async authoriseOnce() {
+  async allow() {
     await Promise.all([
       // It is important to call waitForNavigation before click to set up waiting.
       this.page.waitForNavigation(),
@@ -36,4 +36,9 @@ export class BrokerPage {
       this.page.click("text=Allow"),
     ]);
   }
+
+  // TODO: write the deny function
+  // async deny() {
+
+  // }
 }
