@@ -210,7 +210,7 @@ function validateLibVars(vars: LibraryVariables): object {
   }
   if (
     vars.clientCredentials?.owner?.id === true &&
-    typeof vars.clientCredentials.owner.id !== "string"
+    typeof process.env.E2E_TEST_OWNER_CLIENT_ID !== "string"
   ) {
     throw new Error(
       "Missing the E2E_TEST_OWNER_CLIENT_ID environment variable"
@@ -218,7 +218,7 @@ function validateLibVars(vars: LibraryVariables): object {
   }
   if (
     vars.clientCredentials?.owner?.secret === true &&
-    typeof vars.clientCredentials.owner.secret !== "string"
+    typeof process.env.E2E_TEST_OWNER_CLIENT_SECRET !== "string"
   ) {
     throw new Error(
       "Missing the E2E_TEST_OWNER_CLIENT_SECRET environment variable"
@@ -227,7 +227,7 @@ function validateLibVars(vars: LibraryVariables): object {
 
   if (
     vars.clientCredentials?.requestor?.id === true &&
-    typeof vars.clientCredentials.requestor.id !== "string"
+    typeof process.env.E2E_TEST_REQUESTOR_CLIENT_ID !== "string"
   ) {
     throw new Error(
       "Missing the E2E_TEST_REQUESTOR_CLIENT_ID environment variable"
@@ -235,7 +235,7 @@ function validateLibVars(vars: LibraryVariables): object {
   }
   if (
     vars.clientCredentials?.requestor?.secret === true &&
-    typeof vars.clientCredentials.requestor.secret !== "string"
+    typeof process.env.E2E_TEST_REQUESTOR_CLIENT_SECRET !== "string"
   ) {
     throw new Error(
       "Missing the E2E_TEST_REQUESTOR_CLIENT_SECRET environment variable"
@@ -243,13 +243,13 @@ function validateLibVars(vars: LibraryVariables): object {
   }
   if (
     vars.clientCredentials?.owner?.login === true &&
-    typeof vars.clientCredentials.owner.login !== "string"
+    typeof process.env.E2E_TEST_USER !== "string"
   ) {
     throw new Error("The environment variable E2E_TEST_USER is undefined.");
   }
   if (
     vars.clientCredentials?.owner?.password === true &&
-    typeof vars.clientCredentials.owner.password !== "string"
+    typeof process.env.E2E_TEST_PASSWORD !== "string"
   ) {
     throw new Error("The environment variable E2E_TEST_PASSWORD is undefined.");
   }
