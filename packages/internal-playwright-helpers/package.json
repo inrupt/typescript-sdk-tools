@@ -1,7 +1,7 @@
 {
   "name": "@inrupt/internal-playwright-helpers",
   "version": "1.0.0",
-  "description": "This package provides page models for known common elements of the sdk testable UIs\"",
+  "description": "This package provides page models for known common elements of the sdk testable UIs",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "publishConfig": {
