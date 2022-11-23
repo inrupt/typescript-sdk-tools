@@ -11,7 +11,7 @@ import typescript from "rollup-plugin-typescript2";
 
 const external = [
   ...Object.keys(pkg.dependencies || {}),
-  "@inrupt/internal-test-env
+  "@inrupt/internal-test-env",
 ];
 
 const plugins = [
@@ -31,13 +31,7 @@ const rollupDefaultConfig = { external, plugins };
 export default [
   {
     ...rollupDefaultConfig,
-    external: [
-      "dotenv",
-      "path",
-      "deepmerge-json",
-      "@inrupt/solid-client-authn-node",
-      "@inrupt/solid-client",
-    ],
+    external: ["@inrupt/internal-playwright-helpers"],
     input: "index.ts",
     output: [
       {
@@ -53,17 +47,11 @@ export default [
   },
   {
     ...rollupDefaultConfig,
-    external: [
-      "dotenv",
-      "path",
-      "deepmerge-json",
-      "@inrupt/solid-client-authn-node",
-      "@inrupt/solid-client",
-    ],
+    external: ["@inrupt/internal-playwright-helpers"],
     input: ["index.ts"],
     output: {
       dir: "dist",
-      entryFileNames: "[name].d.ts",
+      entryFileNames: "[name].ts",
       format: "esm",
       preserveModules: true,
     },
