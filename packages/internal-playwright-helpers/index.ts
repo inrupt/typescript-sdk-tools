@@ -23,6 +23,7 @@ import { Page } from "@playwright/test";
 import { CognitoPage } from "./cognito";
 import { OpenIdPage } from "./open-id";
 import { getBrowserTestingEnvironment } from "@inrupt/internal-test-env";
+import { TESTID_OPENID_PROVIDER_INPUT, TESTID_LOGIN_BUTTON } from "@inrupt/internal-playwright-testids";
 
 export { CognitoPage } from "./cognito";
 export { OpenIdPage } from "./open-id";
@@ -35,12 +36,12 @@ export class TestPage {
 
   async startLogin() {
     const { idp } = getBrowserTestingEnvironment();
-    await this.page.fill("[data-testid=identityProviderInput]", idp);
+    await this.page.fill(`[data-testid=${TESTID_OPENID_PROVIDER_INPUT}]`, idp);
     await Promise.all([
       // It is important to call waitForNavigation before click to set up waiting.
       this.page.waitForNavigation(),
       // Clicking the link will indirectly cause a navigation.
-      this.page.click("[data-testid=loginButton]"),
+      this.page.click(`[data-testid=${TESTID_LOGIN_BUTTON}]`),
     ]);
   }
 

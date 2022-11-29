@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@inrupt/internal-test-env": "^1.4.2",
-    "@playwright/test": "^1.28.0"
+    "@playwright/test": "^1.28.0",
+    "@inrupt/internal-playwright-testids": "*"
   }
 }
