@@ -40,7 +40,7 @@ export default [
       },
       {
         file: pkg.module,
-        entryFileNames: "[name].es.js",
+        entryFileNames: "[name].mjs",
         format: "esm",
       },
     ],
@@ -51,7 +51,7 @@ export default [
     input: ["index.ts"],
     output: {
       dir: "dist",
-      entryFileNames: "[name].ts",
+      entryFileNames: "[name].js",
       format: "esm",
       preserveModules: true,
     },

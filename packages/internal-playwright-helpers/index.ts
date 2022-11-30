@@ -19,60 +19,8 @@
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import { Page } from "@playwright/test";
-import { CognitoPage } from "./cognito";
-import { OpenIdPage } from "./open-id";
-import { getBrowserTestingEnvironment } from "@inrupt/internal-test-env";
-import { TESTID_OPENID_PROVIDER_INPUT, TESTID_LOGIN_BUTTON } from "@inrupt/internal-playwright-testids";
-
 export { CognitoPage } from "./cognito";
 export { OpenIdPage } from "./open-id";
-export class TestPage {
-  page: Page;
-
-  constructor(page: Page) {
-    this.page = page;
-  }
-
-  async startLogin() {
-    const { idp } = getBrowserTestingEnvironment();
-    await this.page.fill(`[data-testid=${TESTID_OPENID_PROVIDER_INPUT}]`, idp);
-    await Promise.all([
-      // It is important to call waitForNavigation before click to set up waiting.
-      this.page.waitForNavigation(),
-      // Clicking the link will indirectly cause a navigation.
-      this.page.click(`[data-testid=${TESTID_LOGIN_BUTTON}]`),
-    ]);
-  }
-
-  async handleRedirect() {
-    // Wait for the backchannel exchange
-    await this.page.waitForRequest(
-      (request) =>
-        request.method() === "POST" && request.url().includes("/token")
-    );
-    await Promise.all([
-      this.page.waitForResponse((response) => response.status() === 200),
-    ]);
-  }
-}
-
-export const loginAndAllow = async (
-  page: Page,
-  login: string,
-  password: string
-): Promise<void> => {
-  const testPage = new TestPage(page);
-  const cognitoPage = new CognitoPage(page);
-  const openIdPage = new OpenIdPage(page);
-
-  // Note: these steps must execute in series, not parallel, which is what
-  // Promise.all would do:
-  await testPage.startLogin();
-  await cognitoPage.login(login, password);
-  await openIdPage.allow();
-  await testPage.handleRedirect();
-};
-
-// TODO: write the loginAndDeny function
-// export const loginAndDeny = async (page: Page): Promise<void> => {};
+export { TestPage } from "./testApp";
+export { test, expect } from "./fixtures";
+export type { TestOptions } from "./fixtures";

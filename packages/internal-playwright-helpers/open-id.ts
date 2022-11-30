@@ -21,6 +21,9 @@
 
 import { Page } from "@playwright/test";
 
+/**
+ * The Solid-OIDC Broker exposed by ESS wrapped around an underlying OpenID Provider 
+ */
 export class OpenIdPage {
   page: Page;
 
