@@ -62,9 +62,7 @@ export class TestPage {
       (request) =>
         request.method() === "POST" && request.url().includes("/token")
     );
-    await Promise.all([
-      this.page.waitForResponse((response) => response.status() === 200),
-    ]);
+    await this.page.waitForResponse((response) => response.status() === 200);
   }
 
   // TODO: write the loginAndDeny function
