@@ -10,14 +10,15 @@ export const test = base.extend<TestOptions>({
   loginOnStart: [true, { option: true }],
   // Override the page fixture to start the app automatically
   page: async ({ page, loginOnStart }, use) => {
-    const app = new TestPage(page);
+    const { idp, clientCredentials } = getBrowserTestingEnvironment({
+      clientCredentials: {
+        owner: { login: "", password: "" },
+      },
+    });
+    const app = new TestPage(page, idp);
     await app.start()
     if (loginOnStart) {
-      const { clientCredentials } = getBrowserTestingEnvironment({
-        clientCredentials: {
-          owner: { login: "", password: "" },
-        },
-      });
+      
       await app.loginAndAllow(
         clientCredentials.owner.login,
         clientCredentials.owner.password

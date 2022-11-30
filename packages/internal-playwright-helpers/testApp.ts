@@ -32,9 +32,11 @@ import {
 
 export class TestPage {
   page: Page;
+  openidProvider: string;
 
-  constructor(page: Page) {
+  constructor(page: Page, openidProvider: string) {
     this.page = page;
+    this.openidProvider = openidProvider;
   }
 
   async start() {
@@ -42,8 +44,10 @@ export class TestPage {
   }
 
   private async startLogin() {
-    const { idp } = getBrowserTestingEnvironment();
-    await this.page.fill(`[data-testid=${TESTID_OPENID_PROVIDER_INPUT}]`, idp);
+    await this.page.fill(
+      `[data-testid=${TESTID_OPENID_PROVIDER_INPUT}]`,
+      this.openidProvider
+    );
     await Promise.all([
       // It is important to call waitForNavigation before click to set up waiting.
       this.page.waitForNavigation(),
