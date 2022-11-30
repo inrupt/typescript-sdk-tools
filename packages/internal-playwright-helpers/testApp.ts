@@ -71,16 +71,15 @@ export class TestPage {
     login: string,
     password: string
   ): Promise<void> {
-    const testPage = new TestPage(this.page);
     const cognitoPage = new CognitoPage(this.page);
     const openIdPage = new OpenIdPage(this.page);
   
     // Note: these steps must execute in series, not parallel, which is what
     // Promise.all would do:
-    await testPage.startLogin();
+    await this.startLogin();
     await cognitoPage.login(login, password);
     await openIdPage.allow();
-    await testPage.handleRedirect();
+    await this.handleRedirect();
   };
 
   async getErrorStatus() {
