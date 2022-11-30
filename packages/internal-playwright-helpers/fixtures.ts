@@ -6,13 +6,10 @@ export type TestOptions = {
   loginOnStart: boolean;
 };
 
-export type Fixtures = {
-  app: TestPage;
-};
-
-export const test = base.extend<Fixtures & TestOptions>({
+export const test = base.extend<TestOptions>({
   loginOnStart: [true, { option: true }],
-  app: async ({ page, loginOnStart }, use) => {
+  // Override the page fixture to start the app automatically
+  page: async ({ page, loginOnStart }, use) => {
     const app = new TestPage(page);
     await app.start()
     if (loginOnStart) {
@@ -26,7 +23,7 @@ export const test = base.extend<Fixtures & TestOptions>({
         clientCredentials.owner.password
       );
     }
-    await use(app);
+    await use(page);
   },
 });
 
