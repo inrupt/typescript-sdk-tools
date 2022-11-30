@@ -50,7 +50,7 @@ export default [
     input: ["index.ts"],
     output: {
       dir: "dist",
-      entryFileNames: "[name].d.ts",
+      entryFileNames: "[name].mjs",
       format: "esm",
       preserveModules: true,
     },
