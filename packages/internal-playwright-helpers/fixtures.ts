@@ -18,7 +18,6 @@ export const test = base.extend<TestOptions>({
     const app = new TestPage(page, idp);
     await app.start()
     if (loginOnStart) {
-      
       await app.loginAndAllow(
         clientCredentials.owner.login,
         clientCredentials.owner.password

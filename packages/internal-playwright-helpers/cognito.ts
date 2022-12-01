@@ -21,6 +21,10 @@
 
 import { Page } from "@playwright/test";
 
+/**
+ * Login page exposed by Cognito, the OIDC Provider used for PodSpaces and other
+ * ESS deployments.
+ */
 export class CognitoPage {
   page: Page;
 
