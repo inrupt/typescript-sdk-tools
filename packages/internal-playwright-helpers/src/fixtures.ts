@@ -9,27 +9,29 @@ export type TestOptions = {
 };
 
 /**
- * Start the app, initiate login from the client, get redirected to the OpenID
- * provider, log in, allow the client when redirected to the broker, and 
- * completes login after being redirected to client.
+ * Start the app, and if applicable initiate login from the client, get redirected
+ * to the OpenID provider, log in, allow the client when redirected to the broker,
+ * and completes login after being redirected to client.
  */
-const login = async (
+const initializeTestApp = async (
   page: Page,
   openidProvider: string,
+  loginOnStart: boolean,
   login: string,
   password: string
 ): Promise<void> => {
-  const cognitoPage = new CognitoPage(page);
-  const openIdPage = new OpenIdPage(page);
   const testPage = new TestPage(page, openidProvider);
-
   // Note: these steps must execute in series, not parallel, which is what
   // Promise.all would do:
   await testPage.start()
-  await testPage.startLogin();
-  await cognitoPage.login(login, password);
-  await openIdPage.allow();
-  await testPage.handleRedirect();
+  if (loginOnStart) {
+    const cognitoPage = new CognitoPage(page);
+    const openIdPage = new OpenIdPage(page);
+    await testPage.startLogin();
+    await cognitoPage.login(login, password);
+    await openIdPage.allow();
+    await testPage.handleRedirect();
+  }
 };
 
 // TODO: write the loginAndDeny function
@@ -44,18 +46,13 @@ export const test = base.extend<TestOptions>({
         owner: { login: "", password: "" },
       },
     });
-    if (loginOnStart) {
-      await login(
-        page,
-        idp,
-        clientCredentials.owner.login,
-        clientCredentials.owner.password
-      );
-    } else {
-      // Even if the app doesn't need to log in initially, it should still start.
-      const app = new TestPage(page, idp);
-      await app.start()
-    }
+    await initializeTestApp(
+      page,
+      idp,
+      loginOnStart,
+      clientCredentials.owner.login,
+      clientCredentials.owner.password
+    );
     await use(page);
   },
 });
