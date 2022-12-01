@@ -20,9 +20,6 @@
 //
 
 import { Page } from "@playwright/test";
-import { CognitoPage } from "./cognito";
-import { OpenIdPage } from "./open-id";
-import { getBrowserTestingEnvironment } from "@inrupt/internal-test-env";
 import {
   TESTID_OPENID_PROVIDER_INPUT,
   TESTID_LOGIN_BUTTON,

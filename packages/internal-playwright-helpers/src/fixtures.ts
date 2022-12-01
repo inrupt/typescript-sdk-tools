@@ -1,17 +1,17 @@
 import { Page, test as base } from "@playwright/test";
-import { TestPage } from "./testApp";
 import { getBrowserTestingEnvironment } from "@inrupt/internal-test-env";
-import { OpenIdPage } from "./open-id";
-import { CognitoPage } from "./cognito";
+import { TestPage } from "./pages/testApp";
+import { OpenIdPage } from "./pages/open-id";
+import { CognitoPage } from "./pages/cognito";
 
 export type TestOptions = {
   loginOnStart: boolean;
 };
 
 /**
- * Start the app, initiate login from the client, get redirected to the OpenID provider,
- * log in, allow the client when redirected to the broker, and completes login after
- * being redirected to client.
+ * Start the app, initiate login from the client, get redirected to the OpenID
+ * provider, log in, allow the client when redirected to the broker, and 
+ * completes login after being redirected to client.
  */
 const login = async (
   page: Page,

@@ -19,8 +19,8 @@
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-export { CognitoPage } from "./cognito";
-export { OpenIdPage } from "./open-id";
-export { TestPage } from "./testApp";
+export { CognitoPage } from "./pages/cognito";
+export { OpenIdPage } from "./pages/open-id";
+export { TestPage } from "./pages/testApp";
 export { test, expect } from "./fixtures";
 export type { TestOptions } from "./fixtures";

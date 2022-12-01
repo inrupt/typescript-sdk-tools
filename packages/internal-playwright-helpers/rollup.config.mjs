@@ -32,7 +32,7 @@ export default [
   {
     ...rollupDefaultConfig,
     external: ["@inrupt/internal-playwright-helpers"],
-    input: "index.ts",
+    input: "src/index.ts",
     output: [
       {
         file: pkg.main,
@@ -48,7 +48,7 @@ export default [
   {
     ...rollupDefaultConfig,
     external: ["@inrupt/internal-playwright-helpers"],
-    input: ["index.ts"],
+    input: ["src/index.ts"],
     output: {
       dir: "dist",
       entryFileNames: "[name].mjs",
