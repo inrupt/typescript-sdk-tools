@@ -43,7 +43,7 @@ export class TestPage {
     await this.page.goto("/");
   }
 
-  private async startLogin() {
+  async startLogin() {
     await this.page.fill(
       `[data-testid=${TESTID_OPENID_PROVIDER_INPUT}]`,
       this.openidProvider
@@ -56,7 +56,7 @@ export class TestPage {
     ]);
   }
 
-  private async handleRedirect() {
+  async handleRedirect() {
     // Wait for the backchannel exchange
     await this.page.waitForRequest(
       (request) =>
@@ -64,23 +64,6 @@ export class TestPage {
     );
     await this.page.waitForResponse((response) => response.status() === 200);
   }
-
-  // TODO: write the loginAndDeny function
-  // async loginAndDeny(login: string, password: string): Promise<void> => {};
-   async loginAndAllow(
-    login: string,
-    password: string
-  ): Promise<void> {
-    const cognitoPage = new CognitoPage(this.page);
-    const openIdPage = new OpenIdPage(this.page);
-  
-    // Note: these steps must execute in series, not parallel, which is what
-    // Promise.all would do:
-    await this.startLogin();
-    await cognitoPage.login(login, password);
-    await openIdPage.allow();
-    await this.handleRedirect();
-  };
 
   async getErrorStatus() {
     return this.page.locator(
