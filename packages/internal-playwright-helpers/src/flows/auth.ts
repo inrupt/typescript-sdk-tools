@@ -42,7 +42,7 @@ export class AuthFlow {
    * to the OpenID provider, log in, allow the client when redirected to the broker,
    * and completes login after being redirected to client.
    */
-  async login(options: {allow: boolean} = {allow: true}): Promise<void> {
+  async login(options: { allow: boolean } = { allow: true }): Promise<void> {
     const testPage = new TestPage(this.page, this.openidProvider);
     const cognitoPage = new CognitoPage(this.page);
     const openIdPage = new OpenIdPage(this.page);
