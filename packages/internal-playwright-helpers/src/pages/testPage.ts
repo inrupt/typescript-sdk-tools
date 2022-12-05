@@ -21,10 +21,7 @@
 
 import { Page } from "@playwright/test";
 import {
-  TESTID_OPENID_PROVIDER_INPUT,
-  TESTID_LOGIN_BUTTON,
-  TESTID_ERROR_MESSAGE,
-  TESTID_SESSION_STATUS
+  TESTID_SELECTORS
 } from "@inrupt/internal-playwright-testids";
 
 export class TestPage {
@@ -42,14 +39,14 @@ export class TestPage {
 
   async startLogin() {
     await this.page.fill(
-      `[data-testid=${TESTID_OPENID_PROVIDER_INPUT}]`,
+      TESTID_SELECTORS.OPENID_PROVIDER_INPUT,
       this.openidProvider
     );
     await Promise.all([
       // It is important to call waitForNavigation before click to set up waiting.
       this.page.waitForNavigation(),
       // Clicking the link will indirectly cause a navigation.
-      this.page.click(`[data-testid=${TESTID_LOGIN_BUTTON}]`),
+      this.page.click(TESTID_SELECTORS.LOGIN_BUTTON),
     ]);
   }
 
@@ -63,14 +60,10 @@ export class TestPage {
   }
 
   async getErrorStatus() {
-    return this.page.locator(
-      `[data-testid="${TESTID_ERROR_MESSAGE}"]`
-    ).textContent();
+    return this.page.locator(TESTID_SELECTORS.ERROR_MESSAGE).textContent();
   }
 
   async getSessionStatus() {
-    return this.page.locator(
-      `[data-testid="${TESTID_SESSION_STATUS}"]`
-    ).textContent();
+    return this.page.locator(TESTID_SELECTORS.SESSION_STATUS).textContent();
   }
 }
