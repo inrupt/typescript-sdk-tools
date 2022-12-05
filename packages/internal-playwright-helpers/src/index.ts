@@ -21,6 +21,6 @@
 
 export { CognitoPage } from "./pages/cognito";
 export { OpenIdPage } from "./pages/open-id";
-export { TestPage } from "./pages/testApp";
+export { TestPage } from "./pages/testPage";
+export { AuthFlow } from "./flows/auth";
 export { test, expect } from "./fixtures";
-export type { TestOptions } from "./fixtures";
