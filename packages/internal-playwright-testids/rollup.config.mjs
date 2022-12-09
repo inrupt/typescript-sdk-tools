@@ -30,8 +30,7 @@ const rollupDefaultConfig = { external, plugins };
 export default [
   {
     ...rollupDefaultConfig,
-    external: [],
-    input: "index.ts",
+    input: "src/index.ts",
     output: [
       {
         file: pkg.main,
@@ -46,8 +45,7 @@ export default [
   },
   {
     ...rollupDefaultConfig,
-    external: [],
-    input: ["index.ts"],
+    input: ["src/index.ts"],
     output: {
       dir: "dist",
       entryFileNames: "[name].mjs",

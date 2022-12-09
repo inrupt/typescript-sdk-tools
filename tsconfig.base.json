@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    /* Basic Options */
+    "target": "ES2017",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "lib": ["es2017", "dom"],
+    "declaration": true,
+    "strict": true,
+    "esModuleInterop": true,
+    // Prevent developers on different OSes from running into problems:
+    "forceConsistentCasingInFileNames": true,
+    /* Advanced Options */
+    "stripInternal": true,
+    "allowJs": false,
+    // This is required to have dependencies across workspaces
+    "composite": true
+  },
+  "references": [
+    { "path": "./packages/internal-playwright-testids" },
+    { "path": "./packages/internal-playwright-helpers" },
+  ]
+}

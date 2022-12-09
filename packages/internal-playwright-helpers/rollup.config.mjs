@@ -31,7 +31,7 @@ const rollupDefaultConfig = { external, plugins };
 export default [
   {
     ...rollupDefaultConfig,
-    external: ["@inrupt/internal-playwright-helpers"],
+    external: ["@inrupt/internal-playwright-testids", "@playwright/test"],
     input: "src/index.ts",
     output: [
       {
@@ -47,7 +47,7 @@ export default [
   },
   {
     ...rollupDefaultConfig,
-    external: ["@inrupt/internal-playwright-helpers"],
+    external: ["@inrupt/internal-playwright-testids", "@playwright/test"],
     input: ["src/index.ts"],
     output: {
       dir: "dist",
