@@ -24,5 +24,8 @@
   },
   "peerDependencies": {
     "@playwright/test": "^1.28.1"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^15.0.1"
   }
 }
