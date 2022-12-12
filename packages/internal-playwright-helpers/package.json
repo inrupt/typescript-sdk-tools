@@ -1,6 +1,6 @@
 {
   "name": "@inrupt/internal-playwright-helpers",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "description": "This package provides page models for known common elements of the sdk testable UIs",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -19,8 +19,8 @@
     }
   },
   "dependencies": {
-    "@inrupt/internal-playwright-testids": "1.5.2",
-    "@inrupt/internal-test-env": "1.5.2"
+    "@inrupt/internal-playwright-testids": "1.5.3",
+    "@inrupt/internal-test-env": "1.5.3"
   },
   "peerDependencies": {
     "@playwright/test": "^1.28.1"
