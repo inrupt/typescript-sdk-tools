@@ -28,19 +28,11 @@ import { Page } from "@playwright/test";
 export class CognitoPage {
   page: Page;
 
-  static COGNITO_DOMAIN = "amazoncognito.com ";
-
   constructor(page: Page) {
     this.page = page;
   }
 
   async login(username: string, password: string) {
-    const pageUrl = new URL(this.page.url());
-    if(!pageUrl.hostname.includes(CognitoPage.COGNITO_DOMAIN)) {
-      throw new Error(
-        `Expected domain ${CognitoPage.COGNITO_DOMAIN} for login, found ${pageUrl.href}`
-      );
-    }
     await this.page.fill(".visible-lg [type=text]", username);
     await this.page.fill(".visible-lg [type=password]", password);
     await Promise.all([
