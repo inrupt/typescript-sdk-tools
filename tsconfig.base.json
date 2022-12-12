@@ -13,11 +13,5 @@
     /* Advanced Options */
     "stripInternal": true,
     "allowJs": false,
-    // This is required to have dependencies across workspaces
-    "composite": true
   },
-  "references": [
-    { "path": "./packages/internal-playwright-testids" },
-    { "path": "./packages/internal-playwright-helpers" },
-  ]
 }

@@ -5,6 +5,7 @@
   "private": true,
   "type": "commonjs",
   "scripts": {
+    "build": "lerna run build",
     "release": "scripts/release.sh",
     "prepare-release": "scripts/prepare-release.sh"
   },

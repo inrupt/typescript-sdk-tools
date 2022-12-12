@@ -19,8 +19,8 @@
     }
   },
   "dependencies": {
-    "@inrupt/internal-playwright-testids": "1.5.1",
-    "@inrupt/internal-test-env": "1.5.1"
+    "@inrupt/internal-playwright-testids": "*",
+    "@inrupt/internal-test-env": "*"
   },
   "peerDependencies": {
     "@playwright/test": "^1.28.1"

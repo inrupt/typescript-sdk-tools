@@ -11,7 +11,7 @@ import typescript from "rollup-plugin-typescript2";
 
 const external = [
   ...Object.keys(pkg.dependencies || {}),
-  "@inrupt/internal-test-env",
+  ...Object.keys(pkg.peerDependencies || {}),
 ];
 
 const plugins = [
@@ -31,7 +31,6 @@ const rollupDefaultConfig = { external, plugins };
 export default [
   {
     ...rollupDefaultConfig,
-    external: ["@inrupt/internal-playwright-testids", "@playwright/test"],
     input: "src/index.ts",
     output: [
       {
@@ -47,7 +46,6 @@ export default [
   },
   {
     ...rollupDefaultConfig,
-    external: ["@inrupt/internal-playwright-testids", "@playwright/test"],
     input: ["src/index.ts"],
     output: {
       dir: "dist",
