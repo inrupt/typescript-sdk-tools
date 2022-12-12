@@ -5,15 +5,13 @@
   "private": true,
   "type": "commonjs",
   "scripts": {
+    "build": "lerna run build",
     "release": "scripts/release.sh",
     "prepare-release": "scripts/prepare-release.sh"
   },
   "workspaces": [
     "eslint-configs/*",
-    "packages/internal-test-env",
-    "packages/internal-playwright-testids",
-    "packages/internal-playwright-helpers",
-    "packages/jest-jsdom-polyfills"
+    "packages/*"
   ],
   "repository": {
     "type": "git",
