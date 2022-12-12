@@ -8,7 +8,6 @@ const require = createRequire(import.meta.url);
 const pkg = require("./package.json");
 
 import typescript from "rollup-plugin-typescript2";
-import { nodeResolve } from '@rollup/plugin-node-resolve';
 
 const external = [
   ...Object.keys(pkg.dependencies || {}),
@@ -25,7 +24,6 @@ const plugins = [
       },
     },
   }),
-  nodeResolve()
 ];
 
 const rollupDefaultConfig = { external, plugins };

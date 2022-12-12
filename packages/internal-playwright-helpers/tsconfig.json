@@ -5,5 +5,4 @@
     "rootDir": "./src"
   },
   "include": ["src/index.ts"],
-  "references": [{ "path": "../internal-playwright-testids" }]
 }

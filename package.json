@@ -10,6 +10,8 @@
   },
   "workspaces": [
     "eslint-configs/*",
+    "packages/internal-playwright-testids",
+    "packages/internal-playwright-helpers",
     "packages/*"
   ],
   "repository": {
