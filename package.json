@@ -10,9 +10,10 @@
   },
   "workspaces": [
     "eslint-configs/*",
+    "packages/internal-test-env",
     "packages/internal-playwright-testids",
     "packages/internal-playwright-helpers",
-    "packages/*"
+    "packages/jest-jsdom-polyfills"
   ],
   "repository": {
     "type": "git",
