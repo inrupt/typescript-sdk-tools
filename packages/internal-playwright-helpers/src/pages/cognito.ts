@@ -28,8 +28,6 @@ import { Page } from "@playwright/test";
 export class CognitoPage {
   page: Page;
 
-  static COGNITO_DOMAIN = "amazoncognito.com ";
-
   constructor(page: Page) {
     this.page = page;
   }
