@@ -45,9 +45,6 @@ export type AvailableEnvironment = typeof availableEnvironment extends Array<
   : never;
 
 export interface TestingEnvironmentNode extends TestingEnvironmentBase {
-  notificationGateway?: string;
-  notificationProtocol?: string;
-  vcProvider?: string;
   clientCredentials: {
     owner: {
       id: string;
@@ -74,6 +71,9 @@ export interface TestingEnvironmentBase {
   environment: AvailableEnvironment;
   idp: string;
   features: FeatureFlags | undefined;
+  notificationGateway?: string;
+  notificationProtocol?: string;
+  vcProvider?: string;
 }
 
 type FeatureFlags = {
