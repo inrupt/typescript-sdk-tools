@@ -184,7 +184,6 @@ export function getNodeTestingEnvironment(
 export interface LibraryVariables {
   notificationGateway?: string;
   notificationProtocol?: string;
-  vcProvider?: string;
   clientCredentials?: {
     owner?: {
       id?: string;
@@ -257,7 +256,6 @@ function validateLibVars(vars: LibraryVariables): object {
   return {
     notificationGateway: process.env.E2E_TEST_NOTIFICATION_GATEWAY,
     notificationProtocol: process.env.E2E_TEST_NOTIFICATION_PROTOCOL,
-    vcProvider: process.env.E2E_TEST_VC_PROVIDER,
     clientCredentials: {
       owner: {
         id: process.env.E2E_TEST_OWNER_CLIENT_ID,
