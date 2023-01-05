@@ -7,6 +7,16 @@ updates:
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 10
+  - package-ecosystem: npm
+    directory: "/packages/*"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+  - package-ecosystem: npm
+    directory: "/eslint-configs/*"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
