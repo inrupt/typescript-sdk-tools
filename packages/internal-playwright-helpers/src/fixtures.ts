@@ -15,7 +15,7 @@ export const test = base.extend<AuthFixture>({
   auth: async ({ page }, use) => {
     const { idp, clientCredentials } = getBrowserTestingEnvironment({
       clientCredentials: {
-        owner: { login: "", password: "" },
+        owner: { login: true, password: true },
       },
     });
     const auth = new AuthFlow(
