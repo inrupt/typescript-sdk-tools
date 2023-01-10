@@ -49,8 +49,6 @@ export interface TestingEnvironmentNode extends TestingEnvironmentBase {
     owner: {
       id: string;
       secret: string;
-      login?: string;
-      password?: string;
     };
     requestor?: {
       id?: string;
@@ -143,42 +141,38 @@ function getTestingEnvironment(
   }
 }
 
+function getBaseTestingEnvironment<T extends LibraryVariables>(libVars?: T
+  ): T extends NodeVariables ? TestingEnvironmentNode : TestingEnvironmentBrowser   {
+    setupEnv();
+    getTestingEnvironment(process.env);
+  
+    const base = {
+      idp: process.env.E2E_TEST_IDP,
+      environment: process.env.E2E_TEST_ENVIRONMENT,
+      features: featuredFlags,
+    };
+  
+    return libVars ? merge(base, validateLibVars(libVars)) : base;
+}
+
 export function getNodeTestingEnvironment(
   libVars?: LibraryVariables
 ): TestingEnvironmentNode {
-  setupEnv();
-  getTestingEnvironment(process.env);
+  return getBaseTestingEnvironment({
+    ...libVars,
+    // Enforce client credentials are present for the resource owner.
+    clientCredentials: { owner: { id: true, secret: true }}
+  });
+}
 
-  if (
-    process.env.E2E_TEST_REQUESTOR_CLIENT_ID !== undefined ||
-    process.env.E2E_TEST_REQUESTOR_CLIENT_SECRET !== undefined
-  ) {
-    if (typeof process.env.E2E_TEST_REQUESTOR_CLIENT_ID !== "string") {
-      throw new Error(
-        "The environment variable E2E_TEST_REQUESTOR_CLIENT_ID is undefined."
-      );
-    }
-
-    if (typeof process.env.E2E_TEST_REQUESTOR_CLIENT_SECRET !== "string") {
-      throw new Error(
-        "The environment variable E2E_TEST_REQUESTOR_CLIENT_SECRET is undefined."
-      );
-    }
-  }
-
-  const base = {
-    idp: process.env.E2E_TEST_IDP,
-    environment: process.env.E2E_TEST_ENVIRONMENT,
-    clientCredentials: {
-      owner: {
-        id: process.env.E2E_TEST_OWNER_CLIENT_ID,
-        secret: process.env.E2E_TEST_OWNER_CLIENT_SECRET,
-      },
-    },
-    features: featuredFlags,
-  };
-
-  return libVars ? merge(base, validateLibVars(libVars)) : base;
+export function getBrowserTestingEnvironment(
+  libVars?: LibraryVariables
+): TestingEnvironmentBrowser {
+  return getBaseTestingEnvironment({
+    ...libVars,
+    // Enforce login/password are present for the resource owner.
+    clientCredentials: { owner: { login: true, password: true }}
+  });
 }
 
 export interface LibraryVariables {
@@ -195,6 +189,24 @@ export interface LibraryVariables {
     requestor?: {
       id?: boolean;
       secret?: boolean;
+    };
+  };
+}
+
+export interface BrowserVariables extends LibraryVariables {
+  clientCredentials?: {
+    owner: {
+      login: true;
+      password: true;
+    };
+  };
+}
+
+export interface NodeVariables extends LibraryVariables {
+  clientCredentials?: {
+    owner: {
+      id: true;
+      secret: true;
     };
   };
 }
@@ -291,26 +303,6 @@ function validateLibVars(vars: LibraryVariables): object {
       },
     },
   };
-}
-
-export function getBrowserTestingEnvironment(
-  libVars?: LibraryVariables
-): TestingEnvironmentBrowser {
-  setupEnv();
-  getTestingEnvironment(process.env);
-
-  const base = {
-    environment: process.env.E2E_TEST_ENVIRONMENT,
-    idp: process.env.E2E_TEST_IDP,
-    features: featuredFlags,
-    clientCredentials: {
-      owner: {
-        user: process.env.E2E_TEST_USER,
-        password: process.env.E2E_TEST_PASSWORD,
-      },
-    },
-  };
-  return libVars ? merge(validateLibVars(libVars), base) : base;
 }
 
 export async function getAuthenticatedSession(
