@@ -182,35 +182,54 @@ export function getNodeTestingEnvironment(
 }
 
 export interface LibraryVariables {
-  notificationGateway?: string;
-  notificationProtocol?: string;
-  vcProvider?: string;
+  notificationGateway?: boolean;
+  notificationProtocol?: boolean;
+  vcProvider?: boolean;
   clientCredentials?: {
     owner?: {
-      id?: string;
-      secret?: string;
-      login?: string;
-      password?: string;
+      id?: boolean;
+      secret?: boolean;
+      login?: boolean;
+      password?: boolean;
     };
     requestor?: {
-      id?: string;
-      secret?: string;
+      id?: boolean;
+      secret?: boolean;
     };
   };
 }
 
 function validateLibVars(vars: LibraryVariables): object {
+  // Notifications-related environment variables.
   if (
-    typeof vars.notificationGateway !== "undefined" &&
-    typeof vars.notificationGateway !== "string"
+    vars.notificationGateway &&
+    typeof process.env.E2E_TEST_NOTIFICATION_GATEWAY !== "string"
   ) {
     throw new Error(
       "Missing the E2E_TEST_NOTIFICATION_GATEWAY environment variable"
     );
   }
   if (
+    vars.notificationProtocol &&
+    typeof process.env.E2E_TEST_NOTIFICATION_PROTOCOL !== "string"
+  ) {
+    throw new Error(
+      "Missing the E2E_TEST_NOTIFICATION_PROTOCOL environment variable"
+    );
+  }
+  // VC-related environment variables.
+  if (
+    vars.vcProvider &&
+    typeof process.env.E2E_TEST_VC_PROVIDER !== "string"
+  ) {
+    throw new Error(
+      "Missing the E2E_TEST_NOTIFICATION_PROTOCOL environment variable"
+    );
+  }
+  // Resource owner static credentials.
+  if (
     vars.clientCredentials?.owner?.id &&
-    typeof vars.clientCredentials.owner.id !== "string"
+    typeof process.env.E2E_TEST_OWNER_CLIENT_ID !== "string"
   ) {
     throw new Error(
       "Missing the E2E_TEST_OWNER_CLIENT_ID environment variable"
@@ -218,16 +237,16 @@ function validateLibVars(vars: LibraryVariables): object {
   }
   if (
     vars.clientCredentials?.owner?.secret &&
-    typeof vars.clientCredentials.owner.secret !== "string"
+    typeof process.env.E2E_TEST_OWNER_CLIENT_SECRET !== "string"
   ) {
     throw new Error(
       "Missing the E2E_TEST_OWNER_CLIENT_SECRET environment variable"
     );
   }
-
+  // Resource requestor static credentials.
   if (
     vars.clientCredentials?.requestor?.id &&
-    typeof vars.clientCredentials.requestor.id !== "string"
+    typeof process.env.E2E_TEST_REQUESTOR_CLIENT_ID !== "string"
   ) {
     throw new Error(
       "Missing the E2E_TEST_REQUESTOR_CLIENT_ID environment variable"
@@ -235,21 +254,22 @@ function validateLibVars(vars: LibraryVariables): object {
   }
   if (
     vars.clientCredentials?.requestor?.secret &&
-    typeof vars.clientCredentials.requestor.secret !== "string"
+    typeof process.env.E2E_TEST_REQUESTOR_CLIENT_SECRET !== "string"
   ) {
     throw new Error(
       "Missing the E2E_TEST_REQUESTOR_CLIENT_SECRET environment variable"
     );
   }
+  // Resource owner username/password.
   if (
     vars.clientCredentials?.owner?.login &&
-    typeof vars.clientCredentials.owner.login !== "string"
+    typeof process.env.E2E_TEST_USER !== "string"
   ) {
     throw new Error("The environment variable E2E_TEST_USER is undefined.");
   }
   if (
     vars.clientCredentials?.owner?.password &&
-    typeof vars.clientCredentials.owner.password !== "string"
+    typeof process.env.E2E_TEST_PASSWORD !== "string"
   ) {
     throw new Error("The environment variable E2E_TEST_PASSWORD is undefined.");
   }
