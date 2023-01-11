@@ -212,9 +212,9 @@ export interface NodeVariables extends LibraryVariables {
   };
 }
 
-function validateLibVars(vars: LibraryVariables): object {
+function validateLibVars(varsToValidate: LibraryVariables): object {
   // Notifications-related environment variables.
-  if (vars.notificationGateway) {
+  if (varsToValidate.notificationGateway) {
     if (typeof process.env.E2E_TEST_NOTIFICATION_GATEWAY !== "string") {
       throw new Error(
         "Missing the E2E_TEST_NOTIFICATION_GATEWAY environment variable"
@@ -227,7 +227,7 @@ function validateLibVars(vars: LibraryVariables): object {
     }
   }
 
-  if (vars.notificationProtocol) {
+  if (varsToValidate.notificationProtocol) {
     if (typeof process.env.E2E_TEST_NOTIFICATION_PROTOCOL !== "string"
     ) {
       throw new Error(
@@ -242,7 +242,7 @@ function validateLibVars(vars: LibraryVariables): object {
   }
     
   // VC-related environment variables.
-  if (vars.vcProvider) {
+  if (varsToValidate.vcProvider) {
     if (typeof process.env.E2E_TEST_VC_PROVIDER !== "string"
     ) {
       throw new Error(
@@ -258,7 +258,7 @@ function validateLibVars(vars: LibraryVariables): object {
     
   // Resource owner static credentials.
   if (
-    vars.clientCredentials?.owner?.id &&
+    varsToValidate.clientCredentials?.owner?.id &&
     typeof process.env.E2E_TEST_OWNER_CLIENT_ID !== "string"
   ) {
     throw new Error(
@@ -266,7 +266,7 @@ function validateLibVars(vars: LibraryVariables): object {
     );
   }
   if (
-    vars.clientCredentials?.owner?.secret &&
+    varsToValidate.clientCredentials?.owner?.secret &&
     typeof process.env.E2E_TEST_OWNER_CLIENT_SECRET !== "string"
   ) {
     throw new Error(
@@ -275,7 +275,7 @@ function validateLibVars(vars: LibraryVariables): object {
   }
   // Resource requestor static credentials.
   if (
-    vars.clientCredentials?.requestor?.id &&
+    varsToValidate.clientCredentials?.requestor?.id &&
     typeof process.env.E2E_TEST_REQUESTOR_CLIENT_ID !== "string"
   ) {
     throw new Error(
@@ -283,7 +283,7 @@ function validateLibVars(vars: LibraryVariables): object {
     );
   }
   if (
-    vars.clientCredentials?.requestor?.secret &&
+    varsToValidate.clientCredentials?.requestor?.secret &&
     typeof process.env.E2E_TEST_REQUESTOR_CLIENT_SECRET !== "string"
   ) {
     throw new Error(
@@ -292,13 +292,13 @@ function validateLibVars(vars: LibraryVariables): object {
   }
   // Resource owner username/password.
   if (
-    vars.clientCredentials?.owner?.login &&
+    varsToValidate.clientCredentials?.owner?.login &&
     typeof process.env.E2E_TEST_USER !== "string"
   ) {
     throw new Error("The environment variable E2E_TEST_USER is undefined.");
   }
   if (
-    vars.clientCredentials?.owner?.password &&
+    varsToValidate.clientCredentials?.owner?.password &&
     typeof process.env.E2E_TEST_PASSWORD !== "string"
   ) {
     throw new Error("The environment variable E2E_TEST_PASSWORD is undefined.");
