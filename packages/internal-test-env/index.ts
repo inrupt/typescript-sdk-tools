@@ -30,6 +30,7 @@ import {
   getSourceIri,
   saveSolidDatasetInContainer,
 } from "@inrupt/solid-client";
+import { isValidUrl } from "./utils";
 
 export const availableEnvironment = [
   "ESS Dev-Next" as const,
@@ -213,31 +214,48 @@ export interface NodeVariables extends LibraryVariables {
 
 function validateLibVars(vars: LibraryVariables): object {
   // Notifications-related environment variables.
-  if (
-    vars.notificationGateway &&
-    typeof process.env.E2E_TEST_NOTIFICATION_GATEWAY !== "string"
-  ) {
-    throw new Error(
-      "Missing the E2E_TEST_NOTIFICATION_GATEWAY environment variable"
-    );
+  if (vars.notificationGateway) {
+    if (typeof process.env.E2E_TEST_NOTIFICATION_GATEWAY !== "string") {
+      throw new Error(
+        "Missing the E2E_TEST_NOTIFICATION_GATEWAY environment variable"
+      );
+    } else if (!isValidUrl(process.env.E2E_TEST_NOTIFICATION_GATEWAY)) {
+      throw new Error(
+        `Expected E2E_TEST_NOTIFICATION_GATEWAY environment variable to be an IRI, found: ${
+          process.env.E2E_TEST_NOTIFICATION_GATEWAY}`
+      );
+    }
   }
-  if (
-    vars.notificationProtocol &&
-    typeof process.env.E2E_TEST_NOTIFICATION_PROTOCOL !== "string"
-  ) {
-    throw new Error(
-      "Missing the E2E_TEST_NOTIFICATION_PROTOCOL environment variable"
-    );
+
+  if (vars.notificationProtocol) {
+    if (typeof process.env.E2E_TEST_NOTIFICATION_PROTOCOL !== "string"
+    ) {
+      throw new Error(
+        "Missing the E2E_TEST_NOTIFICATION_PROTOCOL environment variable"
+      );
+    } else if (!isValidUrl(process.env.E2E_TEST_NOTIFICATION_PROTOCOL)) {
+      throw new Error(
+        `Expected E2E_TEST_NOTIFICATION_PROTOCOL environment variable to be an IRI, found: ${
+          process.env.E2E_TEST_NOTIFICATION_PROTOCOL}`
+      );
+    }
   }
+    
   // VC-related environment variables.
-  if (
-    vars.vcProvider &&
-    typeof process.env.E2E_TEST_VC_PROVIDER !== "string"
-  ) {
-    throw new Error(
-      "Missing the E2E_TEST_NOTIFICATION_PROTOCOL environment variable"
-    );
+  if (vars.vcProvider) {
+    if (typeof process.env.E2E_TEST_VC_PROVIDER !== "string"
+    ) {
+      throw new Error(
+        "Missing the E2E_TEST_VC_PROVIDER environment variable"
+      );
+    } else if (!isValidUrl(process.env.E2E_TEST_VC_PROVIDER)) {
+      throw new Error(
+        `Expected E2E_TEST_VC_PROVIDER environment variable to be an IRI, found: ${
+          process.env.E2E_TEST_VC_PROVIDER}`
+      );
+    }
   }
+    
   // Resource owner static credentials.
   if (
     vars.clientCredentials?.owner?.id &&
