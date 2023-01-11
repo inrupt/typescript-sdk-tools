@@ -257,7 +257,8 @@ function validateLibVars(varsToValidate: LibraryVariables): object {
   // Resource owner static credentials.
   if (
     varsToValidate.clientCredentials?.owner?.id &&
-    typeof process.env.E2E_TEST_OWNER_CLIENT_ID !== "string"
+    typeof process.env.E2E_TEST_OWNER_CLIENT_ID !== "string" &&
+    process.env.E2E_TEST_OWNER_CLIENT_ID !== ""
   ) {
     throw new Error(
       "Missing the E2E_TEST_OWNER_CLIENT_ID environment variable"
@@ -265,7 +266,8 @@ function validateLibVars(varsToValidate: LibraryVariables): object {
   }
   if (
     varsToValidate.clientCredentials?.owner?.secret &&
-    typeof process.env.E2E_TEST_OWNER_CLIENT_SECRET !== "string"
+    typeof process.env.E2E_TEST_OWNER_CLIENT_SECRET !== "string" &&
+    process.env.E2E_TEST_OWNER_CLIENT_SECRET !== ""
   ) {
     throw new Error(
       "Missing the E2E_TEST_OWNER_CLIENT_SECRET environment variable"
@@ -274,7 +276,8 @@ function validateLibVars(varsToValidate: LibraryVariables): object {
   // Resource requestor static credentials.
   if (
     varsToValidate.clientCredentials?.requestor?.id &&
-    typeof process.env.E2E_TEST_REQUESTOR_CLIENT_ID !== "string"
+    typeof process.env.E2E_TEST_REQUESTOR_CLIENT_ID !== "string" &&
+    process.env.E2E_TEST_REQUESTOR_CLIENT_ID !== ""
   ) {
     throw new Error(
       "Missing the E2E_TEST_REQUESTOR_CLIENT_ID environment variable"
@@ -282,7 +285,8 @@ function validateLibVars(varsToValidate: LibraryVariables): object {
   }
   if (
     varsToValidate.clientCredentials?.requestor?.secret &&
-    typeof process.env.E2E_TEST_REQUESTOR_CLIENT_SECRET !== "string"
+    typeof process.env.E2E_TEST_REQUESTOR_CLIENT_SECRET !== "string" &&
+    process.env.E2E_TEST_REQUESTOR_CLIENT_SECRET !== ""
   ) {
     throw new Error(
       "Missing the E2E_TEST_REQUESTOR_CLIENT_SECRET environment variable"
@@ -291,13 +295,15 @@ function validateLibVars(varsToValidate: LibraryVariables): object {
   // Resource owner username/password.
   if (
     varsToValidate.clientCredentials?.owner?.login &&
-    typeof process.env.E2E_TEST_USER !== "string"
+    typeof process.env.E2E_TEST_USER !== "string" &&
+    process.env.E2E_TEST_USER !== ""
   ) {
     throw new Error("The environment variable E2E_TEST_USER is undefined.");
   }
   if (
     varsToValidate.clientCredentials?.owner?.password &&
-    typeof process.env.E2E_TEST_PASSWORD !== "string"
+    typeof process.env.E2E_TEST_PASSWORD !== "string" &&
+    process.env.E2E_TEST_PASSWORD !== ""
   ) {
     throw new Error("The environment variable E2E_TEST_PASSWORD is undefined.");
   }
