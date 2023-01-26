@@ -87,36 +87,33 @@ export interface EnvVariables {
 }
 
 export function setupEnv() {
-  // If we're in CI, the environment is already configured.
-  if (process.env.CI) {
-    return;
-  }
-
   if (envLoaded) {
     return;
   }
+  if (!process.env.CI) {
+    const envPath = join(process.cwd(), "e2e/env/.env.local");
 
-  const envPath = join(process.cwd(), "e2e/env/.env.local");
+    // Otherwise load dotenv configuration
+    config({
+      path: envPath,
+    });
 
-  // Otherwise load dotenv configuration
-  config({
-    path: envPath,
-  });
-
-  if (!process.env.E2E_TEST_ENVIRONMENT) {
-    console.error(
-      `We didn't find the given environment variable E2E_TEST_ENVIRONMENT,
-tried looking in the following directory for \`.env.local \`: 
-${envPath}`
-    );
+    if (!process.env.E2E_TEST_ENVIRONMENT) {
+      console.error(
+        `We didn't find the given environment variable E2E_TEST_ENVIRONMENT,
+  tried looking in the following directory for \`.env.local \`: 
+  ${envPath}`
+      );
+    }
   }
+  // If we're in CI, the environment is already configured, and we just loaded
+  // it otherwise.
+  envLoaded = true;
 
   // Creating feature flag object if there are feature flags
   Object.keys(process.env)
     .filter((envVar) => envVar.startsWith("E2E_TEST_FEATURE_"))
     .forEach((key) => (featuredFlags[key] = process.env[key]));
-  // Marking env as loaded
-  envLoaded = true;
 }
 
 function getTestingEnvironment(
