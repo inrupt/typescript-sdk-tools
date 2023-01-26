@@ -36,7 +36,6 @@ export const availableEnvironment = [
   "ESS Dev-Next" as const,
   "ESS PodSpaces" as const,
   "NSS" as const,
-  //  "ESS PodSpaces Next" as const,
 ];
 
 export type AvailableEnvironment = typeof availableEnvironment extends Array<
@@ -109,44 +108,35 @@ export function setupEnv() {
   // If we're in CI, the environment is already configured, and we just loaded
   // it otherwise.
   envLoaded = true;
-
-  // Creating feature flag object if there are feature flags
-  Object.keys(process.env)
-    .filter((envVar) => envVar.startsWith("E2E_TEST_FEATURE_"))
-    .forEach((key) => (featuredFlags[key] = process.env[key]));
-}
-
-function getTestingEnvironment(
-  environment: unknown
-): asserts environment is EnvVariables {
-  // Populate your process.env from your .env file of choice
-
-  // TODO: Replace these inline validations and checks with envalid or env-var
-  if (
-    !availableEnvironment.includes(
-      (environment as EnvVariables).E2E_TEST_ENVIRONMENT as AvailableEnvironment
-    )
-  ) {
-    throw new Error(
-      `Unknown environment: [${
-        (environment as EnvVariables).E2E_TEST_ENVIRONMENT
-      }]`
-    );
-  }
-
-  if (typeof (environment as EnvVariables).E2E_TEST_IDP !== "string") {
-    throw new Error("The environment variable E2E_TEST_IDP is undefined.");
-  }
 }
 
 function getBaseTestingEnvironment<T extends LibraryVariables>(libVars?: T
   ): T extends NodeVariables ? TestingEnvironmentNode : TestingEnvironmentBrowser   {
     setupEnv();
-    getTestingEnvironment(process.env);
+    // TODO: Replace these inline validations and checks with envalid or env-var
+    
+    // Load and validate target environment name.
+    const targetEnvName = process.env.E2E_TEST_ENVIRONMENT;
+    if (
+      !availableEnvironment.includes(targetEnvName as AvailableEnvironment)
+    ) {
+      throw new Error(`Unknown environment: [${targetEnvName}]`);
+    }
+
+    // Load and validate target OpenID Provider.
+    const targetOp = process.env.E2E_TEST_IDP;
+    if (typeof targetOp !== "string") {
+      throw new Error("The environment variable E2E_TEST_IDP is undefined.");
+    }
+
+    // Creating feature flag object if there are feature flags
+    Object.keys(process.env)
+    .filter((envVar) => envVar.startsWith("E2E_TEST_FEATURE_"))
+    .forEach((key) => (featuredFlags[key] = process.env[key]));
   
     const base = {
-      idp: process.env.E2E_TEST_IDP,
-      environment: process.env.E2E_TEST_ENVIRONMENT,
+      idp: targetOp,
+      environment: targetEnvName,
       features: featuredFlags,
     };
   
