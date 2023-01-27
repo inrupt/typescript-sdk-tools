@@ -32,13 +32,13 @@ import {
 } from "@inrupt/solid-client";
 import { isValidUrl } from "./utils";
 
-export const availableEnvironment = [
+export const availableEnvironments = [
   "ESS Dev-Next" as const,
   "ESS PodSpaces" as const,
   "NSS" as const,
 ];
 
-export type AvailableEnvironment = typeof availableEnvironment extends Array<
+export type AvailableEnvironments = typeof availableEnvironments extends Array<
   infer E
 >
   ? E
@@ -66,7 +66,7 @@ export interface TestingEnvironmentBrowser extends TestingEnvironmentBase {
 }
 
 export interface TestingEnvironmentBase {
-  environment: AvailableEnvironment;
+  environment: AvailableEnvironments;
   idp: string;
   features: FeatureFlags | undefined;
   notificationGateway?: string;
@@ -80,7 +80,7 @@ type FeatureFlags = {
 let envLoaded = false;
 export interface EnvVariables {
   // Common Envs
-  E2E_TEST_ENVIRONMENT: AvailableEnvironment;
+  E2E_TEST_ENVIRONMENT: AvailableEnvironments;
   E2E_TEST_IDP: string;
 }
 
@@ -114,7 +114,7 @@ function getBaseTestingEnvironment<T extends LibraryVariables>(
 
   // Load and validate target environment name.
   const targetEnvName = process.env.E2E_TEST_ENVIRONMENT;
-  if (!availableEnvironment.includes(targetEnvName as AvailableEnvironment)) {
+  if (!availableEnvironments.includes(targetEnvName as AvailableEnvironments)) {
     throw new Error(`Unknown environment: [${targetEnvName}]`);
   }
 
