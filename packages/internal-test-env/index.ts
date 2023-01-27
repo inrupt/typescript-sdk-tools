@@ -86,27 +86,23 @@ export interface EnvVariables {
 }
 
 export function setupEnv() {
-  if (envLoaded) {
+  // If we're in CI, the environment is already configured. Otherwise, it is
+  // loaded once.
+  if (process.env.CI || envLoaded) {
     return;
   }
-  if (!process.env.CI) {
-    const envPath = join(process.cwd(), "e2e/env/.env.local");
+  const envPath = join(process.cwd(), "e2e/env/.env.local");
 
-    // Otherwise load dotenv configuration
-    config({
-      path: envPath,
-    });
+  // Load dotenv configuration
+  config({
+    path: envPath,
+  });
 
-    if (!process.env.E2E_TEST_ENVIRONMENT) {
-      console.error(
-        `We didn't find the given environment variable E2E_TEST_ENVIRONMENT,
-  tried looking in the following directory for \`.env.local \`: 
-  ${envPath}`
-      );
-    }
+  if (!process.env.E2E_TEST_ENVIRONMENT) {
+    console.error(
+      `We didn't find the given environment variable E2E_TEST_ENVIRONMENT, tried looking in the following directory for '.env.local': ${envPath}`
+    );
   }
-  // If we're in CI, the environment is already configured, and we just loaded
-  // it otherwise.
   envLoaded = true;
 }
 
