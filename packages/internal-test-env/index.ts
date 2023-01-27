@@ -120,8 +120,10 @@ function getBaseTestingEnvironment<T extends LibraryVariables>(
 
   // Load and validate target OpenID Provider.
   const targetOp = process.env.E2E_TEST_IDP;
-  if (typeof targetOp !== "string") {
-    throw new Error("The environment variable E2E_TEST_IDP is undefined.");
+  if (typeof targetOp !== "string" || !isValidUrl(targetOp)) {
+    throw new Error(
+      `The environment variable E2E_TEST_IDP is not a valid URL: found ${targetOp}.`
+    );
   }
 
   // Creating feature flag object if there are feature flags
