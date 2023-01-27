@@ -77,6 +77,8 @@ export interface TestingEnvironmentBase {
 type FeatureFlags = {
   [key: string]: any;
 };
+const ENV_VAR_PREFIX = "E2E_TEST_FEATURE_";
+
 let envLoaded = false;
 export interface EnvVariables {
   // Common Envs
@@ -128,11 +130,11 @@ function getBaseTestingEnvironment<T extends LibraryVariables>(
 
   // Creating feature flag object if there are feature flags
   const features = Object.keys(process.env)
-    .filter((envVar) => envVar.startsWith("E2E_TEST_FEATURE_"))
+    .filter((envVar) => envVar.startsWith(ENV_VAR_PREFIX))
     .reduce(
       (featureFlags, envVar) => ({
         ...featureFlags,
-        [`${envVar}`]: process.env[envVar],
+        [`${envVar}`]: process.env[envVar]?.split(ENV_VAR_PREFIX)[1],
       }),
       {}
     );
