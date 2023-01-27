@@ -106,55 +106,60 @@ export function setupEnv() {
   envLoaded = true;
 }
 
-function getBaseTestingEnvironment<T extends LibraryVariables>(libVars?: T
-  ): T extends NodeVariables ? TestingEnvironmentNode : TestingEnvironmentBrowser   {
-    setupEnv();
-    // TODO: Replace these inline validations and checks with envalid or env-var
-    
-    // Load and validate target environment name.
-    const targetEnvName = process.env.E2E_TEST_ENVIRONMENT;
-    if (
-      !availableEnvironment.includes(targetEnvName as AvailableEnvironment)
-    ) {
-      throw new Error(`Unknown environment: [${targetEnvName}]`);
-    }
+function getBaseTestingEnvironment<T extends LibraryVariables>(
+  libVars?: T
+): T extends NodeVariables
+  ? TestingEnvironmentNode
+  : TestingEnvironmentBrowser {
+  setupEnv();
+  // TODO: Replace these inline validations and checks with envalid or env-var
 
-    // Load and validate target OpenID Provider.
-    const targetOp = process.env.E2E_TEST_IDP;
-    if (typeof targetOp !== "string") {
-      throw new Error("The environment variable E2E_TEST_IDP is undefined.");
-    }
+  // Load and validate target environment name.
+  const targetEnvName = process.env.E2E_TEST_ENVIRONMENT;
+  if (!availableEnvironment.includes(targetEnvName as AvailableEnvironment)) {
+    throw new Error(`Unknown environment: [${targetEnvName}]`);
+  }
 
-    // Creating feature flag object if there are feature flags
-    Object.keys(process.env)
+  // Load and validate target OpenID Provider.
+  const targetOp = process.env.E2E_TEST_IDP;
+  if (typeof targetOp !== "string") {
+    throw new Error("The environment variable E2E_TEST_IDP is undefined.");
+  }
+
+  // Creating feature flag object if there are feature flags
+  Object.keys(process.env)
     .filter((envVar) => envVar.startsWith("E2E_TEST_FEATURE_"))
     .forEach((key) => (featuredFlags[key] = process.env[key]));
-  
-    const base = {
-      idp: targetOp,
-      environment: targetEnvName,
-      features: featuredFlags,
-    };
-  
-    return libVars ? merge(base, validateLibVars(libVars)) : base;
+
+  const base = {
+    idp: targetOp,
+    environment: targetEnvName,
+    features: featuredFlags,
+  };
+
+  return libVars ? merge(base, validateLibVars(libVars)) : base;
 }
 
 export function getNodeTestingEnvironment(
   varsToValidate?: LibraryVariables
 ): TestingEnvironmentNode {
-  return getBaseTestingEnvironment(merge(varsToValidate, {
-    // Enforce client credentials are present for the resource owner.
-    clientCredentials: { owner: { id: true, secret: true }}
-  }) as NodeVariables);
+  return getBaseTestingEnvironment(
+    merge(varsToValidate, {
+      // Enforce client credentials are present for the resource owner.
+      clientCredentials: { owner: { id: true, secret: true } },
+    }) as NodeVariables
+  );
 }
 
 export function getBrowserTestingEnvironment(
   varsToValidate?: LibraryVariables
 ): TestingEnvironmentBrowser {
-  return getBaseTestingEnvironment(merge(varsToValidate, {
-    // Enforce login/password are present for the resource owner.
-    clientCredentials: { owner: { login: true, password: true }}
-  }) as BrowserVariables);
+  return getBaseTestingEnvironment(
+    merge(varsToValidate, {
+      // Enforce login/password are present for the resource owner.
+      clientCredentials: { owner: { login: true, password: true } },
+    }) as BrowserVariables
+  );
 }
 
 export interface LibraryVariables {
@@ -202,41 +207,34 @@ function validateLibVars(varsToValidate: LibraryVariables): object {
       );
     } else if (!isValidUrl(process.env.E2E_TEST_NOTIFICATION_GATEWAY)) {
       throw new Error(
-        `Expected E2E_TEST_NOTIFICATION_GATEWAY environment variable to be an IRI, found: ${
-          process.env.E2E_TEST_NOTIFICATION_GATEWAY}`
+        `Expected E2E_TEST_NOTIFICATION_GATEWAY environment variable to be an IRI, found: ${process.env.E2E_TEST_NOTIFICATION_GATEWAY}`
       );
     }
   }
 
   if (varsToValidate.notificationProtocol) {
-    if (typeof process.env.E2E_TEST_NOTIFICATION_PROTOCOL !== "string"
-    ) {
+    if (typeof process.env.E2E_TEST_NOTIFICATION_PROTOCOL !== "string") {
       throw new Error(
         "Missing the E2E_TEST_NOTIFICATION_PROTOCOL environment variable"
       );
     } else if (!isValidUrl(process.env.E2E_TEST_NOTIFICATION_PROTOCOL)) {
       throw new Error(
-        `Expected E2E_TEST_NOTIFICATION_PROTOCOL environment variable to be an IRI, found: ${
-          process.env.E2E_TEST_NOTIFICATION_PROTOCOL}`
+        `Expected E2E_TEST_NOTIFICATION_PROTOCOL environment variable to be an IRI, found: ${process.env.E2E_TEST_NOTIFICATION_PROTOCOL}`
       );
     }
   }
-    
+
   // VC-related environment variables.
   if (varsToValidate.vcProvider) {
-    if (typeof process.env.E2E_TEST_VC_PROVIDER !== "string"
-    ) {
-      throw new Error(
-        "Missing the E2E_TEST_VC_PROVIDER environment variable"
-      );
+    if (typeof process.env.E2E_TEST_VC_PROVIDER !== "string") {
+      throw new Error("Missing the E2E_TEST_VC_PROVIDER environment variable");
     } else if (!isValidUrl(process.env.E2E_TEST_VC_PROVIDER)) {
       throw new Error(
-        `Expected E2E_TEST_VC_PROVIDER environment variable to be an IRI, found: ${
-          process.env.E2E_TEST_VC_PROVIDER}`
+        `Expected E2E_TEST_VC_PROVIDER environment variable to be an IRI, found: ${process.env.E2E_TEST_VC_PROVIDER}`
       );
     }
   }
-    
+
   // Resource owner static credentials.
   if (
     varsToValidate.clientCredentials?.owner?.id &&
