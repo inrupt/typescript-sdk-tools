@@ -111,7 +111,6 @@ function getBaseTestingEnvironment<T extends LibraryVariables>(
   ? TestingEnvironmentNode
   : TestingEnvironmentBrowser {
   setupEnv();
-  // TODO: Replace these inline validations and checks with envalid or env-var
 
   // Load and validate target environment name.
   const targetEnvName = process.env.E2E_TEST_ENVIRONMENT;
