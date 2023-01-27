@@ -78,7 +78,6 @@ type FeatureFlags = {
   [key: string]: any;
 };
 let envLoaded = false;
-let featuredFlags: FeatureFlags = {};
 export interface EnvVariables {
   // Common Envs
   E2E_TEST_ENVIRONMENT: AvailableEnvironment;
@@ -127,14 +126,20 @@ function getBaseTestingEnvironment<T extends LibraryVariables>(
   }
 
   // Creating feature flag object if there are feature flags
-  Object.keys(process.env)
+  const features = Object.keys(process.env)
     .filter((envVar) => envVar.startsWith("E2E_TEST_FEATURE_"))
-    .forEach((key) => (featuredFlags[key] = process.env[key]));
+    .reduce(
+      (featureFlags, envVar) => ({
+        ...featureFlags,
+        [`${envVar}`]: process.env[envVar],
+      }),
+      {}
+    );
 
   const base = {
     idp: targetOp,
     environment: targetEnvName,
-    features: featuredFlags,
+    features,
   };
 
   return libVars ? merge(base, validateLibVars(libVars)) : base;
