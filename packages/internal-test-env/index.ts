@@ -153,22 +153,22 @@ function getBaseTestingEnvironment<T extends LibraryVariables>(
 export function getNodeTestingEnvironment(
   varsToValidate?: LibraryVariables
 ): TestingEnvironmentNode {
-  return getBaseTestingEnvironment(
+  return getBaseTestingEnvironment<NodeVariables>(
     merge(varsToValidate, {
       // Enforce client credentials are present for the resource owner.
       clientCredentials: { owner: { id: true, secret: true } },
-    }) as NodeVariables
+    })
   );
 }
 
 export function getBrowserTestingEnvironment(
   varsToValidate?: LibraryVariables
 ): TestingEnvironmentBrowser {
-  return getBaseTestingEnvironment(
+  return getBaseTestingEnvironment<BrowserVariables>(
     merge(varsToValidate, {
       // Enforce login/password are present for the resource owner.
       clientCredentials: { owner: { login: true, password: true } },
-    }) as BrowserVariables
+    })
   );
 }
 
