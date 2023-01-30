@@ -23,7 +23,7 @@ This helper exposes the following:
 These two functions will load from the environment variables as follows:
 - Some variables will always be loaded and validated if applicable 
   - `E2E_TEST_ENVIRONMENT`: name of the target environment, used for information purpose.
-    E.g., `Dev-Next`
+    E.g., `ESS Dev-Next`
   - `E2E_TEST_IDP`: IRI of the OpenID Provider where the test session will be retrieved.
   - Any environment variable starting with the pattern `E2E_TEST_FEATURE_*` will be
     made available in a feature flags dictionary keyed by `*`. E.g., `E2E_TEST_FEATURE_NOTIFICATIONS`
