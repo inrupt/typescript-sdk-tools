@@ -131,15 +131,12 @@ function getBaseTestingEnvironment<T extends LibraryVariables>(
   // Creating feature flag object if there are feature flags
   const features = Object.keys(process.env)
     .filter((envVar) => envVar.startsWith(ENV_VAR_PREFIX))
-    .reduce(
-      (featureFlags, envVar) => {
-        // Trim the prefix from the environment variable name. 
-        const flagName = envVar.substring(ENV_VAR_PREFIX.length);
-        const flagValue = process.env[envVar];
-        return {...featureFlags, [`${flagName}`]: flagValue};
-      },
-      {}
-    );
+    .reduce((featureFlags, envVar) => {
+      // Trim the prefix from the environment variable name.
+      const flagName = envVar.substring(ENV_VAR_PREFIX.length);
+      const flagValue = process.env[envVar];
+      return { ...featureFlags, [`${flagName}`]: flagValue };
+    }, {});
 
   const base = {
     idp: targetIdp,
