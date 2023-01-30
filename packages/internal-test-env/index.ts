@@ -132,10 +132,12 @@ function getBaseTestingEnvironment<T extends LibraryVariables>(
   const features = Object.keys(process.env)
     .filter((envVar) => envVar.startsWith(ENV_VAR_PREFIX))
     .reduce(
-      (featureFlags, envVar) => ({
-        ...featureFlags,
-        [`${envVar}`]: process.env[envVar]?.split(ENV_VAR_PREFIX)[1],
-      }),
+      (featureFlags, envVar) => {
+        // Trim the prefix from the environment variable name. 
+        const flagName = envVar.substring(ENV_VAR_PREFIX.length);
+        const flagValue = process.env[envVar];
+        return {...featureFlags, [`${flagName}`]: flagValue};
+      },
       {}
     );
 
