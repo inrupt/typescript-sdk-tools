@@ -121,10 +121,10 @@ function getBaseTestingEnvironment<T extends LibraryVariables>(
   }
 
   // Load and validate target OpenID Provider.
-  const targetOp = process.env.E2E_TEST_IDP;
-  if (typeof targetOp !== "string" || !isValidUrl(targetOp)) {
+  const targetIdp = process.env.E2E_TEST_IDP;
+  if (typeof targetIdp !== "string" || !isValidUrl(targetIdp)) {
     throw new Error(
-      `The environment variable E2E_TEST_IDP is not a valid URL: found ${targetOp}.`
+      `The environment variable E2E_TEST_IDP is not a valid URL: found ${targetIdp}.`
     );
   }
 
@@ -142,7 +142,7 @@ function getBaseTestingEnvironment<T extends LibraryVariables>(
     );
 
   const base = {
-    idp: targetOp,
+    idp: targetIdp,
     environment: targetEnvName,
     features,
   };
