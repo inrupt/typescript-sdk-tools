@@ -8,7 +8,8 @@
     "access": "public"
   },
   "scripts": {
-    "build": "rollup -c rollup.config.mjs"
+    "build": "rollup -c rollup.config.mjs",
+    "clean": "rimraf dist"
   },
   "author": "Inrupt <devtools-team@inrupt.com>",
   "license": "MIT",
