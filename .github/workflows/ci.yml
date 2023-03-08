@@ -13,7 +13,7 @@ jobs:
         os: [ubuntu-latest]
         # Workspaces support was added from npm 7, so Node 14 isn't supported to
         # build this library.
-        node-version: ["16"]
+        node-version: ["16", "18"]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
