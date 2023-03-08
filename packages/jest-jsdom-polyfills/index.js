@@ -62,3 +62,15 @@ if (typeof globalThis.File === "undefined") {
   const stdFile = require("@web-std/file");
   globalThis.File = stdFile.File;
 }
+
+// The following fetch APIs are missing in JSDom
+if (
+  typeof globalThis.Response === "undefined" ||
+  typeof globalThis.Request === "undefined" ||
+  typeof globalThis.Headers === "undefined"
+) {
+  const { Request, Response, Headers } = require("undici");
+  globalThis.Response = Response;
+  globalThis.Request = Request;
+  globalThis.Headers = Headers;
+}
