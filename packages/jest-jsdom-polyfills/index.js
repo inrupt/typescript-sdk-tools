@@ -67,10 +67,12 @@ if (typeof globalThis.File === "undefined") {
 if (
   typeof globalThis.Response === "undefined" ||
   typeof globalThis.Request === "undefined" ||
-  typeof globalThis.Headers === "undefined"
+  typeof globalThis.Headers === "undefined" ||
+  typeof globalThis.fetch === "undefined"
 ) {
-  const { Request, Response, Headers } = require("undici");
+  const { Request, Response, Headers, fetch } = require("undici");
   globalThis.Response = Response;
   globalThis.Request = Request;
   globalThis.Headers = Headers;
+  globalThis.fetch = fetch;
 }
