@@ -71,6 +71,12 @@ if (
   typeof globalThis.Headers === "undefined" ||
   typeof globalThis.fetch === "undefined"
 ) {
+  // The following 3 APIs are required by undici but missing in JSDom
+  // https://github.com/facebook/jest/pull/11599
+  globalThis.setImmediate ||= (arg) => setTimeout(arg, 0);
+  globalThis.clearImmediate ||= (arg) => clearTimeout(arg, 0);
+  globalThis.performance.markResourceTiming ||= () => {};
+
   const { Request, Response, Headers, fetch } = require("undici");
   globalThis.Response = Response;
   globalThis.Request = Request;
