@@ -1,22 +1,24 @@
-name: Release
+name: CI
 
-on:
-  pull_request:
-    branches:
-      - main
-    types: [closed]
+on: [push]
 
 env:
   CI: true
 jobs:
-  release-new-version:
-    if: ${{ github.event.pull_request.merged && startsWith(github.head_ref, 'release/') }}
+  build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ubuntu-latest]
+        # Workspaces support was added from npm 7, so Node 14 isn't supported to
+        # build this library.
+        node-version: ["16", "18", "20"]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: ${{ matrix.node-version }}
           cache: npm
           registry-url: "https://registry.npmjs.org"
       - run: npm ci --workspaces
@@ -25,7 +27,3 @@ jobs:
       # not being installed.
       - run: npm ci
       - run: npm run build
-      - run: npm run release
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.INRUPT_NPM_TOKEN }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

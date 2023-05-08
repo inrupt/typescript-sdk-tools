@@ -1,5 +1,5 @@
 {
-  "useNx": false,
+  "useNx": true,
   "useWorkspaces": true,
-  "version": "1.3.1"
+  "version": "1.6.2"
 }

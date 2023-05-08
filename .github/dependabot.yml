@@ -1,23 +1,23 @@
 version: 2
 updates:
+  # We use "/" as the directory, as this repository is managed by npm workspaces,
+  # and that's where the package-lock.json is located
   - package-ecosystem: npm
-    directory: "/eslint-config-base"
+    directory: "/"
     schedule:
-      interval: daily
+      interval: "weekly"
     open-pull-requests-limit: 10
   - package-ecosystem: npm
-    directory: "/eslint-config-lib"
+    directory: "/packages/*"
     schedule:
-      interval: daily
+      interval: "weekly"
     open-pull-requests-limit: 10
   - package-ecosystem: npm
-    directory: "/eslint-config-react"
+    directory: "/eslint-configs/*"
     schedule:
-      interval: daily
+      interval: "weekly"
     open-pull-requests-limit: 10
-  - package-ecosystem: npm
-    directory: "/eslint-config-react-ts"
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
-      interval: daily
-    open-pull-requests-limit: 10
-  
+      interval: "weekly"

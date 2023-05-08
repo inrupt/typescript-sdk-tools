@@ -1,0 +1,22 @@
+{
+  "name": "@inrupt/internal-playwright-testids",
+  "version": "1.6.2",
+  "description": "Shared identifiers between browser-based tests and test app.",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "rollup -c rollup.config.mjs",
+    "clean": "rimraf dist"
+  },
+  "author": "Inrupt <devtools-team@inrupt.com>",
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    }
+  }
+}

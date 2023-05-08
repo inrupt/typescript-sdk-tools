@@ -1,0 +1,28 @@
+{
+  "name": "@inrupt/internal-test-env",
+  "version": "1.6.2",
+  "description": "This package provides various test environment utilities needed for jest when using the Inrupt SDKs",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "rollup -c rollup.config.mjs",
+    "clean": "rimraf dist"
+  },
+  "author": "Inrupt <devtools-team@inrupt.com>",
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js"
+    }
+  },
+  "dependencies": {
+    "@inrupt/solid-client": "^1.27.0",
+    "@inrupt/solid-client-authn-browser": "^1.12.2",
+    "@inrupt/solid-client-authn-node": "^1.12.2",
+    "deepmerge-json": "^1.5.0",
+    "dotenv": "^16.0.3"
+  }
+}
