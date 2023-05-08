@@ -63,14 +63,17 @@ if (typeof globalThis.File === "undefined") {
   globalThis.File = stdFile.File;
 }
 
+// FIXME This is a temporary workaround for https://github.com/jsdom/jsdom/issues/1724#issuecomment-720727999
 // The following fetch APIs are missing in JSDom
 if (
   typeof globalThis.Response === "undefined" ||
   typeof globalThis.Request === "undefined" ||
-  typeof globalThis.Headers === "undefined"
+  typeof globalThis.Headers === "undefined" ||
+  typeof globalThis.fetch === "undefined"
 ) {
-  const { Request, Response, Headers } = require("undici");
+  const { Request, Response, Headers, fetch } = require("undici");
   globalThis.Response = Response;
   globalThis.Request = Request;
   globalThis.Headers = Headers;
+  globalThis.fetch = fetch;
 }
