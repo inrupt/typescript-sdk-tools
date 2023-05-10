@@ -1,28 +1,28 @@
 # eslint-configs
 
-Eslint config which is the base for all Inrupt projects. You likely want to
+ESLint config used as the base for all Inrupt projects. You'll likely want to
 import [eslint-config-inrupt-lib](./eslint-config-inrupt-lib) or
 [eslint-config-inrupt-react](./eslint-config-inrupt-react).
 
 ## Usage
 
-In order to use these eslint configurations, you will need to add the following
+In order to use these ESLint configurations, you will need to add the following
 line to the top of your project's `.eslintrc.js` file:
 
 ```
 require("@rushstack/eslint-patch/modern-module-resolution");
 ```
 
-This ensures that you load the dependencies from the eslint configuration,
-instead of your project. This patch is a workaround for the long-standing eslint
-[issue 3458](https://github.com/eslint/eslint/issues/3458) regarding how eslint
+This ensures that you load the dependencies from the ESLint configuration,
+instead of your project. This patch is a workaround for the long-standing ESLint
+[issue 3458](https://github.com/eslint/eslint/issues/3458) regarding how ESLint
 loads modules.
 
 ## Configurations
 
 ### `@inrupt/eslint-config-lib`
 
-Use this configuration to load all the typescript-specific rules, it builds on
+Use this configuration to load all the TypeScript-specific rules - it builds on
 top of `@inrupt/eslint-config-base`.
 
 ### `@inrupt/eslint-config-react`
@@ -30,8 +30,8 @@ top of `@inrupt/eslint-config-base`.
 Use this configuration for React projects or packages, it too builds on top of
 `@inrupt/eslint-config-base`.
 
-If you're working on a typescript project or package, you'll need additional
-configuration to get typescript working:
+If you're working on a TypeScript project or package, you'll need additional
+configuration to get TypeScript working:
 
 ```js
   parserOptions: {
@@ -64,12 +64,12 @@ configuration to get typescript working:
 
 ## Rules
 
-Our general general principles are as follows:
+Our general principles are as follows:
 
-- Use [airbnb-base](https://www.npmjs.com/package/eslint-config-airbnb-base)
-- Load recommended configs for common libraries: eslint, jest, typescript.
+- Use [airbnb-base](https://www.npmjs.com/package/eslint-config-airbnb-base).
+- Load recommended configs for common libraries: e.g., eslint, jest, typescript.
 - Load Prettier config to override everything where there are conflicts.
-- Enforce licensing headers
-- Configure common problems (no-shadow, no-unresolved, etc)
-- Load react-specific configs for react projects.
-- Do very little else - as few custom rules or overrides as possible.
+- Enforce licensing headers.
+- Configure common problems (no-shadow, no-unresolved, etc).
+- Load React-specific configs for React projects.
+- Do very little else - i.e., as few custom rules or overrides as possible.
