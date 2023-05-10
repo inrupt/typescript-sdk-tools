@@ -6,11 +6,8 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    open-pull-requests-limit: 10
-  - package-ecosystem: npm
-    directory: "/packages/*"
-    schedule:
-      interval: "weekly"
+    # The following is required for workspaces to be updated: see https://github.com/dependabot/dependabot-core/issues/5226.
+    versioning-strategy: increase
     open-pull-requests-limit: 10
   - package-ecosystem: npm
     directory: "/eslint-configs/*"
