@@ -22,7 +22,7 @@
   "homepage": "https://github.com/inrupt/typescript-sdk-tools/tree/main/eslint-configs/eslint-config-lib#readme",
   "dependencies": {
     "@inrupt/eslint-config-base": "file:../eslint-config-base",
-    "@typescript-eslint/eslint-plugin": "^5.59.5",
+    "@typescript-eslint/eslint-plugin": "^5.59.6",
     "@typescript-eslint/parser": "^5.29.0",
     "typescript": ">=5.0.4"
   }
