@@ -21,6 +21,7 @@
 import { config } from "dotenv";
 import { join } from "path";
 import { Session } from "@inrupt/solid-client-authn-node";
+import { getAuthenticatedFetch } from '@jeswr/css-auth-utils';
 import merge from "deepmerge-json";
 import {
   createContainerInContainer,
@@ -36,6 +37,7 @@ export const availableEnvironments = [
   "ESS Dev-Next" as const,
   "ESS PodSpaces" as const,
   "NSS" as const,
+  "CSS" as const,
 ];
 
 export type AvailableEnvironments = typeof availableEnvironments extends Array<
@@ -47,8 +49,14 @@ export type AvailableEnvironments = typeof availableEnvironments extends Array<
 export interface TestingEnvironmentNode extends TestingEnvironmentBase {
   clientCredentials: {
     owner: {
+      type: "ESS Client Credentials",
       id: string;
       secret: string;
+    } | {
+      type: "CSS Client Credentials",
+      login: string;
+      password: string;
+      email: string;
     };
     requestor?: {
       id?: string;
@@ -246,7 +254,8 @@ function validateLibVars(varsToValidate: LibraryVariables): object {
   if (
     varsToValidate.clientCredentials?.owner?.id &&
     typeof process.env.E2E_TEST_OWNER_CLIENT_ID !== "string" &&
-    process.env.E2E_TEST_OWNER_CLIENT_ID !== ""
+    process.env.E2E_TEST_OWNER_CLIENT_ID !== "" &&
+    process.env.E2E_TEST_ENVIRONMENT !== "CSS"
   ) {
     throw new Error(
       "Missing the E2E_TEST_OWNER_CLIENT_ID environment variable"
@@ -255,7 +264,8 @@ function validateLibVars(varsToValidate: LibraryVariables): object {
   if (
     varsToValidate.clientCredentials?.owner?.secret &&
     typeof process.env.E2E_TEST_OWNER_CLIENT_SECRET !== "string" &&
-    process.env.E2E_TEST_OWNER_CLIENT_SECRET !== ""
+    process.env.E2E_TEST_OWNER_CLIENT_SECRET !== "" &&
+    process.env.E2E_TEST_ENVIRONMENT !== "CSS"
   ) {
     throw new Error(
       "Missing the E2E_TEST_OWNER_CLIENT_SECRET environment variable"
@@ -301,11 +311,15 @@ function validateLibVars(varsToValidate: LibraryVariables): object {
     notificationProtocol: process.env.E2E_TEST_NOTIFICATION_PROTOCOL,
     vcProvider: process.env.E2E_TEST_VC_PROVIDER,
     clientCredentials: {
-      owner: {
+      owner: process.env.E2E_TEST_ENVIRONMENT !== "CSS" ? {
+        type: "ESS Client Credentials",
         id: process.env.E2E_TEST_OWNER_CLIENT_ID,
         secret: process.env.E2E_TEST_OWNER_CLIENT_SECRET,
+      } : {
+        type: "CSS Client Credentials",
         login: process.env.E2E_TEST_USER,
         password: process.env.E2E_TEST_PASSWORD,
+        email: process.env.E2E_TEST_EMAIL,
       },
       requestor: {
         id: process.env.E2E_TEST_REQUESTOR_CLIENT_ID,
@@ -318,12 +332,33 @@ function validateLibVars(varsToValidate: LibraryVariables): object {
 export async function getAuthenticatedSession(
   authDetails: TestingEnvironmentNode
 ): Promise<Session> {
+  const owner = authDetails.clientCredentials.owner;
+
+  if (owner.type === "CSS Client Credentials") {
+    return {
+      info: {
+        isLoggedIn: true,
+        // CSS WebIds are always minted in this format
+        // with the configs that are currently available
+        webId: authDetails.idp + owner.login + '/',
+        sessionId: '',
+      },
+      fetch: await getAuthenticatedFetch({
+        podName: owner.login,
+        password: owner.password,
+        url: authDetails.idp,
+        email: owner.email,
+      })
+    } as Session;
+  }
+
+
   const session = new Session();
 
   await session.login({
     oidcIssuer: authDetails.idp,
-    clientId: authDetails.clientCredentials.owner.id,
-    clientSecret: authDetails.clientCredentials.owner.secret,
+    clientId: owner.id,
+    clientSecret: owner.secret,
   });
 
   if (!session.info.isLoggedIn) {
