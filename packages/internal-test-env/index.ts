@@ -30,6 +30,11 @@ import {
   getPodUrlAll,
   getSourceIri,
   saveSolidDatasetInContainer,
+  getSolidDataset,
+  setThing,
+  getThing,
+  setIri,
+  saveSolidDatasetAt,
 } from "@inrupt/solid-client";
 import { isValidUrl } from "./utils";
 
@@ -340,7 +345,7 @@ export async function getAuthenticatedSession(
         isLoggedIn: true,
         // CSS WebIds are always minted in this format
         // with the configs that are currently available
-        webId: authDetails.idp + owner.login + '/',
+        webId: authDetails.idp + owner.login + '/profile/card#me',
         sessionId: '',
       },
       fetch: await getAuthenticatedFetch({
@@ -348,7 +353,11 @@ export async function getAuthenticatedSession(
         password: owner.password,
         url: authDetails.idp,
         email: owner.email,
-      })
+      }),
+      logout() {
+        this.info.isLoggedIn = false;
+        this.fetch = globalThis.fetch;
+      }
     } as Session;
   }
 
@@ -366,6 +375,36 @@ export async function getAuthenticatedSession(
   }
 
   return session;
+}
+
+// Adds the `pim:storage` triple to a CSS WebId profile document
+// as it is not made available by default
+export async function addCssPimStorage(
+  authDetails: TestingEnvironmentNode
+): Promise<void> {
+  const session = await getAuthenticatedSession(authDetails);
+  const webId = session.info.webId;
+
+  if (!webId)
+    throw new Error("WebId cannot be found in session")
+
+  let dataset = await getSolidDataset(webId, { fetch: session.fetch });
+  const thing = getThing(dataset, webId);
+
+  if (!thing)
+    throw new Error("WebId cannot be found in WebId profile document")
+
+
+  dataset = setThing(
+    dataset,
+    setIri(
+      thing,
+      "http://www.w3.org/ns/pim/space#storage",
+      webId.replace('profile/card#me', '')
+    )
+  )
+
+  await saveSolidDatasetAt(webId, dataset, { fetch: session.fetch })
 }
 
 export async function getPodRoot(session: Session) {
