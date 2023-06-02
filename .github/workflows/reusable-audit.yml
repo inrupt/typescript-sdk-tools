@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: "16"
+          node-version: "20"
           registry-url: "https://registry.npmjs.org"
           cache: "npm"
       # Install dependencies so license-checker actually checks them:
@@ -25,6 +25,8 @@ jobs:
       - run: npx license-checker --production --failOn "AGPL-1.0-only; AGPL-1.0-or-later; AGPL-3.0-only; AGPL-3.0-or-later; Beerware; CC-BY-NC-1.0; CC-BY-NC-2.0; CC-BY-NC-2.5; CC-BY-NC-3.0; CC-BY-NC-4.0; CC-BY-NC-ND-1.0; CC-BY-NC-ND-2.0; CC-BY-NC-ND-2.5; CC-BY-NC-ND-3.0; CC-BY-NC-ND-4.0; CC-BY-NC-SA-1.0; CC-BY-NC-SA-2.0; CC-BY-NC-SA-2.5; CC-BY-NC-SA-3.0; CC-BY-NC-SA-4.0; CPAL-1.0; EUPL-1.0; EUPL-1.1; EUPL-1.1;  GPL-1.0-only; GPL-1.0-or-later; GPL-2.0-only;  GPL-2.0-or-later; GPL-3.0; GPL-3.0-only; GPL-3.0-or-later; SISSL;  SISSL-1.2; WTFPL"
       # Run the audit and capture the results
       - run: npm audit --audit-level=moderate --omit=dev
+      # Run the audit to check the signatures
+      - run: npm audit signatures
       # Publishes a notification to a slack channel:
       - name: Send a notification that the audit has failed
         if: failure() && github.event_name == 'schedule'

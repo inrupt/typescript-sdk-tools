@@ -1,6 +1,6 @@
 {
   "name": "@inrupt/internal-playwright-helpers",
-  "version": "1.5.3",
+  "version": "1.8.0",
   "description": "This package provides page models for known common elements of the sdk testable UIs",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -8,7 +8,8 @@
     "access": "public"
   },
   "scripts": {
-    "build": "rollup -c rollup.config.mjs"
+    "build": "rollup -c rollup.config.mjs",
+    "clean": "rimraf dist"
   },
   "author": "Inrupt <devtools-team@inrupt.com>",
   "license": "MIT",
@@ -19,8 +20,8 @@
     }
   },
   "dependencies": {
-    "@inrupt/internal-playwright-testids": "1.5.3",
-    "@inrupt/internal-test-env": "1.5.3"
+    "@inrupt/internal-playwright-testids": "1.8.0",
+    "@inrupt/internal-test-env": "1.8.0"
   },
   "peerDependencies": {
     "@playwright/test": "^1.28.1"
