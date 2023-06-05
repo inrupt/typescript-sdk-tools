@@ -20,13 +20,15 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 const { readFileSync } = require("fs");
-const { } = require("path");
+const { resolve } = require("path");
 
 const escapeRegexCharacters = (stringToEscape) => stringToEscape
   .replace("(", "\\(")
   .replace(")", "\\)");
 
-const LICENSE_TEXT = readFileSync("license-header.txt");
+const LICENSE_TEXT = readFileSync(
+  resolve(__dirname, "license-header.txt")
+).toString("utf-8");
 
 module.exports = {
   env: {
