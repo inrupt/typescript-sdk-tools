@@ -124,7 +124,12 @@ module.exports = {
     // Ensure all code has a license header:
     "header/header": ["warn", "line",
       LICENSE_TEXT.split("\n").map((line) => line === "" ? "" : {
+        // Some lines contain parentheses we don't want to process as regex.
+        // Any header containing a year should validate the check.
         "pattern": escapeRegexCharacters(line).replace("CURRENT_YEAR", "\\d{4}"),
+        // When adding a new header to a file missing it, each line should start
+        // with a space to separate it from the //. Adding a new header will default
+        // to the current year.
         "template": " " + line.replace("CURRENT_YEAR", new Date().getUTCFullYear())
       }),
       2
