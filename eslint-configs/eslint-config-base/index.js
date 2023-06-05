@@ -19,6 +19,15 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+const { readFileSync } = require("fs");
+const { } = require("path");
+
+const escapeRegexCharacters = (stringToEscape) => stringToEscape
+  .replace("(", "\\(")
+  .replace(")", "\\)");
+
+const LICENSE_TEXT = readFileSync("license-header.txt");
+
 module.exports = {
   env: {
     browser: true,
@@ -111,7 +120,13 @@ module.exports = {
     "no-return-await": ["off"],
 
     // Ensure all code has a license header:
-    "header/header": ["warn", require.resolve("./license-header.js")],
+    "header/header": ["warn", "line",
+      LICENSE_TEXT.split("\n").map((line) => line === "" ? "" : {
+        "pattern": escapeRegexCharacters(line).replace("CURRENT_YEAR", "\\d{4}"),
+        "template": " " + line.replace("CURRENT_YEAR", new Date().getUTCFullYear())
+      }),
+      2
+    ],
 
     // set eol to auto to handle all environments
     "prettier/prettier": ["error", { endOfLine: "auto" }],
