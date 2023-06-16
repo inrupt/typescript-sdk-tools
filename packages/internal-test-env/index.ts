@@ -130,7 +130,9 @@ function getBaseTestingEnvironment<T extends LibraryVariables>(
   // Load and validate target environment name.
   const targetEnvName = process.env.E2E_TEST_ENVIRONMENT;
   if (!availableEnvironments.includes(targetEnvName as AvailableEnvironments)) {
-    throw new Error(`Unknown environment: [${targetEnvName}]`);
+    throw new Error(`Unknown environment: [${targetEnvName}]\n\nAvailable environments are ${
+      availableEnvironments.map(env => `[${env}]`).join(', ')
+    }`);
   }
 
   // Load and validate target OpenID Provider.
