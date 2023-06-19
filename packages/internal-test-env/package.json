@@ -24,6 +24,6 @@
     "@inrupt/solid-client-authn-node": "^1.16.0",
     "@jeswr/css-auth-utils": "^1.4.0",
     "deepmerge-json": "^1.5.0",
-    "dotenv": "^16.1.4"
+    "dotenv": "^16.3.1"
   }
 }
