@@ -6,10 +6,13 @@ env:
   CI: true
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    environment:
+      name: ${{ matrix.environment-name }}
     strategy:
       fail-fast: true
       matrix:
+        environment-name: ["ESS PodSpaces"]
         os: [ubuntu-latest]
         # Workspaces support was added from npm 7, so Node 14 isn't supported to
         # build this library.
@@ -36,4 +39,4 @@ jobs:
           E2E_TEST_IDP: ${{ secrets.E2E_TEST_IDP }}
           E2E_TEST_OWNER_CLIENT_ID: ${{ secrets.E2E_TEST_OWNER_CLIENT_ID }}
           E2E_TEST_OWNER_CLIENT_SECRET: ${{ secrets.E2E_TEST_OWNER_CLIENT_SECRET }}
-          E2E_TEST_ENVIRONMENT: ${{ secrets.E2E_TEST_ENVIRONMENT }}
+          E2E_TEST_ENVIRONMENT: ${{ matrix.environment-name }}
