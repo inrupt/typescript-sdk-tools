@@ -31,6 +31,7 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: npx playwright install --with-deps
+      - run: npm run e2e:test:setup
       - run: npm t
         env:
           E2E_DEMO_CLIENT_APP_URL: http://localhost:3001
