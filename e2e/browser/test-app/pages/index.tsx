@@ -1,5 +1,5 @@
 //
-// Copyright 2023 Inrupt Inc.
+// Copyright 2022 Inrupt Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal in
@@ -18,3 +18,19 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
+
+import type { NextPage } from "next";
+// Disabling the following prevents from having to install before linting from
+// the root.
+// eslint-disable-next-line import/no-unresolved
+import dynamic from "next/dynamic";
+
+const App = dynamic(() => import("../components/appContainer"), {
+  ssr: false,
+});
+
+const Home: NextPage = () => {
+  return <App />;
+};
+
+export default Home;
