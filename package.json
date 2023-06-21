@@ -8,6 +8,8 @@
     "build": "lerna run build",
     "clean": "lerna run clean",
     "release": "scripts/release.sh",
+    "test": "playwright test",
+    "e2e:test:setup": "cd ./e2e/browser/test-app && npm ci",
     "prepare-release": "scripts/prepare-release.sh"
   },
   "workspaces": [
@@ -30,5 +32,9 @@
     "rollup": "^3.25.1",
     "rollup-plugin-typescript2": "^0.34.1",
     "typescript": "^5.1.3"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.13",
+    "next": "^13.4.6"
   }
 }
