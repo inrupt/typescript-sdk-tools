@@ -1,5 +1,5 @@
 /*
-Copyright 2020 Inrupt Inc.
+Copyright Inrupt Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal in
@@ -58,6 +58,22 @@ module.exports = {
         // Use typescript's definition checker
         "no-use-before-define": ["off"],
         "@typescript-eslint/no-use-before-define": ["warn"],
+
+        // Ensure that type only imports are used whenever possible; this is also important
+        // to avoid violating the import/no-unresolved rule when type-only packages such as
+        // @rdfjs/types are used
+        //
+        // For instance if we have:
+        // ```ts
+        // import { Term } from '@rdfjs/types';
+        // ```
+        // Then the import/no-unresolved rule is violated; but eslint --fix is unable to resolve
+        // the problem. By adding this rule eslint --fix is able to set this to:
+        // ```ts
+        // import type { Term } from '@rdfjs/types';
+        // ```
+        //
+        "@typescript-eslint/consistent-type-imports": ["error", { prefer: "type-imports" }],
       },
     },
   ],
