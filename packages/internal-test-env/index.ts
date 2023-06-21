@@ -322,6 +322,8 @@ function validateLibVars(varsToValidate: LibraryVariables): object {
         type: "ESS Client Credentials",
         id: process.env.E2E_TEST_OWNER_CLIENT_ID,
         secret: process.env.E2E_TEST_OWNER_CLIENT_SECRET,
+        login: process.env.E2E_TEST_USER,
+        password: process.env.E2E_TEST_PASSWORD
       } : {
         type: "CSS Client Credentials",
         login: process.env.E2E_TEST_USER,

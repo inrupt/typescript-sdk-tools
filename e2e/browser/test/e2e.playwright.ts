@@ -24,46 +24,44 @@
 import { test, expect } from "@inrupt/internal-playwright-helpers";
 
 test("creating and removing empty Containers", async ({ page, auth }) => {
-  console.log('starting test')
   await auth.login({ allow: true });
-  console.log('login successful')
 
-  // // The button is only shown once the app is ready.
-  // await page.waitForSelector("button[data-testid=createContainer]");
+  // The button is only shown once the app is ready.
+  await page.waitForSelector("button[data-testid=createContainer]");
 
-  // // A root container should have been found.
-  // await expect(page.getByTestId("parentContainerUrl")).toContainText(
-  //   /https:\/\//
-  // );
-  // // No child container should be available yet.
-  // await expect(page.getByTestId("childContainerUrl")).toContainText("None");
+  // A root container should have been found.
+  await expect(page.getByTestId("parentContainerUrl")).toContainText(
+    /https:\/\//
+  );
+  // No child container should be available yet.
+  await expect(page.getByTestId("childContainerUrl")).toContainText("None");
 
-  // await Promise.all([
-  //   page.waitForRequest((request) => request.method() === "POST"),
-  //   page.waitForResponse((response) => response.status() === 201),
-  //   page.click("button[data-testid=createContainer]"),
-  // ]);
+  await Promise.all([
+    page.waitForRequest((request) => request.method() === "POST"),
+    page.waitForResponse((response) => response.status() === 201),
+    page.click("button[data-testid=createContainer]"),
+  ]);
 
-  // // The delete button is only shown once the state has been updated after creation.
-  // await page.waitForSelector("button[data-testid=deleteContainer]");
+  // The delete button is only shown once the state has been updated after creation.
+  await page.waitForSelector("button[data-testid=deleteContainer]");
 
-  // // The child container should have been created under the parent
-  // await expect(
-  //   page.locator("span[data-testid=childContainerUrl]")
-  // ).toContainText(
-  //   await page.locator("span[data-testid=childContainerUrl]").allInnerTexts()
-  // );
+  // The child container should have been created under the parent
+  await expect(
+    page.locator("span[data-testid=childContainerUrl]")
+  ).toContainText(
+    await page.locator("span[data-testid=childContainerUrl]").allInnerTexts()
+  );
 
-  // await Promise.all([
-  //   page.waitForRequest((request) => request.method() === "DELETE"),
-  //   page.waitForResponse((response) => response.status() === 204),
-  //   page.click("button[data-testid=deleteContainer]"),
-  // ]);
+  await Promise.all([
+    page.waitForRequest((request) => request.method() === "DELETE"),
+    page.waitForResponse((response) => response.status() === 204),
+    page.click("button[data-testid=deleteContainer]"),
+  ]);
 
-  // await page.waitForSelector("button[data-testid=createContainer]");
+  await page.waitForSelector("button[data-testid=createContainer]");
 
-  // // The child container should have been deleted.
-  // await expect(
-  //   page.locator("span[data-testid=childContainerUrl]")
-  // ).toContainText("None");
+  // The child container should have been deleted.
+  await expect(
+    page.locator("span[data-testid=childContainerUrl]")
+  ).toContainText("None");
 });
