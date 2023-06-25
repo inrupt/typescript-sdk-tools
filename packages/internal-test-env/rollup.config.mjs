@@ -62,11 +62,19 @@ export default [
       "@inrupt/solid-client",
     ],
     input: ["index.ts"],
-    output: {
-      dir: "dist",
-      entryFileNames: "[name].d.ts",
-      format: "esm",
-      preserveModules: true,
-    },
+    output: [
+      {
+        dir: "dist",
+        entryFileNames: "[name].d.ts",
+        format: "esm",
+        preserveModules: true,
+      },
+      {
+        dir: "dist",
+        entryFileNames: "[name].mjs",
+        format: "esm",
+        preserveModules: true,
+      },
+    ],
   },
 ];
