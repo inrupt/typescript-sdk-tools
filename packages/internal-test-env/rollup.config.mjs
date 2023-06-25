@@ -50,6 +50,19 @@ export default [
         entryFileNames: "[name].es.js",
         format: "esm",
       },
+    ],
+  },
+  {
+    ...rollupDefaultConfig,
+    external: [
+      "dotenv",
+      "path",
+      "deepmerge-json",
+      "@inrupt/solid-client-authn-node",
+      "@inrupt/solid-client",
+    ],
+    input: ["index.ts"],
+    output: [
       {
         dir: "dist",
         entryFileNames: "[name].d.ts",
