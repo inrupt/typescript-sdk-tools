@@ -21,7 +21,7 @@
 import { config } from "dotenv";
 import { join } from "path";
 import { Session } from "@inrupt/solid-client-authn-node";
-import { getAuthenticatedFetch } from '@jeswr/css-auth-utils';
+import { getAuthenticatedFetch } from "@jeswr/css-auth-utils";
 import merge from "deepmerge-json";
 import {
   createContainerInContainer,
@@ -39,6 +39,7 @@ import {
 import { isValidUrl } from "./utils";
 
 export const availableEnvironments = [
+  "ESS Dev-2.2" as const,
   "ESS Dev-Next" as const,
   "ESS PodSpaces" as const,
   "NSS" as const,
@@ -53,16 +54,18 @@ export type AvailableEnvironments = typeof availableEnvironments extends Array<
 
 export interface TestingEnvironmentNode extends TestingEnvironmentBase {
   clientCredentials: {
-    owner: {
-      type: "ESS Client Credentials",
-      id: string;
-      secret: string;
-    } | {
-      type: "CSS Client Credentials",
-      login: string;
-      password: string;
-      email: string;
-    };
+    owner:
+      | {
+          type: "ESS Client Credentials";
+          id: string;
+          secret: string;
+        }
+      | {
+          type: "CSS Client Credentials";
+          login: string;
+          password: string;
+          email: string;
+        };
     requestor?: {
       id?: string;
       secret?: string;
@@ -130,9 +133,11 @@ function getBaseTestingEnvironment<T extends LibraryVariables>(
   // Load and validate target environment name.
   const targetEnvName = process.env.E2E_TEST_ENVIRONMENT;
   if (!availableEnvironments.includes(targetEnvName as AvailableEnvironments)) {
-    throw new Error(`Unknown environment: [${targetEnvName}]\n\nAvailable environments are ${
-      availableEnvironments.map(env => `[${env}]`).join(', ')
-    }`);
+    throw new Error(
+      `Unknown environment: [${targetEnvName}]\n\nAvailable environments are ${availableEnvironments
+        .map((env) => `[${env}]`)
+        .join(", ")}`
+    );
   }
 
   // Load and validate target OpenID Provider.
@@ -318,18 +323,21 @@ function validateLibVars(varsToValidate: LibraryVariables): object {
     notificationProtocol: process.env.E2E_TEST_NOTIFICATION_PROTOCOL,
     vcProvider: process.env.E2E_TEST_VC_PROVIDER,
     clientCredentials: {
-      owner: process.env.E2E_TEST_ENVIRONMENT !== "CSS" ? {
-        type: "ESS Client Credentials",
-        id: process.env.E2E_TEST_OWNER_CLIENT_ID,
-        secret: process.env.E2E_TEST_OWNER_CLIENT_SECRET,
-        login: process.env.E2E_TEST_USER,
-        password: process.env.E2E_TEST_PASSWORD
-      } : {
-        type: "CSS Client Credentials",
-        login: process.env.E2E_TEST_USER,
-        password: process.env.E2E_TEST_PASSWORD,
-        email: process.env.E2E_TEST_EMAIL,
-      },
+      owner:
+        process.env.E2E_TEST_ENVIRONMENT !== "CSS"
+          ? {
+              type: "ESS Client Credentials",
+              id: process.env.E2E_TEST_OWNER_CLIENT_ID,
+              secret: process.env.E2E_TEST_OWNER_CLIENT_SECRET,
+              login: process.env.E2E_TEST_USER,
+              password: process.env.E2E_TEST_PASSWORD,
+            }
+          : {
+              type: "CSS Client Credentials",
+              login: process.env.E2E_TEST_USER,
+              password: process.env.E2E_TEST_PASSWORD,
+              email: process.env.E2E_TEST_EMAIL,
+            },
       requestor: {
         id: process.env.E2E_TEST_REQUESTOR_CLIENT_ID,
         secret: process.env.E2E_TEST_REQUESTOR_CLIENT_SECRET,
@@ -349,8 +357,8 @@ export async function getAuthenticatedSession(
         isLoggedIn: true,
         // CSS WebIds are always minted in this format
         // with the configs that are currently available
-        webId: authDetails.idp + owner.login + '/profile/card#me',
-        sessionId: '',
+        webId: authDetails.idp + owner.login + "/profile/card#me",
+        sessionId: "",
       },
       fetch: await getAuthenticatedFetch({
         podName: owner.login,
@@ -361,10 +369,9 @@ export async function getAuthenticatedSession(
       logout() {
         this.info.isLoggedIn = false;
         this.fetch = globalThis.fetch;
-      }
+      },
     } as Session;
   }
-
 
   const session = new Session();
 
@@ -389,26 +396,24 @@ export async function addCssPimStorage(
   const session = await getAuthenticatedSession(authDetails);
   const webId = session.info.webId;
 
-  if (!webId)
-    throw new Error("WebId cannot be found in session")
+  if (!webId) throw new Error("WebId cannot be found in session");
 
   let dataset = await getSolidDataset(webId, { fetch: session.fetch });
   const thing = getThing(dataset, webId);
 
   if (!thing)
-    throw new Error("WebId cannot be found in WebId profile document")
-
+    throw new Error("WebId cannot be found in WebId profile document");
 
   dataset = setThing(
     dataset,
     setIri(
       thing,
       "http://www.w3.org/ns/pim/space#storage",
-      webId.replace('profile/card#me', '')
+      webId.replace("profile/card#me", "")
     )
-  )
+  );
 
-  await saveSolidDatasetAt(webId, dataset, { fetch: session.fetch })
+  await saveSolidDatasetAt(webId, dataset, { fetch: session.fetch });
 }
 
 export async function getPodRoot(session: Session) {
