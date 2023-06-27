@@ -9,7 +9,7 @@ export type AuthFixture = {
 export const test = base.extend<AuthFixture>({
   // Override the page fixture to start the app automatically
   page: async ({ page }, use) => {
-    page.goto("/");
+    await page.goto("/");
     use(page);
   },
   auth: async ({ page }, use) => {
