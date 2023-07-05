@@ -39,7 +39,7 @@ import {
 import { isValidUrl } from "./utils";
 
 export const availableEnvironments = [
-  "ESS Dev-2.2" as const,
+  "ESS Dev-2-2" as const,
   "ESS Dev-Next" as const,
   "ESS PodSpaces" as const,
   "NSS" as const,
