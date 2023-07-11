@@ -29,7 +29,7 @@
   "dependencies": {
     "lerna": "^6.4.1",
     "rimraf": "^5.0.1",
-    "rollup": "^3.25.1",
+    "rollup": "^3.26.2",
     "rollup-plugin-typescript2": "^0.34.1",
     "typescript": "^5.1.3"
   },
