@@ -37,7 +37,7 @@ export class CognitoPage {
     await this.page.fill(".visible-lg [type=password]", password);
     await Promise.all([
       // It is important to call waitForNavigation before click to set up waiting.
-      this.page.waitForNavigation(),
+      this.page.waitForURL(`.*`),
       // Clicking the link will indirectly cause a navigation.
       this.page.click(".visible-lg [aria-label=submit]"),
     ]);
