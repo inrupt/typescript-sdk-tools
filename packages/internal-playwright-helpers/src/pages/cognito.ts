@@ -39,7 +39,7 @@ export class CognitoPage {
         // It is important to call waitForURL before click to set up waiting.
         this.page.waitForURL("https://login.inrupt.com/openid"),
         // Clicking the link will indirectly cause a navigation.
-        this.page.getByRole('button', { type: 'Submit' }).click(),
+        this.page.getByRole('button', { name: 'submit' }).click(),
     ]);
   }
 }
