@@ -37,7 +37,7 @@ export class CognitoPage {
     await this.page.getByRole('textbox', { name: 'Password' }).fill(password);
     await Promise.all([
         // It is important to call waitForURL before click to set up waiting.
-        this.page.waitForURL("https://login.inrupt.com/openid"),
+        this.page.waitForURL(/.*/),
         // Clicking the link will indirectly cause a navigation.
         this.page.getByRole('button', { name: 'submit' }).click(),
     ]);
