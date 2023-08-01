@@ -32,7 +32,12 @@ jobs:
       - run: npm run build
       - run: npx playwright install --with-deps
       - run: npm run e2e:test:setup
-      - run: npm t
+      - # Dependabot cannot access secrets, so it doesn't have a token to authenticate to ESS.
+        # We want jobs in this workflow to be gating PRs, so the whole matrix must
+        # run even for dependabot so that the matrixed jobs are skipped, instead
+        # of the whole pipeline.
+        if: ${{ github.actor != 'dependabot[bot]' }}
+        run: npm t
         env:
           E2E_DEMO_CLIENT_APP_URL: http://localhost:3001
           E2E_TEST_USER: ${{ secrets.E2E_TEST_USER }}
