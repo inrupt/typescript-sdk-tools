@@ -19,10 +19,10 @@
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import { Page } from "@playwright/test";
+import type { Page } from "@playwright/test";
 
 /**
- * The Solid-OIDC Broker exposed by ESS wrapped around an underlying OpenID Provider 
+ * The Solid-OIDC Broker exposed by ESS wrapped around an underlying OpenID Provider
  */
 export class OpenIdPage {
   page: Page;

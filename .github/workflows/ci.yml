@@ -5,6 +5,9 @@ on: [push]
 env:
   CI: true
 jobs:
+  lint:
+    uses: ./.github/workflows/reusable-lint.yml
+
   build:
     runs-on: ${{ matrix.os }}
     environment:

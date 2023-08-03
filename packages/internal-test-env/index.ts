@@ -349,7 +349,7 @@ function validateLibVars(varsToValidate: LibraryVariables): object {
 export async function getAuthenticatedSession(
   authDetails: TestingEnvironmentNode
 ): Promise<Session> {
-  const owner = authDetails.clientCredentials.owner;
+  const { owner } = authDetails.clientCredentials;
 
   if (owner.type === "CSS Client Credentials") {
     return {
@@ -357,7 +357,7 @@ export async function getAuthenticatedSession(
         isLoggedIn: true,
         // CSS WebIds are always minted in this format
         // with the configs that are currently available
-        webId: authDetails.idp + owner.login + "/profile/card#me",
+        webId: `${authDetails.idp + owner.login}/profile/card#me`,
         sessionId: "",
       },
       fetch: await getAuthenticatedFetch({
@@ -394,7 +394,7 @@ export async function addCssPimStorage(
   authDetails: TestingEnvironmentNode
 ): Promise<void> {
   const session = await getAuthenticatedSession(authDetails);
-  const webId = session.info.webId;
+  const { webId } = session.info;
 
   if (!webId) throw new Error("WebId cannot be found in session");
 
