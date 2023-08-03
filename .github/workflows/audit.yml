@@ -1,0 +1,14 @@
+name: Audit
+
+on:
+  push:
+  schedule:
+    - cron: "40 10 * * *"
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  audit:
+    uses: ./.github/workflows/reusable-audit.yml
+    secrets:
+      WEBHOOK_E2E_FAILURE: ${{ secrets.WEBHOOK_E2E_FAILURE }}
