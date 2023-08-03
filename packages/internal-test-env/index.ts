@@ -91,6 +91,7 @@ export interface TestingEnvironmentBase {
 }
 
 type FeatureFlags = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 };
 const ENV_FEATURE_PREFIX = "E2E_TEST_FEATURE_";
@@ -116,77 +117,12 @@ export function setupEnv() {
   });
 
   if (!process.env.E2E_TEST_ENVIRONMENT) {
+    // eslint-disable-next-line no-console
     console.error(
       `We didn't find the given environment variable E2E_TEST_ENVIRONMENT, tried looking in the following directory for '.env.local': ${envPath}`
     );
   }
   envLoaded = true;
-}
-
-function getBaseTestingEnvironment<T extends LibraryVariables>(
-  libVars?: T
-): T extends NodeVariables
-  ? TestingEnvironmentNode
-  : TestingEnvironmentBrowser {
-  setupEnv();
-
-  // Load and validate target environment name.
-  const targetEnvName = process.env.E2E_TEST_ENVIRONMENT;
-  if (!availableEnvironments.includes(targetEnvName as AvailableEnvironments)) {
-    throw new Error(
-      `Unknown environment: [${targetEnvName}]\n\nAvailable environments are ${availableEnvironments
-        .map((env) => `[${env}]`)
-        .join(", ")}`
-    );
-  }
-
-  // Load and validate target OpenID Provider.
-  const targetIdp = process.env.E2E_TEST_IDP;
-  if (typeof targetIdp !== "string" || !isValidUrl(targetIdp)) {
-    throw new Error(
-      `The environment variable E2E_TEST_IDP is not a valid URL: found ${targetIdp}.`
-    );
-  }
-
-  // Creating feature flag object if there are feature flags
-  const features = Object.keys(process.env)
-    .filter((envVar) => envVar.startsWith(ENV_FEATURE_PREFIX))
-    .reduce((featureFlags, envVar) => {
-      // Trim the prefix from the environment variable name.
-      const flagName = envVar.substring(ENV_FEATURE_PREFIX.length);
-      const flagValue = process.env[envVar];
-      return { ...featureFlags, [`${flagName}`]: flagValue };
-    }, {});
-
-  const base = {
-    idp: targetIdp,
-    environment: targetEnvName,
-    features,
-  };
-
-  return libVars ? merge(base, validateLibVars(libVars)) : base;
-}
-
-export function getNodeTestingEnvironment(
-  varsToValidate?: LibraryVariables
-): TestingEnvironmentNode {
-  return getBaseTestingEnvironment<NodeVariables>(
-    merge(varsToValidate, {
-      // Enforce client credentials are present for the resource owner.
-      clientCredentials: { owner: { id: true, secret: true } },
-    })
-  );
-}
-
-export function getBrowserTestingEnvironment(
-  varsToValidate?: LibraryVariables
-): TestingEnvironmentBrowser {
-  return getBaseTestingEnvironment<BrowserVariables>(
-    merge(varsToValidate, {
-      // Enforce login/password are present for the resource owner.
-      clientCredentials: { owner: { login: true, password: true } },
-    })
-  );
 }
 
 export interface LibraryVariables {
@@ -344,6 +280,72 @@ function validateLibVars(varsToValidate: LibraryVariables): object {
       },
     },
   };
+}
+
+function getBaseTestingEnvironment<T extends LibraryVariables>(
+  libVars?: T
+): T extends NodeVariables
+  ? TestingEnvironmentNode
+  : TestingEnvironmentBrowser {
+  setupEnv();
+
+  // Load and validate target environment name.
+  const targetEnvName = process.env.E2E_TEST_ENVIRONMENT;
+  if (!availableEnvironments.includes(targetEnvName as AvailableEnvironments)) {
+    throw new Error(
+      `Unknown environment: [${targetEnvName}]\n\nAvailable environments are ${availableEnvironments
+        .map((env) => `[${env}]`)
+        .join(", ")}`
+    );
+  }
+
+  // Load and validate target OpenID Provider.
+  const targetIdp = process.env.E2E_TEST_IDP;
+  if (typeof targetIdp !== "string" || !isValidUrl(targetIdp)) {
+    throw new Error(
+      `The environment variable E2E_TEST_IDP is not a valid URL: found ${targetIdp}.`
+    );
+  }
+
+  // Creating feature flag object if there are feature flags
+  const features = Object.keys(process.env)
+    .filter((envVar) => envVar.startsWith(ENV_FEATURE_PREFIX))
+    .reduce((featureFlags, envVar) => {
+      // Trim the prefix from the environment variable name.
+      const flagName = envVar.substring(ENV_FEATURE_PREFIX.length);
+      const flagValue = process.env[envVar];
+      return { ...featureFlags, [`${flagName}`]: flagValue };
+    }, {});
+
+  const base = {
+    idp: targetIdp,
+    environment: targetEnvName,
+    features,
+  };
+
+  return libVars ? merge(base, validateLibVars(libVars)) : base;
+}
+
+export function getNodeTestingEnvironment(
+  varsToValidate?: LibraryVariables
+): TestingEnvironmentNode {
+  return getBaseTestingEnvironment<NodeVariables>(
+    merge(varsToValidate, {
+      // Enforce client credentials are present for the resource owner.
+      clientCredentials: { owner: { id: true, secret: true } },
+    })
+  );
+}
+
+export function getBrowserTestingEnvironment(
+  varsToValidate?: LibraryVariables
+): TestingEnvironmentBrowser {
+  return getBaseTestingEnvironment<BrowserVariables>(
+    merge(varsToValidate, {
+      // Enforce login/password are present for the resource owner.
+      clientCredentials: { owner: { login: true, password: true } },
+    })
+  );
 }
 
 export async function getAuthenticatedSession(
