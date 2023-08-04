@@ -19,18 +19,26 @@
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import { Page } from "@playwright/test";
+import type { Page } from "@playwright/test";
 import { CognitoPage } from "../pages/cognito";
 import { OpenIdPage } from "../pages/open-id";
 import { TestPage } from "../pages/testPage";
 
 export class AuthFlow {
   page: Page;
+
   openidProvider: string;
+
   userLogin: string;
+
   password: string;
 
-  constructor(page: Page, openidProvider: string, userLogin: string, password: string) {
+  constructor(
+    page: Page,
+    openidProvider: string,
+    userLogin: string,
+    password: string
+  ) {
     this.page = page;
     this.openidProvider = openidProvider;
     this.userLogin = userLogin;
@@ -51,9 +59,9 @@ export class AuthFlow {
     await testPage.startLogin();
     await cognitoPage.login(this.userLogin, this.password);
     // TODO: handle allow === false
-    if(options.allow) {
+    if (options.allow) {
       await openIdPage.allow();
     }
     await testPage.handleRedirect();
-  };
+  }
 }

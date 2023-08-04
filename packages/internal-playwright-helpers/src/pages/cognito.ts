@@ -19,7 +19,7 @@
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import { Page } from "@playwright/test";
+import type { Page } from "@playwright/test";
 
 /**
  * Login page exposed by Cognito, the OIDC Provider used for PodSpaces and other
@@ -33,13 +33,13 @@ export class CognitoPage {
   }
 
   async login(username: string, password: string) {
-    await this.page.getByRole('textbox', { name: 'Username' }).fill(username);
-    await this.page.getByRole('textbox', { name: 'Password' }).fill(password);
+    await this.page.getByRole("textbox", { name: "Username" }).fill(username);
+    await this.page.getByRole("textbox", { name: "Password" }).fill(password);
     await Promise.all([
-        // It is important to call waitForURL before click to set up waiting.
-        this.page.waitForURL(/.*/),
-        // Clicking the link will indirectly cause a navigation.
-        this.page.getByRole('button', { name: 'submit' }).click(),
+      // It is important to call waitForURL before click to set up waiting.
+      this.page.waitForURL(/.*/),
+      // Clicking the link will indirectly cause a navigation.
+      this.page.getByRole("button", { name: "submit" }).click(),
     ]);
   }
 }
