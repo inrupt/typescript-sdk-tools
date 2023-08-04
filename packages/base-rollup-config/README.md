@@ -8,7 +8,8 @@ This package contains the base configuration for rollup across our packages
 
 ## Usage:
 
-Can be used in rollup.config.mjs as follows
+Can be used in rollup.config.mjs as follows:
+
 ```mjs
 import { createRequire } from "node:module";
 import createConfig from "@inrupt/base-rollup-config";
