@@ -19,13 +19,12 @@
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import { Page } from "@playwright/test";
-import {
-  TESTID_SELECTORS
-} from "@inrupt/internal-playwright-testids";
+import type { Page } from "@playwright/test";
+import { TESTID_SELECTORS } from "@inrupt/internal-playwright-testids";
 
 export class TestPage {
   page: Page;
+
   openidProvider: string;
 
   constructor(page: Page, openidProvider: string) {

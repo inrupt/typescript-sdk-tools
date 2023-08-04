@@ -30,8 +30,6 @@ if (
 ) {
   const utils = require("util");
   globalThis.TextEncoder = utils.TextEncoder;
-  // @ts-ignore TextDecoder from util doesn't necessarily conform to that from
-  // the Web APIs, but it's good enough:
   globalThis.TextDecoder = utils.TextDecoder;
   // TextEncoder references a Uint8Array constructor different than the global
   // one used by users in tests. The following enforces the same constructor to
@@ -45,10 +43,13 @@ if (
   // jsdom doesn't implement the subtle Web Crypto API
   typeof globalThis.crypto.subtle === "undefined"
 ) {
-  // Requires OPENSSL_CONF=/dev/null (see https://github.com/nodejs/node/discussions/43184) 
-  const { Crypto, CryptoKey } = require("@peculiar/webcrypto");
-  Object.assign(globalThis.crypto, new Crypto());
-  globalThis.CryptoKey = CryptoKey;
+  // Requires OPENSSL_CONF=/dev/null (see https://github.com/nodejs/node/discussions/43184)
+  const {
+    Crypto: WCrypto,
+    CryptoKey: WCryptoKey,
+  } = require("@peculiar/webcrypto");
+  Object.assign(globalThis.crypto, new WCrypto());
+  globalThis.CryptoKey = WCryptoKey;
 }
 
 // Node.js doesn't support Blob or File, so we're polyfilling those with
@@ -71,9 +72,9 @@ if (
   typeof globalThis.Headers === "undefined" ||
   typeof globalThis.fetch === "undefined"
 ) {
-  const { Request, Response, Headers, fetch } = require("undici");
-  globalThis.Response = Response;
-  globalThis.Request = Request;
-  globalThis.Headers = Headers;
-  globalThis.fetch = fetch;
+  const undici = require("undici");
+  globalThis.Response = undici.Response;
+  globalThis.Request = undici.Request;
+  globalThis.Headers = undici.Headers;
+  globalThis.fetch = undici.fetch;
 }
