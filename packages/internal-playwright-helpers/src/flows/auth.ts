@@ -37,7 +37,7 @@ export class AuthFlow {
     page: Page,
     openidProvider: string,
     userLogin: string,
-    password: string
+    password: string,
   ) {
     this.page = page;
     this.openidProvider = openidProvider;

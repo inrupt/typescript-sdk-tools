@@ -50,8 +50,8 @@ const CreateResourceButton = ({
           getSourceIri(
             await createContainerInContainer(parentContainerUrl, {
               fetch: getDefaultSession().fetch,
-            })
-          )
+            }),
+          ),
         );
       }}
       data-testid="createContainer"

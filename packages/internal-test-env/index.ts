@@ -119,7 +119,7 @@ export function setupEnv() {
   if (!process.env.E2E_TEST_ENVIRONMENT) {
     // eslint-disable-next-line no-console
     console.error(
-      `We didn't find the given environment variable E2E_TEST_ENVIRONMENT, tried looking in the following directory for '.env.local': ${envPath}`
+      `We didn't find the given environment variable E2E_TEST_ENVIRONMENT, tried looking in the following directory for '.env.local': ${envPath}`,
     );
   }
   envLoaded = true;
@@ -166,11 +166,11 @@ function validateLibVars(varsToValidate: LibraryVariables): object {
   if (varsToValidate.notificationGateway) {
     if (typeof process.env.E2E_TEST_NOTIFICATION_GATEWAY !== "string") {
       throw new Error(
-        "Missing the E2E_TEST_NOTIFICATION_GATEWAY environment variable"
+        "Missing the E2E_TEST_NOTIFICATION_GATEWAY environment variable",
       );
     } else if (!isValidUrl(process.env.E2E_TEST_NOTIFICATION_GATEWAY)) {
       throw new Error(
-        `Expected E2E_TEST_NOTIFICATION_GATEWAY environment variable to be an IRI, found: ${process.env.E2E_TEST_NOTIFICATION_GATEWAY}`
+        `Expected E2E_TEST_NOTIFICATION_GATEWAY environment variable to be an IRI, found: ${process.env.E2E_TEST_NOTIFICATION_GATEWAY}`,
       );
     }
   }
@@ -178,11 +178,11 @@ function validateLibVars(varsToValidate: LibraryVariables): object {
   if (varsToValidate.notificationProtocol) {
     if (typeof process.env.E2E_TEST_NOTIFICATION_PROTOCOL !== "string") {
       throw new Error(
-        "Missing the E2E_TEST_NOTIFICATION_PROTOCOL environment variable"
+        "Missing the E2E_TEST_NOTIFICATION_PROTOCOL environment variable",
       );
     } else if (!isValidUrl(process.env.E2E_TEST_NOTIFICATION_PROTOCOL)) {
       throw new Error(
-        `Expected E2E_TEST_NOTIFICATION_PROTOCOL environment variable to be an IRI, found: ${process.env.E2E_TEST_NOTIFICATION_PROTOCOL}`
+        `Expected E2E_TEST_NOTIFICATION_PROTOCOL environment variable to be an IRI, found: ${process.env.E2E_TEST_NOTIFICATION_PROTOCOL}`,
       );
     }
   }
@@ -193,7 +193,7 @@ function validateLibVars(varsToValidate: LibraryVariables): object {
       throw new Error("Missing the E2E_TEST_VC_PROVIDER environment variable");
     } else if (!isValidUrl(process.env.E2E_TEST_VC_PROVIDER)) {
       throw new Error(
-        `Expected E2E_TEST_VC_PROVIDER environment variable to be an IRI, found: ${process.env.E2E_TEST_VC_PROVIDER}`
+        `Expected E2E_TEST_VC_PROVIDER environment variable to be an IRI, found: ${process.env.E2E_TEST_VC_PROVIDER}`,
       );
     }
   }
@@ -206,7 +206,7 @@ function validateLibVars(varsToValidate: LibraryVariables): object {
     process.env.E2E_TEST_ENVIRONMENT !== "CSS"
   ) {
     throw new Error(
-      "Missing the E2E_TEST_OWNER_CLIENT_ID environment variable"
+      "Missing the E2E_TEST_OWNER_CLIENT_ID environment variable",
     );
   }
   if (
@@ -216,7 +216,7 @@ function validateLibVars(varsToValidate: LibraryVariables): object {
     process.env.E2E_TEST_ENVIRONMENT !== "CSS"
   ) {
     throw new Error(
-      "Missing the E2E_TEST_OWNER_CLIENT_SECRET environment variable"
+      "Missing the E2E_TEST_OWNER_CLIENT_SECRET environment variable",
     );
   }
   // Resource requestor static credentials.
@@ -226,7 +226,7 @@ function validateLibVars(varsToValidate: LibraryVariables): object {
     process.env.E2E_TEST_REQUESTOR_CLIENT_ID !== ""
   ) {
     throw new Error(
-      "Missing the E2E_TEST_REQUESTOR_CLIENT_ID environment variable"
+      "Missing the E2E_TEST_REQUESTOR_CLIENT_ID environment variable",
     );
   }
   if (
@@ -235,7 +235,7 @@ function validateLibVars(varsToValidate: LibraryVariables): object {
     process.env.E2E_TEST_REQUESTOR_CLIENT_SECRET !== ""
   ) {
     throw new Error(
-      "Missing the E2E_TEST_REQUESTOR_CLIENT_SECRET environment variable"
+      "Missing the E2E_TEST_REQUESTOR_CLIENT_SECRET environment variable",
     );
   }
   // Resource owner username/password.
@@ -283,7 +283,7 @@ function validateLibVars(varsToValidate: LibraryVariables): object {
 }
 
 function getBaseTestingEnvironment<T extends LibraryVariables>(
-  libVars?: T
+  libVars?: T,
 ): T extends NodeVariables
   ? TestingEnvironmentNode
   : TestingEnvironmentBrowser {
@@ -295,7 +295,7 @@ function getBaseTestingEnvironment<T extends LibraryVariables>(
     throw new Error(
       `Unknown environment: [${targetEnvName}]\n\nAvailable environments are ${availableEnvironments
         .map((env) => `[${env}]`)
-        .join(", ")}`
+        .join(", ")}`,
     );
   }
 
@@ -303,7 +303,7 @@ function getBaseTestingEnvironment<T extends LibraryVariables>(
   const targetIdp = process.env.E2E_TEST_IDP;
   if (typeof targetIdp !== "string" || !isValidUrl(targetIdp)) {
     throw new Error(
-      `The environment variable E2E_TEST_IDP is not a valid URL: found ${targetIdp}.`
+      `The environment variable E2E_TEST_IDP is not a valid URL: found ${targetIdp}.`,
     );
   }
 
@@ -327,29 +327,29 @@ function getBaseTestingEnvironment<T extends LibraryVariables>(
 }
 
 export function getNodeTestingEnvironment(
-  varsToValidate?: LibraryVariables
+  varsToValidate?: LibraryVariables,
 ): TestingEnvironmentNode {
   return getBaseTestingEnvironment<NodeVariables>(
     merge(varsToValidate, {
       // Enforce client credentials are present for the resource owner.
       clientCredentials: { owner: { id: true, secret: true } },
-    })
+    }),
   );
 }
 
 export function getBrowserTestingEnvironment(
-  varsToValidate?: LibraryVariables
+  varsToValidate?: LibraryVariables,
 ): TestingEnvironmentBrowser {
   return getBaseTestingEnvironment<BrowserVariables>(
     merge(varsToValidate, {
       // Enforce login/password are present for the resource owner.
       clientCredentials: { owner: { login: true, password: true } },
-    })
+    }),
   );
 }
 
 export async function getAuthenticatedSession(
-  authDetails: TestingEnvironmentNode
+  authDetails: TestingEnvironmentNode,
 ): Promise<Session> {
   const { owner } = authDetails.clientCredentials;
 
@@ -393,7 +393,7 @@ export async function getAuthenticatedSession(
 // Adds the `pim:storage` triple to a CSS WebId profile document
 // as it is not made available by default
 export async function addCssPimStorage(
-  authDetails: TestingEnvironmentNode
+  authDetails: TestingEnvironmentNode,
 ): Promise<void> {
   const session = await getAuthenticatedSession(authDetails);
   const { webId } = session.info;
@@ -411,8 +411,8 @@ export async function addCssPimStorage(
     setIri(
       thing,
       "http://www.w3.org/ns/pim/space#storage",
-      webId.replace("profile/card#me", "")
-    )
+      webId.replace("profile/card#me", ""),
+    ),
   );
 
   await saveSolidDatasetAt(webId, dataset, { fetch: session.fetch });
@@ -425,7 +425,7 @@ export async function getPodRoot(session: Session) {
   const podRootAll = await getPodUrlAll(session.info.webId as string);
   if (podRootAll.length === 0) {
     throw new Error(
-      `No Pod root were found in the profile associated to [${session.info.webId}]`
+      `No Pod root were found in the profile associated to [${session.info.webId}]`,
     );
   }
 
@@ -447,17 +447,17 @@ export function createFetch(session: Session, userAgent: string): typeof fetch {
 
 export async function setupTestResources(
   podRoot: string,
-  fetchOptions: { fetch: typeof fetch }
+  fetchOptions: { fetch: typeof fetch },
 ) {
   const containerUrl = getSourceIri(
-    await createContainerInContainer(podRoot, fetchOptions)
+    await createContainerInContainer(podRoot, fetchOptions),
   );
   const resourceUrl = getSourceIri(
     await saveSolidDatasetInContainer(
       containerUrl,
       createSolidDataset(),
-      fetchOptions
-    )
+      fetchOptions,
+    ),
   );
   return { containerUrl, resourceUrl };
 }
@@ -466,7 +466,7 @@ export async function teardownTestResources(
   session: Session,
   containerUrl: string,
   resourceUrl: string,
-  fetchOptions: { fetch: typeof fetch }
+  fetchOptions: { fetch: typeof fetch },
 ) {
   await deleteSolidDataset(resourceUrl, fetchOptions);
   await deleteSolidDataset(containerUrl, fetchOptions);
