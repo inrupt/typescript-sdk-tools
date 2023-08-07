@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/inrupt/typescript-sdk-tools/tree/main/eslint-configs/eslint-config-base#readme",
   "dependencies": {
-    "eslint": ">=8.43.0",
+    "eslint": ">=8.46.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-header": "^3.1.1",
@@ -34,7 +34,7 @@
   },
   "peerDependencies": {
     "@rushstack/eslint-patch": ">=1.1.4",
-    "eslint": ">=8.43.0",
+    "eslint": ">=8.46.0",
     "jest": ">=26.0.0",
     "prettier": ">=2.7.1"
   }
