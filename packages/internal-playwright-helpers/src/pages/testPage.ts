@@ -43,7 +43,7 @@ export class TestPage {
     );
     await Promise.all([
       // It is important to call waitForURL before click to set up waiting.
-      this.page.waitForURL("*\\?response_type=code"),
+      this.page.waitForURL("*\\?response_type=code*"),
       // Clicking the link will indirectly cause a navigation.
       this.page.click(TESTID_SELECTORS.LOGIN_BUTTON),
     ]);
