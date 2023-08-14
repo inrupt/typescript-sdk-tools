@@ -39,7 +39,9 @@ export class OpenIdPage {
     // Once we no longer support ESS 2.1, we can remove the class-based selector and only use the testid-based one.
     await expect(classBasedSelector.or(testidBasedSelector)).toBeVisible();
     // Fallback selector to support class attributes, until testid supports is fully deployed.
-    const correctSelector = await testidBasedSelector.isVisible() ? testidBasedSelector : classBasedSelector;
+    const correctSelector = (await testidBasedSelector.isVisible())
+      ? testidBasedSelector
+      : classBasedSelector;
     await Promise.all([
       // It is important to call waitForNavigation before click to set up waiting.
       this.page.waitForURL("http://localhost*"),
