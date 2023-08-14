@@ -19,7 +19,7 @@
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import type { Page } from "@playwright/test";
+import { expect, type Page } from "@playwright/test";
 
 /**
  * The Solid-OIDC Broker exposed by ESS wrapped around an underlying OpenID Provider
@@ -32,11 +32,16 @@ export class OpenIdPage {
   }
 
   async allow() {
+    const classBasedSelector = this.page.locator(".allow-button");
+    const testidBasedSelector = this.page.getByTestId("prompt-allow");
+    await expect(classBasedSelector.or(testidBasedSelector)).toBeVisible();
+    // Fallback selector to support class attributes, until testid supports is fully deployed.
+    const correctSelector = await classBasedSelector.isVisible() ? classBasedSelector : testidBasedSelector;
     await Promise.all([
       // It is important to call waitForNavigation before click to set up waiting.
-      this.page.waitForNavigation(),
+      this.page.waitForURL("http://localhost*"),
       // Clicking the link will indirectly cause a navigation.
-      this.page.click("text=Allow"),
+      correctSelector.click(),
     ]);
   }
 

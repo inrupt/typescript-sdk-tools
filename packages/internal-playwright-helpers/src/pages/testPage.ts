@@ -43,7 +43,7 @@ export class TestPage {
     );
     await Promise.all([
       // It is important to call waitForNavigation before click to set up waiting.
-      this.page.waitForNavigation(),
+      this.page.waitForURL(this.openidProvider),
       // Clicking the link will indirectly cause a navigation.
       this.page.click(TESTID_SELECTORS.LOGIN_BUTTON),
     ]);
