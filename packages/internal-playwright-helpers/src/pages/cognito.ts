@@ -28,6 +28,8 @@ import type { Page } from "@playwright/test";
 export class CognitoPage {
   page: Page;
 
+  static URL = "https://auth.inrupt.com/login";
+
   constructor(page: Page) {
     this.page = page;
   }

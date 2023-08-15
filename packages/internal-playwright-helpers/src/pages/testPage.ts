@@ -20,6 +20,7 @@
 //
 
 import type { Page } from "@playwright/test";
+import { CognitoPage } from "./cognito";
 import { TESTID_SELECTORS } from "@inrupt/internal-playwright-testids";
 
 export class TestPage {
@@ -43,7 +44,7 @@ export class TestPage {
     );
     await Promise.all([
       // It is important to call waitForURL before click to set up waiting.
-      this.page.waitForURL("*\\?response_type=code*"),
+      this.page.waitForURL(CognitoPage.URL),
       // Clicking the link will indirectly cause a navigation.
       this.page.click(TESTID_SELECTORS.LOGIN_BUTTON),
     ]);
