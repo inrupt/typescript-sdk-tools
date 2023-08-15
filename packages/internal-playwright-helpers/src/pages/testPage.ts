@@ -20,8 +20,8 @@
 //
 
 import type { Page } from "@playwright/test";
-import { CognitoPage } from "./cognito";
 import { TESTID_SELECTORS } from "@inrupt/internal-playwright-testids";
+import { CognitoPage } from "./cognito";
 
 export class TestPage {
   page: Page;
