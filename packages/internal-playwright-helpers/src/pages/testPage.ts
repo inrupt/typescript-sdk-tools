@@ -44,7 +44,7 @@ export class TestPage {
     );
     await Promise.all([
       // It is important to call waitForURL before click to set up waiting.
-      this.page.waitForURL(CognitoPage.URL),
+      this.page.waitForURL(/auth.*/),
       // Clicking the link will indirectly cause a navigation.
       this.page.click(TESTID_SELECTORS.LOGIN_BUTTON),
     ]);
