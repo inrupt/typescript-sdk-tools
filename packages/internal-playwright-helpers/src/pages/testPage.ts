@@ -21,7 +21,6 @@
 
 import type { Page } from "@playwright/test";
 import { TESTID_SELECTORS } from "@inrupt/internal-playwright-testids";
-import { CognitoPage } from "./cognito";
 
 export class TestPage {
   page: Page;
