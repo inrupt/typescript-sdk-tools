@@ -42,7 +42,7 @@ export const test = base.extend<AuthFixture>({
       page,
       idp,
       clientCredentials.owner.login,
-      clientCredentials.owner.password
+      clientCredentials.owner.password,
     );
     await use(auth);
   },

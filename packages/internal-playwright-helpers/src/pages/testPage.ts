@@ -39,7 +39,7 @@ export class TestPage {
   async startLogin() {
     await this.page.fill(
       TESTID_SELECTORS.OPENID_PROVIDER_INPUT,
-      this.openidProvider
+      this.openidProvider,
     );
     await Promise.all([
       // It is important to call waitForURL before click to set up waiting.
@@ -53,7 +53,7 @@ export class TestPage {
     // Wait for the backchannel exchange
     await this.page.waitForRequest(
       (request) =>
-        request.method() === "POST" && request.url().includes("/token")
+        request.method() === "POST" && request.url().includes("/token"),
     );
     await this.page.waitForResponse((response) => response.status() === 200);
   }
