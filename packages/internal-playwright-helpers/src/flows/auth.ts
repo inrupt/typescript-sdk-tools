@@ -58,6 +58,10 @@ export class AuthFlow {
     // Promise.all would do:
     await testPage.startLogin();
     await cognitoPage.login(this.userLogin, this.password);
+    // Clicking on the consent screen from the broker will redirect to the
+    // test page, and trigger the token request. To prevent this being a
+    // race condition, waiting on this request should be done prior to
+    // giving consent.
     const completeLoginConditions = [testPage.handleRedirect()];
     // TODO: handle allow === false
     if (options.allow) {
