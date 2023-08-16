@@ -9,8 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@inrupt/solid-client": "^1.29.0",
-    "@inrupt/solid-client-authn-browser": "^1.16.0",
+    "@inrupt/solid-client": "^1.30.0",
+    "@inrupt/solid-client-authn-browser": "^1.17.1",
     "next": "^13.4.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
