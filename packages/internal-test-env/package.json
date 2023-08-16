@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@inrupt/solid-client": "^1.29.0",
-    "@inrupt/solid-client-authn-browser": "^1.16.0",
+    "@inrupt/solid-client-authn-browser": "^1.17.1",
     "@inrupt/solid-client-authn-node": "^1.17.1",
     "@jeswr/css-auth-utils": "^1.4.0",
     "deepmerge-json": "^1.5.0",
