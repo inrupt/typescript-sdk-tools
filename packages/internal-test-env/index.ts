@@ -18,8 +18,8 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
-import { config } from "dotenv";
 import { join } from "path";
+import { config } from "dotenv";
 import { Session } from "@inrupt/solid-client-authn-node";
 import { getAuthenticatedFetch } from "@jeswr/css-auth-utils";
 import merge from "deepmerge-json";
