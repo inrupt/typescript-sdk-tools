@@ -35,7 +35,7 @@ export class OpenIdPage {
     // Class-based selector that will remain compatible with previous code
     const classBasedSelector = this.page.locator(".allow-button");
     // Testid-based selector that will be compatible with newer releases
-    const testidBasedSelector = this.page.getByTestId("prompt-allow");
+    const testidBasedSelector = this.page.getByTestId("prompt-continue");
     // Once we no longer support ESS 2.1, we can remove the class-based selector and only use the testid-based one.
     await expect(classBasedSelector.or(testidBasedSelector)).toBeVisible();
     // Fallback selector to support class attributes, until testid supports is fully deployed.
