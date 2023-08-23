@@ -31,6 +31,8 @@ export class OpenIdPage {
     this.page = page;
   }
 
+  static isOnPage = (url: URL) => url.hostname.includes("inrupt.com");
+
   async allow() {
     // Class-based selector that will remain compatible with previous code
     const classBasedSelector = this.page.locator(".allow-button");
@@ -42,12 +44,7 @@ export class OpenIdPage {
     const correctSelector = (await testidBasedSelector.isVisible())
       ? testidBasedSelector
       : classBasedSelector;
-    await Promise.all([
-      // It is important to call waitForNavigation before click to set up waiting.
-      this.page.waitForURL("http://localhost*"),
-      // Clicking the link will indirectly cause a navigation.
-      correctSelector.click(),
-    ]);
+    return correctSelector.click();
   }
 
   // TODO: write the deny function

@@ -32,6 +32,8 @@ export class TestPage {
     this.openidProvider = openidProvider;
   }
 
+  static isOnPage = (url: URL) => url.hostname === "localhost";
+
   async start() {
     await this.page.goto("/");
   }
@@ -41,12 +43,7 @@ export class TestPage {
       TESTID_SELECTORS.OPENID_PROVIDER_INPUT,
       this.openidProvider,
     );
-    await Promise.all([
-      // It is important to call waitForURL before click to set up waiting.
-      this.page.waitForURL(/auth.*/),
-      // Clicking the link will indirectly cause a navigation.
-      this.page.click(TESTID_SELECTORS.LOGIN_BUTTON),
-    ]);
+    return this.page.click(TESTID_SELECTORS.LOGIN_BUTTON);
   }
 
   async handleRedirect() {
