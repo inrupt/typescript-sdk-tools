@@ -32,14 +32,11 @@ export class CognitoPage {
     this.page = page;
   }
 
+  static isOnPage = (url: URL): boolean => url.hostname.includes("auth.");
+
   async login(username: string, password: string) {
     await this.page.getByRole("textbox", { name: "Username" }).fill(username);
     await this.page.getByRole("textbox", { name: "Password" }).fill(password);
-    await Promise.all([
-      // It is important to call waitForURL before click to set up waiting.
-      this.page.waitForURL(/.*/),
-      // Clicking the link will indirectly cause a navigation.
-      this.page.getByRole("button", { name: "submit" }).click(),
-    ]);
+    return this.page.getByRole("button", { name: "submit" }).click();
   }
 }

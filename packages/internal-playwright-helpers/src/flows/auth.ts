@@ -54,17 +54,33 @@ export class AuthFlow {
     const testPage = new TestPage(this.page, this.openidProvider);
     const cognitoPage = new CognitoPage(this.page);
     const openIdPage = new OpenIdPage(this.page);
-    // Note: these steps must execute in series, not parallel, which is what
-    // Promise.all would do:
-    await testPage.startLogin();
-    await cognitoPage.login(this.userLogin, this.password);
+    // First, initiate login in the test client, and wait for the redirect to the OP
+    await Promise.all([
+      this.page.waitForURL(
+        (url) =>
+          // If the user is already authenticated to the OpenID Provider, they may be redirected directly to the broker
+          CognitoPage.isOnPage(url) || OpenIdPage.isOnPage(url),
+      ),
+      testPage.startLogin(),
+    ]);
+    if (CognitoPage.isOnPage(new URL(this.page.url()))) {
+      await Promise.all([
+        this.page.waitForURL(
+          (url: URL) =>
+            // After login, the user is redirected either to the broker or to the client.
+            OpenIdPage.isOnPage(url) || TestPage.isOnPage(url),
+        ),
+        cognitoPage.login(this.userLogin, this.password),
+      ]);
+    }
+
     // Clicking on the consent screen from the broker will redirect to the
     // test page, and trigger the token request. To prevent this being a
     // race condition, waiting on this request should be done prior to
     // giving consent.
     const completeLoginConditions = [testPage.handleRedirect()];
     // TODO: handle allow === false
-    if (options.allow) {
+    if (options.allow && OpenIdPage.isOnPage(new URL(this.page.url()))) {
       completeLoginConditions.push(openIdPage.allow());
     }
     await Promise.all(completeLoginConditions);
