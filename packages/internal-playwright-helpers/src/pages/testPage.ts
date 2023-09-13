@@ -34,32 +34,41 @@ export class TestPage {
 
   static isOnPage = (url: URL) => url.hostname === "localhost";
 
-  async start() {
-    await this.page.goto("/");
+  async start(options?: { timeout?: number }) {
+    await this.page.goto("/", options);
   }
 
-  async startLogin() {
+  async startLogin(options?: { timeout?: number }) {
     await this.page.fill(
       TESTID_SELECTORS.OPENID_PROVIDER_INPUT,
       this.openidProvider,
+      options,
     );
-    return this.page.click(TESTID_SELECTORS.LOGIN_BUTTON);
+    return this.page.click(TESTID_SELECTORS.LOGIN_BUTTON, options);
   }
 
-  async handleRedirect() {
+  async handleRedirect(options?: { timeout?: number }) {
     // Wait for the backchannel exchange
     await this.page.waitForRequest(
       (request) =>
         request.method() === "POST" && request.url().includes("/token"),
+      options,
     );
-    await this.page.waitForResponse((response) => response.status() === 200);
+    await this.page.waitForResponse(
+      (response) => response.status() === 200,
+      options,
+    );
   }
 
-  async getErrorStatus() {
-    return this.page.locator(TESTID_SELECTORS.ERROR_MESSAGE).textContent();
+  async getErrorStatus(options?: { timeout?: number }) {
+    return this.page
+      .locator(TESTID_SELECTORS.ERROR_MESSAGE)
+      .textContent(options);
   }
 
-  async getSessionStatus() {
-    return this.page.locator(TESTID_SELECTORS.SESSION_STATUS).textContent();
+  async getSessionStatus(options?: { timeout?: number }) {
+    return this.page
+      .locator(TESTID_SELECTORS.SESSION_STATUS)
+      .textContent(options);
   }
 }

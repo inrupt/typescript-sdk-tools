@@ -33,13 +33,15 @@ export class OpenIdPage {
 
   static isOnPage = (url: URL) => url.hostname.includes("inrupt.com");
 
-  async allow() {
+  async allow(options?: { timeout?: number }) {
     // Class-based selector that will remain compatible with previous code
     const classBasedSelector = this.page.locator(".allow-button");
     // Testid-based selector that will be compatible with newer releases
     const testidBasedSelector = this.page.getByTestId("prompt-continue");
     // Once we no longer support ESS 2.1, we can remove the class-based selector and only use the testid-based one.
-    await expect(classBasedSelector.or(testidBasedSelector)).toBeVisible();
+    await expect(classBasedSelector.or(testidBasedSelector)).toBeVisible(
+      options,
+    );
     // Fallback selector to support class attributes, until testid supports is fully deployed.
     const correctSelector = (await testidBasedSelector.isVisible())
       ? testidBasedSelector
