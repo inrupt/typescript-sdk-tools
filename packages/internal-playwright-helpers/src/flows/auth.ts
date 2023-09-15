@@ -50,7 +50,10 @@ export class AuthFlow {
    * to the OpenID provider, log in, allow the client when redirected to the broker,
    * and completes login after being redirected to client.
    */
-  async login(options: { allow: boolean } = { allow: true }): Promise<void> {
+  async login(
+    options: { allow: boolean; timeout?: number } = { allow: true },
+  ): Promise<void> {
+    const timeoutOptions = { timeout: options.timeout ?? 15_000 };
     const testPage = new TestPage(this.page, this.openidProvider);
     const cognitoPage = new CognitoPage(this.page);
     const openIdPage = new OpenIdPage(this.page);
@@ -60,8 +63,9 @@ export class AuthFlow {
         (url) =>
           // If the user is already authenticated to the OpenID Provider, they may be redirected directly to the broker
           CognitoPage.isOnPage(url) || OpenIdPage.isOnPage(url),
+        timeoutOptions,
       ),
-      testPage.startLogin(),
+      testPage.startLogin(timeoutOptions),
     ]);
     if (CognitoPage.isOnPage(new URL(this.page.url()))) {
       await Promise.all([
@@ -69,8 +73,9 @@ export class AuthFlow {
           (url: URL) =>
             // After login, the user is redirected either to the broker or to the client.
             OpenIdPage.isOnPage(url) || TestPage.isOnPage(url),
+          timeoutOptions,
         ),
-        cognitoPage.login(this.userLogin, this.password),
+        cognitoPage.login(this.userLogin, this.password, timeoutOptions),
       ]);
     }
 
@@ -81,7 +86,7 @@ export class AuthFlow {
     const completeLoginConditions = [testPage.handleRedirect()];
     // TODO: handle allow === false
     if (options.allow && OpenIdPage.isOnPage(new URL(this.page.url()))) {
-      completeLoginConditions.push(openIdPage.allow());
+      completeLoginConditions.push(openIdPage.allow(timeoutOptions));
     }
     await Promise.all(completeLoginConditions);
   }
