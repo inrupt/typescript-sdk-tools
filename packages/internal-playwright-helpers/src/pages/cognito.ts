@@ -34,8 +34,14 @@ export class CognitoPage {
 
   static isOnPage = (url: URL): boolean => url.hostname.includes("auth.");
 
-  async login(username: string, password: string) {
-    await this.page.getByRole("textbox", { name: "Username" }).fill(username);
+  async login(
+    username: string,
+    password: string,
+    options?: { timeout?: number },
+  ) {
+    await this.page
+      .getByRole("textbox", { name: "Username" })
+      .fill(username, options);
     await this.page.getByRole("textbox", { name: "Password" }).fill(password);
     return this.page.getByRole("button", { name: "submit" }).click();
   }
