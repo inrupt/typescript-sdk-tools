@@ -26,7 +26,7 @@ jobs:
       # Run the audit and capture the results
       - run: npm audit --audit-level=moderate --omit=dev --json true | tee audit.json
         # Note: this name is used for matching, changing it is a breaking change.
-        name: npm audit
+        name: Dependency Check
       # Run the audit to check the signatures
       - run: npm audit signatures
       - name: Archive audit report
