@@ -33,7 +33,7 @@
   "homepage": "https://github.com/inrupt/typescript-sdk-tools#readme",
   "dependencies": {
     "@inrupt/eslint-config-lib": "^2.1.1",
-    "lerna": "^7.3.0",
+    "lerna": "^7.3.1",
     "rimraf": "^5.0.1",
     "rollup": "^3.29.3",
     "rollup-plugin-typescript2": "^0.35.0",
