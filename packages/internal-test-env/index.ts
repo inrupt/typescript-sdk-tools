@@ -435,7 +435,7 @@ export async function getPodRoot(session: Session) {
 
 export function createFetch(session: Session, userAgent: string): typeof fetch {
   return (url, options?) => {
-    return session.fetch(url, {
+    return session.fetch(url as string | Request, {
       ...options,
       headers: {
         ...options?.headers,
