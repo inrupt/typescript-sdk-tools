@@ -1,3 +1,5 @@
+# This workflow assumes that that the package being published has a
+# pre-publish workflow step as we DO NOT call 'npm run build'
 name: Reusable Release Workflow
 
 on:
