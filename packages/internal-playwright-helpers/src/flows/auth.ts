@@ -85,7 +85,10 @@ export class AuthFlow {
     // giving consent.
     const completeLoginConditions = [testPage.handleRedirect()];
     // TODO: handle allow === false
-    if (options.allow !== false && OpenIdPage.isOnPage(new URL(this.page.url()))) {
+    if (
+      options.allow !== false &&
+      OpenIdPage.isOnPage(new URL(this.page.url()))
+    ) {
       completeLoginConditions.push(openIdPage.allow(timeoutOptions));
     }
     await Promise.all(completeLoginConditions);
