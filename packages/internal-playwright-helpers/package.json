@@ -20,10 +20,12 @@
     }
   },
   "dependencies": {
-    "@inrupt/internal-playwright-testids": "2.4.1",
-    "@inrupt/internal-test-env": "2.4.1"
+    "@inrupt/internal-playwright-testids": "2.4.1"
   },
   "peerDependencies": {
     "@playwright/test": "^1.37.0"
+  },
+  "devDependencies": {
+    "@inrupt/internal-test-env": "^2.4.1"
   }
 }

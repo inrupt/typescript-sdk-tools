@@ -36,7 +36,7 @@ import {
   setIri,
   saveSolidDatasetAt,
 } from "@inrupt/solid-client";
-import { isValidUrl } from "./utils";
+import { isValidUrl } from "../utils";
 
 export const availableEnvironments = [
   "ESS Dev-2-2" as const,

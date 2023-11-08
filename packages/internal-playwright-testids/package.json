@@ -18,5 +18,8 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     }
+  },
+  "devDependencies": {
+    "@inrupt/internal-test-env": "^2.4.1"
   }
 }
