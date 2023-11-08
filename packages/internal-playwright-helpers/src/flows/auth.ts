@@ -51,7 +51,7 @@ export class AuthFlow {
    * and completes login after being redirected to client.
    */
   async login(
-    options: { allow: boolean; timeout?: number } = { allow: true },
+    options: { allow?: boolean; timeout?: number } = {},
   ): Promise<void> {
     const timeoutOptions = { timeout: options.timeout ?? 15_000 };
     const testPage = new TestPage(this.page, this.openidProvider);
@@ -85,7 +85,7 @@ export class AuthFlow {
     // giving consent.
     const completeLoginConditions = [testPage.handleRedirect()];
     // TODO: handle allow === false
-    if (options.allow && OpenIdPage.isOnPage(new URL(this.page.url()))) {
+    if (options.allow !== false && OpenIdPage.isOnPage(new URL(this.page.url()))) {
       completeLoginConditions.push(openIdPage.allow(timeoutOptions));
     }
     await Promise.all(completeLoginConditions);
