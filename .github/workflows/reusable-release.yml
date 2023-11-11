@@ -1,3 +1,5 @@
+# This workflow assumes that that the package being published has a
+# pre-publish workflow step as we DO NOT call 'npm run build'
 name: Reusable Release Workflow
 
 on:
@@ -14,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Prepare for publication to npm
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: ".nvmrc"
           registry-url: "https://registry.npmjs.org"
