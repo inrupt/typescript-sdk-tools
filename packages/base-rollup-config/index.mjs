@@ -22,7 +22,7 @@ import typescript from "rollup-plugin-typescript2";
 import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
 
-export const createSharedConfig = pkg => ({
+export const createSharedConfig = (pkg) => ({
   plugins: [
     typescript({
       // Use our own version of TypeScript, rather than the one bundled with the plugin:
@@ -34,7 +34,10 @@ export const createSharedConfig = pkg => ({
       },
     }),
   ],
-  external: Object.keys(pkg.dependencies),
+  external: [
+    ...Object.keys(pkg.dependencies || {}),
+    ...Object.keys(pkg.peerDependencies || {}),
+  ],
   // The following option is useful because symlinks are used in monorepos
   preserveSymlinks: true,
 });
