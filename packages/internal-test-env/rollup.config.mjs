@@ -4,13 +4,6 @@ import pkg from "./package.json" assert { type: "json" };
 export default [
   {
     ...createSharedConfig(pkg),
-    external: [
-      "dotenv",
-      "path",
-      "deepmerge-json",
-      "@inrupt/solid-client-authn-node",
-      "@inrupt/solid-client",
-    ],
     input: "index.ts",
     output: [
       {
