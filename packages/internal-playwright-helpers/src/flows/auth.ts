@@ -57,6 +57,12 @@ export class AuthFlow {
     const testPage = new TestPage(this.page, this.openidProvider);
     const cognitoPage = new CognitoPage(this.page);
     const openIdPage = new OpenIdPage(this.page);
+    // Clicking on the consent screen from the broker will redirect to the
+    // test page, and trigger the token request. To prevent this being a
+    // race condition, waiting on this request should be done prior to
+    // giving consent.
+    const completeLoginConditions = [testPage.handleRedirect()];
+
     // First, initiate login in the test client, and wait for the redirect to the OP
     await Promise.all([
       this.page.waitForURL(
@@ -79,11 +85,6 @@ export class AuthFlow {
       ]);
     }
 
-    // Clicking on the consent screen from the broker will redirect to the
-    // test page, and trigger the token request. To prevent this being a
-    // race condition, waiting on this request should be done prior to
-    // giving consent.
-    const completeLoginConditions = [testPage.handleRedirect()];
     // TODO: handle allow === false
     if (options.allow && OpenIdPage.isOnPage(new URL(this.page.url()))) {
       completeLoginConditions.push(openIdPage.allow(timeoutOptions));
