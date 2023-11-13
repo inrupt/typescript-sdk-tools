@@ -18,5 +18,8 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     }
+  },
+  "devDependencies": {
+    "@inrupt/base-rollup-config": "^2.4.1"
   }
 }
