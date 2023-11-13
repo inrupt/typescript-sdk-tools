@@ -33,15 +33,15 @@
   "homepage": "https://github.com/inrupt/typescript-sdk-tools#readme",
   "dependencies": {
     "@inrupt/eslint-config-lib": "^2.1.1",
-    "lerna": "^7.3.1",
+    "lerna": "^7.4.2",
     "rimraf": "^5.0.5",
-    "rollup": "^4.1.4",
+    "rollup": "^4.4.0",
     "rollup-plugin-typescript2": "^0.35.0",
     "typescript": "^5.2.2"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.5.1",
-    "@types/react": "^18.2.27",
+    "@types/react": "^18.2.37",
     "next": "^13.5.4"
   }
 }
