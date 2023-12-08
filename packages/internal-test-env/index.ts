@@ -38,20 +38,6 @@ import {
 } from "@inrupt/solid-client";
 import { isValidUrl } from "./utils";
 
-export const availableEnvironments = [
-  "ESS Dev-2-2" as const,
-  "ESS Dev-Next" as const,
-  "ESS PodSpaces" as const,
-  "NSS" as const,
-  "CSS" as const,
-];
-
-export type AvailableEnvironments = typeof availableEnvironments extends Array<
-  infer E
->
-  ? E
-  : never;
-
 export interface TestingEnvironmentNode extends TestingEnvironmentBase {
   clientCredentials: {
     owner:
@@ -82,7 +68,7 @@ export interface TestingEnvironmentBrowser extends TestingEnvironmentBase {
 }
 
 export interface TestingEnvironmentBase {
-  environment: AvailableEnvironments;
+  environment: string;
   idp: string;
   features: FeatureFlags | undefined;
   notificationGateway?: string;
@@ -99,7 +85,7 @@ const ENV_FEATURE_PREFIX = "E2E_TEST_FEATURE_";
 let envLoaded = false;
 export interface EnvVariables {
   // Common Envs
-  E2E_TEST_ENVIRONMENT: AvailableEnvironments;
+  E2E_TEST_ENVIRONMENT: string;
   E2E_TEST_IDP: string;
 }
 
@@ -291,11 +277,9 @@ function getBaseTestingEnvironment<T extends LibraryVariables>(
 
   // Load and validate target environment name.
   const targetEnvName = process.env.E2E_TEST_ENVIRONMENT;
-  if (!availableEnvironments.includes(targetEnvName as AvailableEnvironments)) {
+  if (typeof targetEnvName !== "string" || targetEnvName === "") {
     throw new Error(
-      `Unknown environment: [${targetEnvName}]\n\nAvailable environments are ${availableEnvironments
-        .map((env) => `[${env}]`)
-        .join(", ")}`,
+      "The environment variable E2E_TEST_ENVIRONMENT is undefined or an empty string.",
     );
   }
 
