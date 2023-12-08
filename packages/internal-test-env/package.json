@@ -1,6 +1,6 @@
 {
   "name": "@inrupt/internal-test-env",
-  "version": "2.4.1",
+  "version": "2.6.0",
   "description": "This package provides various test environment utilities needed for jest when using the Inrupt SDKs",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -28,6 +28,6 @@
     "dotenv": "^16.3.1"
   },
   "devDependencies": {
-    "@inrupt/base-rollup-config": "^2.4.1"
+    "@inrupt/base-rollup-config": "2.6.0"
   }
 }
