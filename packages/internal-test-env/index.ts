@@ -40,10 +40,11 @@ import { isValidUrl } from "./utils";
 
 export const availableEnvironments = [
   "ESS Dev-2-2" as const,
-  "ESS Dev-Next" as const,
+  "ESS Dev-2-1" as const,
   "ESS PodSpaces" as const,
   "NSS" as const,
   "CSS" as const,
+  "Custom" as const,
 ];
 
 export type AvailableEnvironments = typeof availableEnvironments extends Array<
