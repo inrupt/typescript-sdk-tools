@@ -77,6 +77,10 @@ module.exports = {
           "error",
           { prefer: "type-imports" },
         ],
+        // Using the typescript-eslint version of the followig rule prevents
+        // from flagging parameter names in signature types as unused.
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": "error",
       },
     },
   ],
