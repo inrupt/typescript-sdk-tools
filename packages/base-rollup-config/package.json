@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/inrupt/typescript-sdk-tools/issues"
   },
-  "homepage": "https://github.com/inrupt/typescript-sdk-tools#readme"
+  "homepage": "https://github.com/inrupt/typescript-sdk-tools#readme",
+  "dependencies": {
+    "@rollup/plugin-typescript": "^11.1.5"
+  }
 }
