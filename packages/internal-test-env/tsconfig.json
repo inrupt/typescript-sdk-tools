@@ -6,8 +6,8 @@
     // "moduleResolution": "node",
     "lib": ["es2017", "dom"],
     "declaration": true,
-    "outDir": "dist",
-    "rootDir": "./",
+    "outDir": "./dist",
+    "rootDir": "./src",
     "strict": true,
     "esModuleInterop": true,
     // Prevent developers on different OSes from running into problems:
@@ -16,5 +16,5 @@
     "stripInternal": true,
     "allowJs": false
   },
-  "include": ["index.ts"]
+  "include": ["src/**/*.ts"],
 }
