@@ -42,6 +42,6 @@
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.6.0",
     "@types/react": "^18.2.45",
-    "next": "^13.5.4"
+    "next": "^14.0.4"
   }
 }
