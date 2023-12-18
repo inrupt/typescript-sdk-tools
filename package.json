@@ -36,12 +36,11 @@
     "lerna": "^8.0.1",
     "rimraf": "^5.0.5",
     "rollup": "^4.7.0",
-    "rollup-plugin-typescript2": "^0.35.0",
     "typescript": "^5.3.3"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.6.0",
-    "@types/react": "^18.2.45",
-    "next": "^13.5.4"
+    "next": "^14.0.4",
+    "@types/react": "^18.2.45"
   }
 }

@@ -36,7 +36,6 @@ import {
   setIri,
   saveSolidDatasetAt,
 } from "@inrupt/solid-client";
-import { isValidUrl } from "./utils";
 
 export const availableEnvironments = [
   "ESS Dev-2-2" as const,
@@ -104,6 +103,16 @@ export interface EnvVariables {
   E2E_TEST_IDP: string;
 }
 
+export function isValidUrl(url: string): boolean {
+  try {
+    // Use URL constructor for validation
+    // eslint-disable-next-line no-new
+    new URL(url);
+    return true;
+  } catch {
+    return false;
+  }
+}
 export function setupEnv() {
   // If we're in CI, the environment is already configured. Otherwise, it is
   // loaded once.
