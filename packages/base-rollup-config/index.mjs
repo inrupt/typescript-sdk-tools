@@ -22,7 +22,9 @@ import typescript from "@rollup/plugin-typescript";
 
 export const createSharedConfig = (pkg) => ({
   plugins: [typescript({
-    module: 'ESNext'
+    compilerOptions: {
+      module: 'ESNext'
+    }
   })],
   external: [
     ...Object.keys(pkg.dependencies || {}),
