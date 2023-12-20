@@ -1,7 +1,7 @@
 {
   "name": "@inrupt/eslint-config-base",
   "description": "Shared eslint config for Javascript at @inrupt",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "publishConfig": {
     "access": "public"
   },
