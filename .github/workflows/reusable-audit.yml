@@ -30,7 +30,7 @@ jobs:
       # Run the audit to check the signatures
       - run: npm audit signatures
       - name: Archive audit report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         continue-on-error: true
         with:
           name: audit.json
