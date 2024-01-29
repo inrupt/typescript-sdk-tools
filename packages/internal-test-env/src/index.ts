@@ -46,11 +46,8 @@ export const availableEnvironments = [
   "Custom" as const,
 ];
 
-export type AvailableEnvironments = typeof availableEnvironments extends Array<
-  infer E
->
-  ? E
-  : never;
+export type AvailableEnvironments =
+  typeof availableEnvironments extends Array<infer E> ? E : never;
 
 export interface TestingEnvironmentNode extends TestingEnvironmentBase {
   clientCredentials: {
