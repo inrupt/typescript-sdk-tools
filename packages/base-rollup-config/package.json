@@ -23,6 +23,6 @@
   },
   "homepage": "https://github.com/inrupt/typescript-sdk-tools#readme",
   "dependencies": {
-    "@rollup/plugin-typescript": "^11.1.5"
+    "@rollup/plugin-typescript": "^11.1.6"
   }
 }
