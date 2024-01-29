@@ -66,7 +66,6 @@ if (typeof globalThis.File === "undefined") {
 
 // FIXME This is a temporary workaround for https://github.com/jsdom/jsdom/issues/1724#issuecomment-720727999
 // The following fetch APIs are missing in JSDom
-const undici = require("undici");
 
 if (
   typeof globalThis.Response === "undefined" ||
@@ -74,6 +73,7 @@ if (
   typeof globalThis.Headers === "undefined" ||
   typeof globalThis.fetch === "undefined"
 ) {
+  const undici = require("undici");
   globalThis.Response = undici.Response;
   globalThis.Request = undici.Request;
   globalThis.Headers = undici.Headers;
