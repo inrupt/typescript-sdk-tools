@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/inrupt/typescript-sdk-tools#readme",
   "dependencies": {
-    "@peculiar/webcrypto": "^1.4.0",
+    "@peculiar/webcrypto": "^1.4.5",
     "@web-std/blob": "^3.0.5",
     "@web-std/file": "^3.0.3",
     "undici": "^5.27.2"
