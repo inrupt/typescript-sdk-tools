@@ -1,6 +1,6 @@
 {
   "name": "@inrupt/base-rollup-config",
-  "version": "3.0.2",
+  "version": "3.1.0",
   "description": "This package provides a shared rollup config for our packages",
   "main": "index.mjs",
   "module": "true",
