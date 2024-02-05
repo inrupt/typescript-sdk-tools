@@ -31,6 +31,6 @@
     "undici": "^5.27.2"
   },
   "devDependencies": {
-    "@types/node": "^20.11.10"
+    "@types/node": "^20.11.16"
   }
 }
