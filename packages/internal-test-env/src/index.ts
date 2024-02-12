@@ -21,7 +21,6 @@
 import { join } from "path";
 import { config } from "dotenv";
 import { Session } from "@inrupt/solid-client-authn-node";
-import { getAuthenticatedFetch } from "@jeswr/css-auth-utils";
 import merge from "deepmerge-json";
 import {
   createContainerInContainer,
@@ -43,7 +42,6 @@ export const availableEnvironments = [
   "ESS Dev-2-1" as const,
   "ESS PodSpaces" as const,
   "NSS" as const,
-  "CSS" as const,
   "Custom" as const,
 ];
 
@@ -52,18 +50,11 @@ export type AvailableEnvironments =
 
 export interface TestingEnvironmentNode extends TestingEnvironmentBase {
   clientCredentials: {
-    owner:
-      | {
-          type: "ESS Client Credentials";
-          id: string;
-          secret: string;
-        }
-      | {
-          type: "CSS Client Credentials";
-          login: string;
-          password: string;
-          email: string;
-        };
+    owner: {
+      type: "ESS Client Credentials";
+      id: string;
+      secret: string;
+    };
     requestor?: {
       id?: string;
       secret?: string;
@@ -210,8 +201,7 @@ function validateLibVars(varsToValidate: LibraryVariables): object {
   if (
     varsToValidate.clientCredentials?.owner?.id &&
     typeof process.env.E2E_TEST_OWNER_CLIENT_ID !== "string" &&
-    process.env.E2E_TEST_OWNER_CLIENT_ID !== "" &&
-    process.env.E2E_TEST_ENVIRONMENT !== "CSS"
+    process.env.E2E_TEST_OWNER_CLIENT_ID !== ""
   ) {
     throw new Error(
       "Missing the E2E_TEST_OWNER_CLIENT_ID environment variable",
@@ -220,8 +210,7 @@ function validateLibVars(varsToValidate: LibraryVariables): object {
   if (
     varsToValidate.clientCredentials?.owner?.secret &&
     typeof process.env.E2E_TEST_OWNER_CLIENT_SECRET !== "string" &&
-    process.env.E2E_TEST_OWNER_CLIENT_SECRET !== "" &&
-    process.env.E2E_TEST_ENVIRONMENT !== "CSS"
+    process.env.E2E_TEST_OWNER_CLIENT_SECRET !== ""
   ) {
     throw new Error(
       "Missing the E2E_TEST_OWNER_CLIENT_SECRET environment variable",
@@ -267,21 +256,13 @@ function validateLibVars(varsToValidate: LibraryVariables): object {
     notificationProtocol: process.env.E2E_TEST_NOTIFICATION_PROTOCOL,
     vcProvider: process.env.E2E_TEST_VC_PROVIDER,
     clientCredentials: {
-      owner:
-        process.env.E2E_TEST_ENVIRONMENT !== "CSS"
-          ? {
-              type: "ESS Client Credentials",
-              id: process.env.E2E_TEST_OWNER_CLIENT_ID,
-              secret: process.env.E2E_TEST_OWNER_CLIENT_SECRET,
-              login: process.env.E2E_TEST_USER,
-              password: process.env.E2E_TEST_PASSWORD,
-            }
-          : {
-              type: "CSS Client Credentials",
-              login: process.env.E2E_TEST_USER,
-              password: process.env.E2E_TEST_PASSWORD,
-              email: process.env.E2E_TEST_EMAIL,
-            },
+      owner: {
+        type: "ESS Client Credentials",
+        id: process.env.E2E_TEST_OWNER_CLIENT_ID,
+        secret: process.env.E2E_TEST_OWNER_CLIENT_SECRET,
+        login: process.env.E2E_TEST_USER,
+        password: process.env.E2E_TEST_PASSWORD,
+      },
       requestor: {
         id: process.env.E2E_TEST_REQUESTOR_CLIENT_ID,
         secret: process.env.E2E_TEST_REQUESTOR_CLIENT_SECRET,
@@ -361,28 +342,6 @@ export async function getAuthenticatedSession(
 ): Promise<Session> {
   const { owner } = authDetails.clientCredentials;
 
-  if (owner.type === "CSS Client Credentials") {
-    return {
-      info: {
-        isLoggedIn: true,
-        // CSS WebIds are always minted in this format
-        // with the configs that are currently available
-        webId: `${authDetails.idp + owner.login}/profile/card#me`,
-        sessionId: "",
-      },
-      fetch: await getAuthenticatedFetch({
-        podName: owner.login,
-        password: owner.password,
-        url: authDetails.idp,
-        email: owner.email,
-      }),
-      logout() {
-        this.info.isLoggedIn = false;
-        this.fetch = globalThis.fetch;
-      },
-    } as Session;
-  }
-
   const session = new Session();
 
   await session.login({
@@ -396,34 +355,6 @@ export async function getAuthenticatedSession(
   }
 
   return session;
-}
-
-// Adds the `pim:storage` triple to a CSS WebId profile document
-// as it is not made available by default
-export async function addCssPimStorage(
-  authDetails: TestingEnvironmentNode,
-): Promise<void> {
-  const session = await getAuthenticatedSession(authDetails);
-  const { webId } = session.info;
-
-  if (!webId) throw new Error("WebId cannot be found in session");
-
-  let dataset = await getSolidDataset(webId, { fetch: session.fetch });
-  const thing = getThing(dataset, webId);
-
-  if (!thing)
-    throw new Error("WebId cannot be found in WebId profile document");
-
-  dataset = setThing(
-    dataset,
-    setIri(
-      thing,
-      "http://www.w3.org/ns/pim/space#storage",
-      webId.replace("profile/card#me", ""),
-    ),
-  );
-
-  await saveSolidDatasetAt(webId, dataset, { fetch: session.fetch });
 }
 
 export async function getPodRoot(session: Session) {
