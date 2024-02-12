@@ -29,11 +29,6 @@ import {
   getPodUrlAll,
   getSourceIri,
   saveSolidDatasetInContainer,
-  getSolidDataset,
-  setThing,
-  getThing,
-  setIri,
-  saveSolidDatasetAt,
 } from "@inrupt/solid-client";
 
 export const availableEnvironments = [
