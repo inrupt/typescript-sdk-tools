@@ -24,7 +24,7 @@
     "@inrupt/internal-test-env": "3.2.1"
   },
   "peerDependencies": {
-    "@playwright/test": "^1.41.2"
+    "@playwright/test": "^1.37.0"
   },
   "devDependencies": {
     "@inrupt/base-rollup-config": "3.1.0"
