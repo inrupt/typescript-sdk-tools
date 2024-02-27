@@ -40,7 +40,7 @@ jobs:
         # run even for dependabot so that the matrixed jobs are skipped, instead
         # of the whole pipeline.
         if: ${{ github.actor != 'dependabot[bot]' }}
-        run: npm t
+        run: npm run test
         env:
           E2E_DEMO_CLIENT_APP_URL: http://localhost:3001
           E2E_TEST_USER: ${{ secrets.E2E_TEST_USER }}
@@ -49,3 +49,10 @@ jobs:
           E2E_TEST_OWNER_CLIENT_ID: ${{ secrets.E2E_TEST_OWNER_CLIENT_ID }}
           E2E_TEST_OWNER_CLIENT_SECRET: ${{ secrets.E2E_TEST_OWNER_CLIENT_SECRET }}
           E2E_TEST_ENVIRONMENT: ${{ matrix.environment-name }}
+      - name: Archive browser-based end-to-end test request logs
+        uses: actions/upload-artifact@v4
+        if: failure()
+        continue-on-error: true
+        with:
+          name: playwright-output
+          path: test-results/
