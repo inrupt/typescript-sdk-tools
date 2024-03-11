@@ -35,12 +35,12 @@
     "@inrupt/eslint-config-lib": "^2.1.1",
     "lerna": "^8.1.2",
     "rimraf": "^5.0.5",
-    "rollup": "^4.12.0",
-    "typescript": "^5.3.3"
+    "rollup": "^4.12.1",
+    "typescript": "^5.4.2"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.7.2",
     "next": "^14.1.0",
-    "@types/react": "^18.2.58"
+    "@types/react": "^18.2.64"
   }
 }
