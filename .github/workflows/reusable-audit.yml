@@ -16,6 +16,9 @@ jobs:
           node-version: "20"
           registry-url: "https://registry.npmjs.org"
           cache: "npm"
+      # actions/setup-node doesn't necessarily install the latest NPM CLI
+      # version, and it has caused issues with signatures auditing for instance.
+      - run: npm install -g npm@latest
       # Install dependencies so license-checker actually checks them:
       - run: npm ci
       # We check the dependency licenses as part of the audit job, as a
