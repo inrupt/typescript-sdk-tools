@@ -39,7 +39,7 @@
     "typescript": "^5.4.3"
   },
   "devDependencies": {
-    "@playwright/test": "~1.37.0",
+    "@playwright/test": "~1.42.1",
     "@rushstack/eslint-patch": "^1.9.0",
     "@types/react": "^18.2.73",
     "next": "^14.1.4"
