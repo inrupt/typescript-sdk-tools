@@ -35,7 +35,7 @@
     "@inrupt/eslint-config-lib": "^2.1.1",
     "lerna": "^8.1.2",
     "rimraf": "^5.0.5",
-    "rollup": "^4.14.3",
+    "rollup": "^4.16.3",
     "typescript": "^5.4.5"
   },
   "devDependencies": {
