@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@inrupt/solid-client": "^2.0.1",
-    "@inrupt/solid-client-authn-node": "^2.2.3",
+    "@inrupt/solid-client-authn-node": "^2.2.4",
     "deepmerge-json": "^1.5.0",
     "dotenv": "^16.4.5"
   },
