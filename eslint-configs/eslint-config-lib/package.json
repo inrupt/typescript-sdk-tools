@@ -24,6 +24,6 @@
     "@inrupt/eslint-config-base": "file:../eslint-config-base",
     "@typescript-eslint/eslint-plugin": "^7.15.0",
     "@typescript-eslint/parser": "^7.15.0",
-    "typescript": ">=5.4.5"
+    "typescript": ">=5.5.3"
   }
 }
