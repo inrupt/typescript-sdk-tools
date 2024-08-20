@@ -44,7 +44,7 @@ module.exports = {
       },
     },
     jest: {
-      // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires, import/extensions
+      // eslint-disable-next-line global-require, @typescript-eslint/no-require-imports, import/extensions
       version: require("jest/package.json").version,
     },
   },
