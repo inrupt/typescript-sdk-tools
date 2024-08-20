@@ -20,7 +20,7 @@
 //
 
 /* eslint-disable global-require */
-/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-require-imports */
 
 // TextEncoder / TextDecoder APIs are used by Jose, but are not provided by
 // jsdom, all node versions supported provide these via the util module
