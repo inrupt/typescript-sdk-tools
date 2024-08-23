@@ -21,7 +21,9 @@
 
 /* eslint-disable jest/no-done-callback */
 
-import { test, expect } from "@inrupt/internal-playwright-helpers";
+// We are using a typescript path but lint is not picking this up.
+// eslint-disable-next-line import/no-unresolved
+import { test, expect } from "@/packages/internal-playwright-helpers";
 
 test("creating and removing empty Containers", async ({ page, auth }) => {
   await auth.login({ allow: true });

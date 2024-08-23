@@ -19,7 +19,9 @@
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import { setupEnv } from "@inrupt/internal-test-env";
+// We are using a typescript path but lint is not picking this up.
+// eslint-disable-next-line import/no-unresolved
+import { setupEnv } from "@/packages/internal-test-env";
 
 async function globalSetup() {
   setupEnv();
