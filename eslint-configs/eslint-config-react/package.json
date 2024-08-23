@@ -23,7 +23,7 @@
   "homepage": "https://github.com/inrupt/typescript-sdk-tools/tree/main/eslint-configs/eslint-config-react#readme",
   "dependencies": {
     "@babel/eslint-parser": "^7.25.1",
-    "@inrupt/eslint-config-base": "file:../eslint-config-base",
+    "@inrupt/eslint-config-base": "^3.2.2",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-jsx-a11y": "^6.9.0",
     "eslint-plugin-react": "^7.35.0",
