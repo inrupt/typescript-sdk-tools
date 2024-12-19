@@ -8,7 +8,7 @@
     "build": "lerna run build",
     "clean": "lerna run clean",
     "release": "scripts/release.sh",
-    "test": "playwright test",
+    "test:e2e:browser": "playwright test",
     "e2e:test:setup": "cd ./e2e/browser/test-app && npm ci",
     "prepare-release": "scripts/prepare-release.sh",
     "lint": "npm run lint:check",
