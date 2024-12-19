@@ -19,9 +19,8 @@
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-// Disabling the following prevents from having to install before linting from
-// the root.
-// eslint-disable-next-line import/no-unresolved
+"use client";
+
 import React, { useState, useEffect } from "react";
 import {
   login,
@@ -30,9 +29,9 @@ import {
   getDefaultSession,
   ISessionInfo,
 } from "@inrupt/solid-client-authn-browser";
-import SolidClient from "../solidClient";
+import SolidClient from "../components/solidClient";
 
-const REDIRECT_URL = window.location.href;
+const REDIRECT_URL = "http://localhost:3000";
 const APP_NAME = "Solid client browser-based tests app";
 const DEFAULT_ISSUER = "https://login.inrupt.com/";
 
