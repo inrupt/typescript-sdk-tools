@@ -30,8 +30,8 @@ test("creating and removing empty Containers", async ({ page, auth }) => {
 
   // The button is only shown once the app is ready.
   await expect(
-    page.locator("button[data-testid=createContainer]").isVisible(),
-  ).resolves.toBe(true);
+    page.locator("button[data-testid=createContainer]")
+  ).toBeVisible();
 
   // A root container should have been found.
   await expect(page.getByTestId("parentContainerUrl")).toContainText(
