@@ -9,7 +9,7 @@
     "clean": "lerna run clean",
     "release": "scripts/release.sh",
     "test:e2e:browser": "playwright test",
-    "e2e:test:setup": "cd ./e2e/browser/test-app && npm ci",
+    "e2e:test:setup": "cd ./e2e/browser/test-app && npm ci --omit=optional",
     "prepare-release": "scripts/prepare-release.sh",
     "lint": "npm run lint:check",
     "lint:check": "npm run lint:eslint && npm run lint:prettier -- --check",
