@@ -29,7 +29,9 @@ test("creating and removing empty Containers", async ({ page, auth }) => {
   await auth.login({ allow: true });
 
   // The button is only shown once the app is ready.
-  await page.waitForSelector("button[data-testid=createContainer]");
+  await expect(
+    page.locator("button[data-testid=createContainer]"),
+  ).toBeVisible();
 
   // A root container should have been found.
   await expect(page.getByTestId("parentContainerUrl")).toContainText(
@@ -45,7 +47,9 @@ test("creating and removing empty Containers", async ({ page, auth }) => {
   ]);
 
   // The delete button is only shown once the state has been updated after creation.
-  await page.waitForSelector("button[data-testid=deleteContainer]");
+  await expect(
+    page.locator("button[data-testid=deleteContainer]").isVisible(),
+  ).resolves.toBe(true);
 
   // The child container should have been created under the parent
   await expect(
@@ -60,7 +64,9 @@ test("creating and removing empty Containers", async ({ page, auth }) => {
     page.click("button[data-testid=deleteContainer]"),
   ]);
 
-  await page.waitForSelector("button[data-testid=createContainer]");
+  await expect(
+    page.locator("button[data-testid=createContainer]").isVisible(),
+  ).resolves.toBe(true);
 
   // The child container should have been deleted.
   await expect(
