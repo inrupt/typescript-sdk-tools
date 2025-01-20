@@ -21,3 +21,7 @@ updates:
     directory: "e2e/browser/test-app"
     schedule:
       interval: "weekly"
+    groups:
+      external-types:
+        patterns:
+          - "@types/*"
