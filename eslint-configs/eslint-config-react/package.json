@@ -1,7 +1,7 @@
 {
   "name": "@inrupt/eslint-config-react",
   "description": "Shared eslint config for React projects at @inrupt",
-  "version": "3.2.4",
+  "version": "3.2.5",
   "publishConfig": {
     "access": "public"
   },
@@ -23,7 +23,7 @@
   "homepage": "https://github.com/inrupt/typescript-sdk-tools/tree/main/eslint-configs/eslint-config-react#readme",
   "dependencies": {
     "@babel/eslint-parser": "^7.26.8",
-    "@inrupt/eslint-config-base": "3.2.4",
+    "@inrupt/eslint-config-base": "3.2.5",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.4",
