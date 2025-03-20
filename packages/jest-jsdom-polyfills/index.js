@@ -73,6 +73,12 @@ if (
   typeof globalThis.Headers === "undefined" ||
   typeof globalThis.fetch === "undefined"
 ) {
+  // ReadableStream and MessagePort are required by undici,
+  // and are not available in JSDom
+  // eslint-disable-next-line no-shadow
+  const { ReadableStream } = require("node:stream/web");
+  globalThis.ReadableStream = ReadableStream;
+  globalThis.MessagePort = require("worker_threads").MessagePort;
   const undici = require("undici");
   globalThis.Response = undici.Response;
   globalThis.Request = undici.Request;
