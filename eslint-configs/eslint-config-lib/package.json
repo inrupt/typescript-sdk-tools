@@ -23,7 +23,7 @@
   "dependencies": {
     "@inrupt/eslint-config-base": "file:../eslint-config-base",
     "@typescript-eslint/eslint-plugin": "^8.27.0",
-    "@typescript-eslint/parser": "^8.26.1",
+    "@typescript-eslint/parser": "^8.27.0",
     "typescript": ">=5.8.2"
   }
 }
