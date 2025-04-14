@@ -41,7 +41,7 @@
   "devDependencies": {
     "@playwright/test": "^1.51.1",
     "@rushstack/eslint-patch": "^1.11.0",
-    "@types/react": "^19.1.0",
+    "@types/react": "^19.1.2",
     "next": "^15.3.0"
   }
 }
