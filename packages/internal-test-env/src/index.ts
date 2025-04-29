@@ -32,10 +32,10 @@ import {
 } from "@inrupt/solid-client";
 
 export const availableEnvironments = [
+  "ESS Dev-2-4" as const,
+  "ESS Release-2-3" as const,
   "ESS Dev-2-3" as const,
-  "ESS Dev-2-2" as const,
   "ESS PodSpaces" as const,
-  "NSS" as const,
   "Custom" as const,
 ];
 
