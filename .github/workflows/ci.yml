@@ -55,7 +55,6 @@ jobs:
           name: playwright-output
           path: test-results/
 
-
   check:
     if: always()
     needs:
