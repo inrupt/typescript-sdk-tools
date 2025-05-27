@@ -28,7 +28,7 @@
     "@peculiar/webcrypto": "^1.5.0",
     "@web-std/blob": "^3.0.5",
     "@web-std/file": "^3.0.3",
-    "undici": "^7.9.0"
+    "undici": "^7.10.0"
   },
   "devDependencies": {
     "@types/node": "^22.15.21"
