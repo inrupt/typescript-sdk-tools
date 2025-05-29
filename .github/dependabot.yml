@@ -9,6 +9,9 @@ updates:
     # The following is required for workspaces to be updated: see https://github.com/dependabot/dependabot-core/issues/5226.
     versioning-strategy: increase
     open-pull-requests-limit: 10
+    allow:
+    - dependency-type: "all"
+    update-type: "all"
     groups:
       external-types:
         patterns:
