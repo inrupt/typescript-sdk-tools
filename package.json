@@ -9,17 +9,16 @@
     "clean": "lerna run clean",
     "release": "scripts/release.sh",
     "test:e2e:browser": "playwright test",
-    "e2e:test:setup": "cd ./e2e/browser/test-app && npm ci --omit=optional",
     "prepare-release": "scripts/prepare-release.sh",
     "lint": "npm run lint:check",
-    "lint:check": "npm run lint:eslint && npm run lint:prettier -- --check",
-    "lint:eslint": "eslint --config .eslintrc.js \"packages/\" \"e2e/\" \"eslint-configs/\"",
-    "lint:prettier": "prettier \"{src,e2e,examples}/**/*.{ts,tsx,js,jsx,css}\" \"**/*.{md,mdx,yml}\"",
-    "lint:fix": "npm run lint:eslint -- --fix && npm run lint:prettier -- --write"
+    "lint:check": "npm run lint:eslint",
+    "lint:fix": "npm run lint:eslint -- --fix",
+    "lint:eslint": "eslint --config eslint.config.mjs ."
   },
   "workspaces": [
-    "eslint-configs/*",
-    "packages/*"
+    "eslint-config/",
+    "packages/*",
+    "e2e/browser/test-app"
   ],
   "repository": {
     "type": "git",
@@ -32,16 +31,17 @@
   },
   "homepage": "https://github.com/inrupt/typescript-sdk-tools#readme",
   "dependencies": {
-    "@inrupt/eslint-config-lib": "file:./eslint-configs/eslint-config-lib",
     "lerna": "^8.2.2",
     "rimraf": "^6.0.1",
     "rollup": "^4.43.0",
     "typescript": "^5.8.3"
   },
   "devDependencies": {
+    "@inrupt/eslint-config-base": "file:./eslint-config/",
+    "@next/eslint-plugin-next": "^15.3.3",
     "@playwright/test": "^1.52.0",
-    "@rushstack/eslint-patch": "^1.11.0",
     "@types/react": "^19.1.7",
+    "eslint": "^9.28.0",
     "next": "^15.3.3"
   }
 }

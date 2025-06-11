@@ -1,4 +1,3 @@
-//
 // Copyright Inrupt Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,7 +18,6 @@
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-/* eslint-disable global-require */
 /* eslint-disable @typescript-eslint/no-require-imports */
 
 // TextEncoder / TextDecoder APIs are used by Jose, but are not provided by
@@ -75,7 +73,7 @@ if (
 ) {
   // ReadableStream and MessagePort are required by undici,
   // and are not available in JSDom
-  // eslint-disable-next-line no-shadow
+
   const { ReadableStream } = require("node:stream/web");
   globalThis.ReadableStream = ReadableStream;
   globalThis.MessagePort = require("worker_threads").MessagePort;

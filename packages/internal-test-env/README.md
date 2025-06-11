@@ -10,7 +10,7 @@ This package contains utilities to help setup automated testing environments.
 
 Add the function import as needed.
 
-```
+```js
 import "@inrupt/internal-test-env"
 ```
 

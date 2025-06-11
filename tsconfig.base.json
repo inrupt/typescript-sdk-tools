@@ -12,6 +12,6 @@
     "forceConsistentCasingInFileNames": true,
     /* Advanced Options */
     "stripInternal": true,
-    "allowJs": false,
-  },
+    "allowJs": false
+  }
 }

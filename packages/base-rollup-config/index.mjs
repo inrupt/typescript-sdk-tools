@@ -1,4 +1,3 @@
-//
 // Copyright Inrupt Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -18,14 +17,17 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
+
 import typescript from "@rollup/plugin-typescript";
 
 export const createSharedConfig = (pkg) => ({
-  plugins: [typescript({
-    compilerOptions: {
-      module: 'ESNext'
-    }
-  })],
+  plugins: [
+    typescript({
+      compilerOptions: {
+        module: "ESNext",
+      },
+    }),
+  ],
   external: [
     ...Object.keys(pkg.dependencies || {}),
     ...Object.keys(pkg.peerDependencies || {}),
@@ -34,7 +36,7 @@ export const createSharedConfig = (pkg) => ({
   preserveSymlinks: true,
 });
 
-export default pkg => [
+export default (pkg) => [
   {
     input: "./src/index.ts",
     output: [

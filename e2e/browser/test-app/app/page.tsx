@@ -1,4 +1,3 @@
-//
 // Copyright Inrupt Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,12 +21,12 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import type { ISessionInfo } from "@inrupt/solid-client-authn-browser";
 import {
   login,
   logout,
   handleIncomingRedirect,
   getDefaultSession,
-  ISessionInfo,
 } from "@inrupt/solid-client-authn-browser";
 import SolidClient from "../components/solidClient";
 
