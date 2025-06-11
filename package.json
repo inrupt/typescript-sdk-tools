@@ -18,7 +18,7 @@
     "lint:fix": "npm run lint:eslint -- --fix && npm run lint:prettier -- --write"
   },
   "workspaces": [
-    "eslint-configs/*",
+    "eslint-config/*",
     "packages/*"
   ],
   "repository": {
@@ -32,15 +32,14 @@
   },
   "homepage": "https://github.com/inrupt/typescript-sdk-tools#readme",
   "dependencies": {
-    "@inrupt/eslint-config-lib": "file:./eslint-configs/eslint-config-lib",
     "lerna": "^8.2.2",
     "rimraf": "^6.0.1",
     "rollup": "^4.43.0",
     "typescript": "^5.8.3"
   },
   "devDependencies": {
+    "@inrupt/eslint-config-base": "^3.2.7",
     "@playwright/test": "^1.52.0",
-    "@rushstack/eslint-patch": "^1.11.0",
     "@types/react": "^19.1.7",
     "next": "^15.3.3"
   }
