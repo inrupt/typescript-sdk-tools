@@ -18,8 +18,7 @@
   },
   "workspaces": [
     "eslint-config/",
-    "packages/*",
-    "e2e/browser/test-app/"
+    "packages/*"
   ],
   "repository": {
     "type": "git",
