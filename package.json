@@ -12,10 +12,9 @@
     "e2e:test:setup": "cd ./e2e/browser/test-app && npm ci --omit=optional",
     "prepare-release": "scripts/prepare-release.sh",
     "lint": "npm run lint:check",
-    "lint:check": "npm run lint:eslint && npm run lint:prettier -- --check",
-    "lint:eslint": "eslint --config .eslintrc.js \"packages/\" \"e2e/\" \"eslint-configs/\"",
-    "lint:prettier": "prettier \"{src,e2e,examples}/**/*.{ts,tsx,js,jsx,css}\" \"**/*.{md,mdx,yml}\"",
-    "lint:fix": "npm run lint:eslint -- --fix && npm run lint:prettier -- --write"
+    "lint:check": "npm run lint:eslint",
+    "lint:fix": "npm run lint:eslint -- --fix",
+    "lint:eslint": "eslint --config .eslint.config.mjs \"packages/\" \"e2e/\" \"eslint-config/\""
   },
   "workspaces": [
     "eslint-config/*",
@@ -38,7 +37,8 @@
     "typescript": "^5.8.3"
   },
   "devDependencies": {
-    "@inrupt/eslint-config-base": "^3.2.7",
+    "@inrupt/eslint-config-base": "file:./eslint-config/",
+    "@next/eslint-plugin-next": "^15.3.3",
     "@playwright/test": "^1.52.0",
     "@types/react": "^19.1.7",
     "next": "^15.3.3"
