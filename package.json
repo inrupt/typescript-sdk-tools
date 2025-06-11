@@ -14,7 +14,7 @@
     "lint": "npm run lint:check",
     "lint:check": "npm run lint:eslint",
     "lint:fix": "npm run lint:eslint -- --fix",
-    "lint:eslint": "eslint --config .eslint.config.mjs \"packages/\" \"e2e/\" \"eslint-config/\""
+    "lint:eslint": "eslint --config eslint.config.mjs \"packages/\" \"e2e/\" \"eslint-config/\""
   },
   "workspaces": [
     "eslint-config/*",
@@ -41,6 +41,7 @@
     "@next/eslint-plugin-next": "^15.3.3",
     "@playwright/test": "^1.52.0",
     "@types/react": "^19.1.7",
+    "eslint": "^9.28.0",
     "next": "^15.3.3"
   }
 }
