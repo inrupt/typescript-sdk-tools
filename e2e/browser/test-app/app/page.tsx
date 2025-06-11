@@ -1,5 +1,4 @@
-//
-// Copyright Inrupt Inc.
+// Copyright 2020 Inrupt Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal in
@@ -17,17 +16,16 @@
 // HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
 
 "use client";
 
 import React, { useState, useEffect } from "react";
+import type { ISessionInfo } from "@inrupt/solid-client-authn-browser";
 import {
   login,
   logout,
   handleIncomingRedirect,
   getDefaultSession,
-  ISessionInfo,
 } from "@inrupt/solid-client-authn-browser";
 import SolidClient from "../components/solidClient";
 

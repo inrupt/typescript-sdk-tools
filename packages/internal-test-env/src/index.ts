@@ -1,5 +1,4 @@
-//
-// Copyright Inrupt Inc.
+// Copyright 2020 Inrupt Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal in
@@ -17,7 +16,6 @@
 // HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
 import { join } from "path";
 import { config } from "dotenv";
 import { Session } from "@inrupt/solid-client-authn-node";
@@ -90,7 +88,7 @@ export interface EnvVariables {
 export function isValidUrl(url: string): boolean {
   try {
     // Use URL constructor for validation
-    // eslint-disable-next-line no-new
+
     new URL(url);
     return true;
   } catch {
@@ -111,7 +109,6 @@ export function setupEnv() {
   });
 
   if (!process.env.E2E_TEST_ENVIRONMENT) {
-    // eslint-disable-next-line no-console
     console.error(
       `We didn't find the given environment variable E2E_TEST_ENVIRONMENT, tried looking in the following directory for '.env.local': ${envPath}`,
     );

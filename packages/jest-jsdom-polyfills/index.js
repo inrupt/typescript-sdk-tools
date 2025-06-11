@@ -1,5 +1,4 @@
-//
-// Copyright Inrupt Inc.
+// Copyright 2020 Inrupt Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal in
@@ -17,9 +16,7 @@
 // HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
 
-/* eslint-disable global-require */
 /* eslint-disable @typescript-eslint/no-require-imports */
 
 // TextEncoder / TextDecoder APIs are used by Jose, but are not provided by
@@ -75,7 +72,7 @@ if (
 ) {
   // ReadableStream and MessagePort are required by undici,
   // and are not available in JSDom
-  // eslint-disable-next-line no-shadow
+
   const { ReadableStream } = require("node:stream/web");
   globalThis.ReadableStream = ReadableStream;
   globalThis.MessagePort = require("worker_threads").MessagePort;
