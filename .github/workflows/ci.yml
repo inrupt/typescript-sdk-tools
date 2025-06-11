@@ -15,7 +15,7 @@ jobs:
     environment:
       name: ${{ matrix.environment-name }}
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         environment-name: ["ESS PodSpaces", "ESS Release-2-3", "ESS Dev-2-4"]
         os: [ubuntu-latest]
@@ -33,7 +33,6 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: npx playwright install --with-deps
-      - run: npm run e2e:test:setup
       - # Dependabot cannot access secrets, so it doesn't have a token to authenticate to ESS.
         # We want jobs in this workflow to be gating PRs, so the whole matrix must
         # run even for dependabot so that the matrixed jobs are skipped, instead
