@@ -14,7 +14,7 @@
     "lint": "npm run lint:check",
     "lint:check": "npm run lint:eslint",
     "lint:fix": "npm run lint:eslint -- --fix",
-    "lint:eslint": "eslint --config eslint.config.mjs \"packages/\" \"e2e/\" \"eslint-config/\""
+    "lint:eslint": "eslint --config eslint.config.mjs ."
   },
   "workspaces": [
     "eslint-config/*",
