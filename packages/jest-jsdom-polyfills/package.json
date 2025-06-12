@@ -1,6 +1,6 @@
 {
   "name": "@inrupt/jest-jsdom-polyfills",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "This package provides various polyfills needed on jest/jsdom when using the Inrupt SDKs",
   "main": "index.js",
   "publishConfig": {
