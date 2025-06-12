@@ -21,6 +21,7 @@
 import inruptCfg from "@inrupt/eslint-config-base";
 import next from "@next/eslint-plugin-next";
 
+// eslint-disable-next-line import/no-unresolved
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
