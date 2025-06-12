@@ -22,7 +22,6 @@ import js from "@eslint/js";
 import json from "@eslint/json";
 import markdown from "@eslint/markdown";
 
-// eslint-disable-next-line import/no-unresolved
 import { defineConfig, globalIgnores } from "eslint/config";
 import importPlugin from "eslint-plugin-import";
 import jest from "eslint-plugin-jest";
@@ -31,7 +30,6 @@ import prettier from "eslint-plugin-prettier/recommended";
 import react from "eslint-plugin-react";
 import hooks from "eslint-plugin-react-hooks";
 import globals from "globals";
-// eslint-disable-next-line import/no-unresolved
 import tseslint from "typescript-eslint";
 
 const typedLinting = {
@@ -82,42 +80,7 @@ export default defineConfig([
   },
   // TS config
   ...tseslint.configs.recommended,
-  importPlugin.flatConfigs.recommended,
-  {
-    languageOptions: {
-      parserOptions: {
-        projectService: true,
-        tsconfigRootDir: import.meta.dirname,
-      },
-    },
-    rules: {
-      "@typescript-eslint/no-floating-promises": "error",
-      "@typescript-eslint/no-empty-function": [
-        "error",
-        {
-          allow: ["arrowFunctions"],
-        },
-      ],
-      "@typescript-eslint/consistent-type-imports": [
-        "error",
-        {
-          prefer: "type-imports",
-        },
-      ],
-      "@typescript-eslint/return-await": ["error", "in-try-catch"],
-    },
-    // Lint imports based on TS module resolution.
-    extends: [importPlugin.flatConfigs.typescript],
-    files: ["**/*.ts", "**/*.tsx"],
-    // This avoids requiring a dedicated tsconfig.eslint.json file in every repo.
-    ignores: [
-      "**/*.test.ts",
-      "**/*.mock*.ts",
-      "**/jest.setup.ts",
-      "**/e2e.playwright.ts",
-      "**/globalSetup.ts",
-    ],
-  },
+  typedLinting,
   // React config
   {
     plugins: {
@@ -218,6 +181,7 @@ export default defineConfig([
 
 export const ignoreTypedLinting = (paths) => {
   paths.forEach((path) => {
+    console.log("Ignoring " + path);
     typedLinting.ignores.push(path);
   });
 };

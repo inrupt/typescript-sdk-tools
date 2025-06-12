@@ -18,8 +18,6 @@
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-// We are using a typescript path but lint is not picking this up.
-// eslint-disable-next-line import/no-unresolved
 import { test, expect } from "@/packages/internal-playwright-helpers";
 
 test("creating and removing empty Containers", async ({ page, auth }) => {

@@ -18,7 +18,7 @@
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-/* eslint-disable @typescript-eslint/no-require-imports,no-undef */
+/* eslint-disable @typescript-eslint/no-require-imports */
 
 // TextEncoder / TextDecoder APIs are used by Jose, but are not provided by
 // jsdom, all node versions supported provide these via the util module
