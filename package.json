@@ -16,7 +16,6 @@
     "lint:eslint": "eslint --config eslint.config.mjs ."
   },
   "workspaces": [
-    "eslint-config/",
     "packages/*",
     "e2e/browser/test-app"
   ],
