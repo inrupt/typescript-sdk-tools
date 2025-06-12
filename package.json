@@ -16,7 +16,6 @@
     "lint:eslint": "eslint --config eslint.config.mjs ."
   },
   "workspaces": [
-    "eslint-config/",
     "packages/*",
     "e2e/browser/test-app"
   ],
@@ -37,7 +36,7 @@
     "typescript": "^5.8.3"
   },
   "devDependencies": {
-    "@inrupt/eslint-config-base": "file:./eslint-config/",
+    "@inrupt/eslint-config-base": "file:./packages/eslint-config/",
     "@next/eslint-plugin-next": "^15.3.3",
     "@playwright/test": "^1.52.0",
     "@types/react": "^19.1.7",
