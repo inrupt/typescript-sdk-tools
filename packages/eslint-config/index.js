@@ -82,7 +82,6 @@ export default defineConfig([
   },
   // TS config
   ...tseslint.configs.recommended,
-  importPlugin.flatConfigs.recommended,
   {
     languageOptions: {
       parserOptions: {
@@ -107,7 +106,10 @@ export default defineConfig([
       "@typescript-eslint/return-await": ["error", "in-try-catch"],
     },
     // Lint imports based on TS module resolution.
-    extends: [importPlugin.flatConfigs.typescript],
+    extends: [
+      importPlugin.flatConfigs.recommended,
+      importPlugin.flatConfigs.typescript
+    ],
     files: ["**/*.ts", "**/*.tsx"],
     // This avoids requiring a dedicated tsconfig.eslint.json file in every repo.
     ignores: [
