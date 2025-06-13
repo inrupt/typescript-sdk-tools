@@ -78,6 +78,21 @@ export default defineConfig([
     ...js.configs.recommended,
     files: ["**/*.js", "**/*.mjs"],
   },
+  // Enforce some stricter rules for consistency
+  {
+    rules: {
+      camelcase: [
+        "error",
+        {
+          allow: ["^internal_", "^latest_*", "^legacy_*"],
+        },
+      ],
+      "no-param-reassign": "error",
+      "@typescript-eslint/no-explicit-any": "error",
+      "@typescript-eslint/ban-ts-comment": "error",
+      "@typescript-eslint/no-non-null-assertion": "error",
+    },
+  },
   // TS config
   ...tseslint.configs.recommended,
   typedLinting,
