@@ -196,7 +196,6 @@ export default defineConfig([
 
 export const ignoreTypedLinting = (paths) => {
   paths.forEach((path) => {
-    console.log("Ignoring " + path);
     typedLinting.ignores.push(path);
   });
 };
