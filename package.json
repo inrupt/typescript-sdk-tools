@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@inrupt/eslint-config-base": "file:./packages/eslint-config/",
-    "@next/eslint-plugin-next": "^15.3.3",
+    "@next/eslint-plugin-next": "^15.3.4",
     "@playwright/test": "^1.53.0",
     "@types/react": "^19.1.7",
     "eslint": "^9.28.0",
