@@ -32,15 +32,15 @@
   "dependencies": {
     "lerna": "^8.2.3",
     "rimraf": "^6.0.1",
-    "rollup": "^4.44.2",
+    "rollup": "^4.45.1",
     "typescript": "^5.8.3"
   },
   "devDependencies": {
     "@inrupt/eslint-config-base": "file:./packages/eslint-config/",
     "@next/eslint-plugin-next": "^15.3.5",
-    "@playwright/test": "^1.53.2",
+    "@playwright/test": "^1.54.1",
     "@types/react": "^19.1.7",
     "eslint": "^9.28.0",
-    "next": "^15.3.5"
+    "next": "^15.4.2"
   }
 }
