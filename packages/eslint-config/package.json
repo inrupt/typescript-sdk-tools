@@ -23,7 +23,7 @@
   "homepage": "https://github.com/inrupt/typescript-sdk-tools/tree/main/eslint-configs/eslint-config-base#readme",
   "dependencies": {
     "@eslint/eslintrc": "^3.3.1",
-    "@eslint/js": "^9.34.0",
+    "@eslint/js": "^9.35.0",
     "@eslint/json": "^0.13.2",
     "@eslint/markdown": "^7.2.0",
     "eslint": "^9.28.0",
