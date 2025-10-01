@@ -39,7 +39,7 @@
     "@inrupt/eslint-config-base": "file:./packages/eslint-config/",
     "@next/eslint-plugin-next": "^15.5.3",
     "@playwright/test": "^1.55.0",
-    "@types/react": "^19.1.13",
+    "@types/react": "^19.1.16",
     "eslint": "^9.28.0",
     "next": "^15.5.3"
   }
