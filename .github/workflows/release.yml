@@ -30,4 +30,9 @@ jobs:
       # not being installed.
       - run: npm ci
       - run: npm run build
-      - run: npx lerna publish from-package --yes --no-verify-access
+      - run: npm publish --workspace packages/base-rollup-config
+      - run: npm publish --workspace packages/eslint-config
+      - run: npm publish --workspace packages/internal-playwright-helpers
+      - run: npm publish --workspace packages/internal-playwright-testids
+      - run: npm publish --workspace packages/internal-test-env
+      - run: npm publish --workspace packages/jest-jsdom-polyfills
