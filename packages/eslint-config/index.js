@@ -139,6 +139,13 @@ export default defineConfig([
     language: "markdown/gfm",
     extends: ["markdown/recommended"],
   },
+  {
+    // Disable Prettier for Markdown (parsing error)
+    rules: {
+      "prettier/prettier": "off",
+    },
+    files: ["**/*.md"],
+  },
   // Tests linting
   {
     ...jest.configs["flat/recommended"],
