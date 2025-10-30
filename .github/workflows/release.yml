@@ -1,16 +1,19 @@
 name: Release
 
 on:
-  pull_request:
-    branches:
-      - main
-    types: [closed]
+  push:
+    tags:
+      - v[0-9]+.[0-9]+.[0-9]+
+
+# Getting an ID token is required for NPMJS trusted publishers
+permissions:
+  id-token: write  # Required for OIDC
+  contents: read
 
 env:
   CI: true
 jobs:
-  release-new-version:
-    if: ${{ github.event.pull_request.merged && startsWith(github.head_ref, 'release/') }}
+  publish-npm:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -19,13 +22,12 @@ jobs:
           node-version: 22
           cache: npm
           registry-url: "https://registry.npmjs.org"
+      # Ensure npm 11.5.1 or later for trusted publishing
+      - run: npm install -g npm@latest
       - run: npm ci --workspaces
       # Running top-level ci should happen after workspaces level, running these
       # the other way around results in top-level dependencies (namely, lerna)
       # not being installed.
       - run: npm ci
       - run: npm run build
-      - run: npm run release
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.INRUPT_NPM_TOKEN }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: npx lerna publish from-package --yes --no-verify-access
