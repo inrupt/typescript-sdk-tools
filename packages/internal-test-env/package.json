@@ -4,6 +4,10 @@
   "description": "This package provides various test environment utilities needed for jest when using the Inrupt SDKs",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/inrupt/typescript-sdk-tools.git"
+  },
   "publishConfig": {
     "access": "public"
   },

@@ -4,6 +4,10 @@
   "description": "This package provides page models for known common elements of the sdk testable UIs",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/inrupt/typescript-sdk-tools.git"
+  },
   "publishConfig": {
     "access": "public"
   },

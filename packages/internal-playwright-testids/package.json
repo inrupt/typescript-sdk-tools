@@ -4,6 +4,10 @@
   "description": "Shared identifiers between browser-based tests and test app.",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/inrupt/typescript-sdk-tools.git"
+  },
   "publishConfig": {
     "access": "public"
   },
