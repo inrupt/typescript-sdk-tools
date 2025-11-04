@@ -1,6 +1,6 @@
 {
   "name": "@inrupt/internal-playwright-testids",
-  "version": "4.0.6",
+  "version": "4.0.7",
   "description": "Shared identifiers between browser-based tests and test app.",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
