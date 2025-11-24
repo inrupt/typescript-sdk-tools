@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/inrupt/typescript-sdk-tools#readme",
   "dependencies": {
-    "lerna": "^9.0.0",
+    "lerna": "^9.0.1",
     "rimraf": "^6.1.0",
     "rollup": "^4.53.2",
     "typescript": "^5.9.3"
