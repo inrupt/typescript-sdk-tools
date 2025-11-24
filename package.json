@@ -30,17 +30,17 @@
   },
   "homepage": "https://github.com/inrupt/typescript-sdk-tools#readme",
   "dependencies": {
-    "lerna": "^9.0.0",
-    "rimraf": "^6.1.0",
-    "rollup": "^4.53.2",
+    "lerna": "^9.0.1",
+    "rimraf": "^6.1.2",
+    "rollup": "^4.53.3",
     "typescript": "^5.9.3"
   },
   "devDependencies": {
     "@inrupt/eslint-config-base": "file:./packages/eslint-config/",
-    "@next/eslint-plugin-next": "^16.0.1",
+    "@next/eslint-plugin-next": "^16.0.3",
     "@playwright/test": "^1.56.1",
-    "@types/react": "^19.1.16",
+    "@types/react": "^19.2.7",
     "eslint": "^9.28.0",
-    "next": "^16.0.1"
+    "next": "^16.0.3"
   }
 }
