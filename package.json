@@ -41,6 +41,6 @@
     "@playwright/test": "^1.57.0",
     "@types/react": "^19.2.7",
     "eslint": "^9.28.0",
-    "next": "^16.0.3"
+    "next": "^16.0.6"
   }
 }
