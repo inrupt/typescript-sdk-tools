@@ -42,6 +42,10 @@ export class CognitoPage {
       .getByRole("textbox", { name: "Username" })
       .fill(username, options);
     await this.page.getByRole("textbox", { name: "Password" }).fill(password);
-    return this.page.getByRole("button", { name: "submit" }).click();
+    // Depending on the target instance, the cognito button changes aria name.
+    return this.page
+      .getByRole("button", { name: "Sign in" })
+      .or(this.page.getByRole("button", { name: "submit" }))
+      .click();
   }
 }
