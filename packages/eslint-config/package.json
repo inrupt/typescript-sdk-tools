@@ -37,13 +37,13 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
     "globals": "^17.6.0",
-    "jest": ">=30.3.0",
+    "jest": ">=30.4.2",
     "prettier": ">=3.8.3",
     "typescript-eslint": "^8.59.2"
   },
   "peerDependencies": {
     "@rushstack/eslint-patch": ">=1.1.4",
-    "jest": ">=30.3.0",
+    "jest": ">=30.4.2",
     "prettier": ">=3.8.3"
   }
 }
