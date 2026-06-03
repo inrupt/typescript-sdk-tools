@@ -46,7 +46,24 @@ if (
     Crypto: WCrypto,
     CryptoKey: WCryptoKey,
   } = require("@peculiar/webcrypto");
-  Object.assign(globalThis.crypto, new WCrypto());
+  const wcrypto = new WCrypto();
+  // We can't use `Object.assign(globalThis.crypto, wcrypto)` here: jsdom's
+  // Crypto exposes some own properties (e.g. `Symbol.toStringTag`) as read-only,
+  // and @peculiar/webcrypto carries the same keys as own, enumerable properties.
+  // Object.assign would attempt to write them onto the read-only target and
+  // throw (see https://github.com/inrupt/typescript-sdk-tools/issues). Instead,
+  // copy each key individually, skipping any that can't be written on the
+  // target. In practice the only property we actually need to polyfill is
+  // `subtle`, which jsdom does not implement.
+  for (const key of Reflect.ownKeys(wcrypto)) {
+    const target = Object.getOwnPropertyDescriptor(globalThis.crypto, key);
+    // Skip keys that already exist on the target as non-writable,
+    // non-configurable properties (e.g. Symbol.toStringTag on jsdom's Crypto).
+    if (target && !target.writable && !target.configurable) {
+      continue;
+    }
+    globalThis.crypto[key] = wcrypto[key];
+  }
   globalThis.CryptoKey = WCryptoKey;
 }
 
