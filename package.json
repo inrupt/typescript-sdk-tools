@@ -33,7 +33,7 @@
     "eslint-plugin-prettier": "^5.4.1",
     "lerna": "^9.0.7",
     "rimraf": "^6.1.3",
-    "rollup": "^4.60.4",
+    "rollup": "^4.61.0",
     "typescript": "^6.0.3"
   },
   "overrides": {
@@ -49,6 +49,6 @@
     "@playwright/test": "^1.60.0",
     "@types/react": "^19.2.15",
     "eslint": "^9.28.0",
-    "next": "^16.2.6"
+    "next": "^16.2.7"
   }
 }
