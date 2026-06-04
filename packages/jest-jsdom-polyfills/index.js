@@ -67,16 +67,27 @@ if (
   globalThis.CryptoKey = WCryptoKey;
 }
 
-// Node.js doesn't support Blob or File, so we're polyfilling those with
-// https://github.com/web-std/io
-if (typeof globalThis.Blob === "undefined") {
-  const stdBlob = require("@web-std/blob");
-  globalThis.Blob = stdBlob.Blob;
+// jsdom ships its own Blob/File globals, but they are incomplete: their
+// prototypes only expose `slice`/`size`/`type` and are missing `text()`,
+// `arrayBuffer()` and `stream()`. Worse, undici's `Response.blob()`
+// constructs its result from `globalThis.Blob`, so the broken prototype
+// leaks into anything that reads a response body as a blob. We therefore
+// replace any Blob/File that lacks `text()` with Node's native, spec-compliant
+// implementations from `node:buffer` (available on all supported Node versions).
+const { Blob: NodeBlob, File: NodeFile } = require("node:buffer");
+
+if (
+  typeof globalThis.Blob === "undefined" ||
+  typeof globalThis.Blob.prototype.text !== "function"
+) {
+  globalThis.Blob = NodeBlob;
 }
 
-if (typeof globalThis.File === "undefined") {
-  const stdFile = require("@web-std/file");
-  globalThis.File = stdFile.File;
+if (
+  typeof globalThis.File === "undefined" ||
+  typeof globalThis.File.prototype.text !== "function"
+) {
+  globalThis.File = NodeFile;
 }
 
 // FIXME This is a temporary workaround for https://github.com/jsdom/jsdom/issues/1724#issuecomment-720727999
