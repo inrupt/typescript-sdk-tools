@@ -28,9 +28,10 @@ jobs:
       # not being installed.
       - run: npm ci
       - run: npm run build
-      - run: npm publish --workspace packages/base-rollup-config
-      - run: npm publish --workspace packages/eslint-config
-      - run: npm publish --workspace packages/internal-playwright-helpers
-      - run: npm publish --workspace packages/internal-playwright-testids
-      - run: npm publish --workspace packages/internal-test-env
-      - run: npm publish --workspace packages/jest-jsdom-polyfills
+      - run: npm stage publish --workspace packages/base-rollup-config
+      - run: npm stage publish --workspace packages/eslint-config
+      - run: npm stage publish --workspace packages/internal-playwright-helpers
+      - run: npm stage publish --workspace packages/internal-playwright-testids
+      - run: npm stage publish --workspace packages/internal-test-env
+      - run: npm stage publish --workspace packages/jest-jsdom-polyfills
+      - run: echo "The packages have been staged, go to https://www.npmjs.com to publish them."
