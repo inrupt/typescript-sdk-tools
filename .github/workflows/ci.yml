@@ -26,6 +26,7 @@ jobs:
           node-version-file: ".nvmrc"
           cache: npm
           registry-url: "https://registry.npmjs.org"
+      - run: npm help
       - run: npm ci --workspaces
       # Running top-level ci should happen after workspaces level, running these
       # the other way around results in top-level dependencies (namely, lerna)
