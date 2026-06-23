@@ -21,7 +21,7 @@
 import inruptCfg from "@inrupt/eslint-config-base";
 import next from "@next/eslint-plugin-next";
 
-import { defineConfig } from "eslint/config";
+import { defineConfig, globalIgnores } from "eslint/config";
 
 export default defineConfig([
   inruptCfg,
@@ -35,4 +35,9 @@ export default defineConfig([
     },
     files: ["e2e/browser/test-app/"],
   },
+  // Next.js rewrites the test app's tsconfig.json on every `next build` (it
+  // expands the `lib`/`exclude` arrays and rewrites `moduleResolution`/`jsx`).
+  // Since CI lints after building, prettier would flag Next's reformatting of a
+  // file it does not control, so exclude this generated file from linting.
+  globalIgnores(["e2e/browser/test-app/tsconfig.json"]),
 ]);

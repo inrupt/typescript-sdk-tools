@@ -138,6 +138,13 @@ export default defineConfig([
     plugins: { markdown },
     language: "markdown/gfm",
     extends: ["markdown/recommended"],
+    rules: {
+      // The shared prettier config applies the prettier/prettier rule to all
+      // files. On Markdown files prettier fails to infer its parser from the
+      // `markdown/gfm` ESLint language and falls back to a JS parser, which
+      // throws "Parsing error: Unexpected token". Pin the parser explicitly.
+      "prettier/prettier": ["error", { parser: "markdown" }],
+    },
   },
   // Tests linting
   {
