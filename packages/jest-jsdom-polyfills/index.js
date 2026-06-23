@@ -48,7 +48,7 @@ if (
   } = require("@peculiar/webcrypto");
   const wcrypto = new WCrypto();
   // We can't use `Object.assign(globalThis.crypto, wcrypto)` here: jsdom's
-  // Crypto exposes some own properties (e.g. `Symbol.toStringTag`) as read-only,
+  // Crypto exposes some properties (e.g. `Symbol.toStringTag`) as read-only,
   // and @peculiar/webcrypto carries the same keys as own, enumerable properties.
   // Object.assign would attempt to write them onto the read-only target and
   // throw (see https://github.com/inrupt/typescript-sdk-tools/issues). Instead,
@@ -56,10 +56,24 @@ if (
   // target. In practice the only property we actually need to polyfill is
   // `subtle`, which jsdom does not implement.
   for (const key of Reflect.ownKeys(wcrypto)) {
-    const target = Object.getOwnPropertyDescriptor(globalThis.crypto, key);
-    // Skip keys that already exist on the target as non-writable,
-    // non-configurable properties (e.g. Symbol.toStringTag on jsdom's Crypto).
-    if (target && !target.writable && !target.configurable) {
+    // jsdom defines some properties (e.g. `Symbol.toStringTag`) on
+    // `Crypto.prototype` rather than on the instance, so an own-property
+    // lookup misses them. Walk the prototype chain to find the descriptor
+    // that an assignment would actually hit.
+    let holder = globalThis.crypto;
+    let descriptor;
+    while (
+      holder &&
+      !(descriptor = Object.getOwnPropertyDescriptor(holder, key))
+    ) {
+      holder = Object.getPrototypeOf(holder);
+    }
+    // Skip anything we cannot assign through `[[Set]]`: read-only data
+    // properties and accessors without a setter.
+    if (
+      descriptor &&
+      (descriptor.writable === false || (descriptor.get && !descriptor.set))
+    ) {
       continue;
     }
     globalThis.crypto[key] = wcrypto[key];
