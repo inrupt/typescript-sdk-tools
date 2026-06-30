@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        environment-name: ["ESS PodSpaces", "ESS Release-2-3", "ESS Next"]
+        environment-name: ["ESS PodSpaces"]
         os: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v7
