@@ -39,7 +39,7 @@
     "globals": "^17.12.0",
     "jest": ">=30.5.1",
     "prettier": ">=3.9.6",
-    "typescript-eslint": "^8.68.0"
+    "typescript-eslint": "^8.69.0"
   },
   "peerDependencies": {
     "@rushstack/eslint-patch": ">=1.1.4",
