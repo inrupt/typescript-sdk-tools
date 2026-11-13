@@ -54,6 +54,9 @@ const typedLinting = {
       },
     ],
     "@typescript-eslint/return-await": ["error", "in-try-catch"],
+    // The TypeScript compiler reports unresolved imports more accurately than
+    // eslint-import-resolver-node.
+    "import/no-unresolved": "off",
   },
   // Lint imports based on TS module resolution.
   extends: [
