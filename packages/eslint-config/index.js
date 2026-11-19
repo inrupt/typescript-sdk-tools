@@ -27,7 +27,7 @@ import importPlugin from "eslint-plugin-import";
 import jest from "eslint-plugin-jest";
 import headers from "eslint-plugin-headers";
 import prettier from "eslint-plugin-prettier/recommended";
-import react from "eslint-plugin-react";
+import react from "@eslint-react/eslint-plugin";
 import hooks from "eslint-plugin-react-hooks";
 import globals from "globals";
 import tseslint from "typescript-eslint";
@@ -101,22 +101,28 @@ export default defineConfig([
   typedLinting,
   // React config
   {
+    files: ["**/*.jsx", "**/*.tsx"],
+    extends: [react.configs.recommended],
     plugins: {
-      react,
       "react-hooks": hooks,
     },
     rules: {
-      ...react.configs.recommended.rules,
-      ...react.configs["jsx-runtime"].rules,
       ...hooks.configs.recommended.rules,
-      "react/react-in-jsx-scope": ["off"],
+      // @eslint-react re-implements some of the eslint-plugin-react-hooks
+      // rules. Keep the official React hooks plugin as the source of truth for
+      // these, and disable the duplicates to avoid double reporting.
+      ...Object.fromEntries(
+        Object.keys(hooks.configs.recommended.rules)
+          .map((rule) => rule.replace(/^react-hooks\//, ""))
+          .filter((rule) => rule in react.rules)
+          .map((rule) => [`@eslint-react/${rule}`, "off"]),
+      ),
+      // Rules from eslint-plugin-react's recommended set which are not part of
+      // the @eslint-react recommended preset.
+      "@eslint-react/no-missing-component-display-name": "error",
+      "@eslint-react/dom-no-unknown-property": "error",
+      "@eslint-react/dom-no-unsafe-target-blank": "error",
     },
-    settings: {
-      react: {
-        version: "detect", // You can add this if you get a warning about the React version when you lint
-      },
-    },
-    files: ["**/*.jsx", "**/*.tsx"],
   },
   // Globals config
   {
